@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import {
   Carousel,
@@ -7,35 +7,26 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { Icons } from "@/components/icons";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Timer } from "lucide-react";
 import Link from "next/link";
-interface Service {
-  id: number;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-  serviceTime: string;
-}
+import { Service } from "@/types/type";
 
 export default function Services() {
-  const [api, setApi] = useState<CarouselApi>();
+  // const [api, setApi] = useState<CarouselApi>();
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
-  const [services, setServices] = useState<Service[]>([
+  const [services] = useState<Service[]>([
     {
       id: 2,
       name: "SWIFT INTERIOR DETAILING (FOR INTERIOR-ONLY SERVICE)",
       image: "/carwash.jpeg",
       description:
         "This package focuses solely on the interior of the vehicle.",
-      price: "2,999 – 3,999",
-      serviceTime: " 1 hr. 30 min +",
+      basePrice: 2999,
+      maxPrice: 3999,
+      duration: "90",
       features: [
         "Full interior vacuuming Vacuum floors and trunk area Vacuum cloth seats",
         "Full interior steam cleaning (seats, carpets, dashboard, mats, and headliner)",
@@ -58,7 +49,7 @@ export default function Services() {
         {
           id: "addon2",
           name: "Advanced Glass coating",
-          price: "999 – 1,999",
+          basePrice: 999,
           description: "",
           features: [
             "Advanced nano-technology formulation",
@@ -72,7 +63,7 @@ export default function Services() {
             "Compatible with all types of automotive glass",
             "Adds a sleek and glossy finish to windows",
           ],
-          serviceTime: "00:30",
+          duration: "30",
         },
       ],
     },
@@ -82,7 +73,8 @@ export default function Services() {
       image: "/carwash.jpeg",
       description:
         "This will be an affordable, entry-level package that can be regular cleaning for customers if they need it",
-      price: "1,599 – 1,999",
+      basePrice: 1599,
+      maxPrice: 1999,
       features: [
         "Exterior wash (hand wash and handles wash)",
         "Rims and tire cleaning",
@@ -94,14 +86,14 @@ export default function Services() {
         "Cleaning and conditioning of seats (fabric or leather)",
         "Cleaning of the trunk area",
       ],
-      serviceTime: "1 hr. 30 min+",
+      duration: "90",
       addOns: [
         {
           id: "addon1",
           name: "Waxing and polishing for exterior protection",
           description: "",
-          price: "999",
-          serviceTime: "00:30",
+          basePrice: 999,
+          duration: "30",
           features: [],
         },
       ],
@@ -113,8 +105,9 @@ export default function Services() {
       image: "/carwash.jpeg",
       description:
         "This package focuses solely on the exterior of the vehicle.",
-      price: " 2,500 – 3,500",
-      serviceTime: "1 hr. 30 min +",
+      basePrice: 2500,
+      maxPrice: 3500,
+      duration: "90",
       tag: "",
       features: [
         "Full Exterior Hand Wash: cleaning of the car’s body, windows, side mirrors, and other  exterior surfaces",
@@ -136,16 +129,18 @@ export default function Services() {
           id: "addon3",
           name: "Ceramic Coating",
           description: " (depending on the vehicle size and type of coating)",
-          price: "20,000 – 30,000",
-          serviceTime: "00:30",
+          basePrice: 20000,
+          maxPrice: 30000,
+          duration: "30",
           features: [],
         },
         {
           id: "addon4",
           name: "Paint Correction",
           description: " (depending on the vehicle size and type of coating)",
-          price: "15,500 – 20,500",
-          serviceTime: "00:30",
+          basePrice: 15500,
+          maxPrice: 20500,
+          duration: "30",
           features: [],
         },
       ],
@@ -156,8 +151,9 @@ export default function Services() {
       image: "/carwash.jpeg",
       description:
         "This is the top package for customers who want their car to look like new, inside and out, with premium treatments and European standard products.",
-      price: "5,999 – 8,999",
-      serviceTime: "3 hr. 30min",
+      basePrice: 5999,
+      maxPrice: 8999,
+      duration: "210",
       tag: "",
       features: [
         "Everything in the swift exterior and interior package",
@@ -182,32 +178,36 @@ export default function Services() {
           id: "addon5",
           name: "Waxing and polishing for exterior protection ",
           description: "",
-          price: "10,000 – 20,000",
-          serviceTime: "00:30",
+          basePrice: 10000,
+          maxPrice: 20000,
+          duration: "30",
           features: [],
         },
         {
           id: "addon6",
           name: " Polishing of headlights and taillights",
           description: "",
-          price: "10,500 – 20,000",
-          serviceTime: "00:30",
+          basePrice: 10500,
+          maxPrice: 20000,
+          duration: "30",
           features: [],
         },
         {
           id: "addon7",
           name: " Ceramic coating for long-lasting exterior protection ",
           description: "",
-          price: "10,500 – 20,000",
-          serviceTime: "00:30",
+          basePrice: 10500,
+          maxPrice: 20000,
+          duration: "30",
           features: [],
         },
         {
           id: "addon8",
           name: " Clay bar treatment (removes contaminants from the paint)",
           description: "",
-          price: "10,500 – 20,000",
-          serviceTime: "00:30",
+          basePrice: 10500,
+          maxPrice: 20000,
+          duration: "30",
           features: [],
         },
       ],
@@ -218,8 +218,9 @@ export default function Services() {
       image: "/carwash.jpeg",
       description:
         "Luxury car owners and professionals who demand luxury service",
-      price: "7,000 - 12,000",
-      serviceTime: "6:00",
+      basePrice: 7000,
+      maxPrice: 12000,
+      duration: "360",
       tag: "",
       features: [
         "Everything in the swift whole package",
@@ -242,8 +243,8 @@ export default function Services() {
       image: "/carwash.jpeg",
       description:
         "Custom Pricing (Based on Fleet Size), Target Customers: Companies with multiple vehicles",
-      price: "-",
-      serviceTime: "-",
+      basePrice: null,
+      duration: "-",
       tag: "",
       features: [
         "Regular exterior and interior cleaning",
@@ -304,10 +305,10 @@ export default function Services() {
 
                     <div className="absolute bottom-2 right-2 bg-[#FFECF3] text-black opacity-80 p-2 whitespace-nowrap rounded-lg text-center">
                       <h4 className="text-base font-bold ">
-                        {service.price} Birr
+                        {service.basePrice} - {service.maxPrice} Birr
                       </h4>
                       <p className="text-sm font-medium whitespace-nowrap">
-                        {service.serviceTime}
+                        {service.duration}
                       </p>
                     </div>
                   </div>
@@ -328,15 +329,15 @@ export default function Services() {
                     </div>
                     <p
                       className={` text-sm  ${
-                        service.tag == "Popular"
+                        service?.tag == "Popular"
                           ? "text-white"
                           : "text-secondary-foreground"
                       }`}
                     >
-                      {service.description}
+                      {service?.description}
                     </p>
                     <ul className="space-y-4">
-                      {service.features?.slice(0, 3).map((feature, index) => (
+                      {service?.features?.slice(0, 3).map((feature, index) => (
                         <li
                           className={`text-sm flex items-start ${
                             service.tag == "Popular" ? "text-white" : ""
@@ -372,12 +373,12 @@ export default function Services() {
                           <span className="ml-3 text-sm">{feature} </span>
                         </li>
                       ))}
-                      {service.features && service.features.length > 3 && (
+                      {service?.features && service?.features?.length > 3 && (
                         <Link
                           href={`/services/${service.id}`}
                           className="text-base text-primary hover:underline px-8 block"
                         >
-                          ... view {service.features.length - 3} more
+                          ... view {service?.features?.length - 3} more
                         </Link>
                       )}
                     </ul>

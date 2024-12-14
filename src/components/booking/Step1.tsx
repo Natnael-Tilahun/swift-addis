@@ -10,13 +10,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 export default function Step1() {
+  
   return (
     <div>
       <Card>
         <CardHeader>
           <CardTitle>Account</CardTitle>
           <CardDescription>
-            Make changes to your account here. Click save when you're done.
+            Make changes to your account here. Click save when you&apos;re done.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">

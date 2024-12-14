@@ -15,16 +15,10 @@ export default function LayoutWrapper({
     setCollapseNav((prevState) => !prevState);
   }
 
-  function collapseMenu() {
-    setCollapseNav(true);
-  }
-
   return (
     <>
       <Header toggleMenu={toggleMenu} collapseNav={collapseNav} />
-      <main collapseMenu={collapseMenu} className="h-full w-full row-start-2">
-        {children}
-      </main>
+      <main className="h-full w-full row-start-2">{children}</main>
       <Footer toggleMenu={toggleMenu} />
     </>
   );

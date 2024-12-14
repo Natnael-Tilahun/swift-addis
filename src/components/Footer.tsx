@@ -17,7 +17,7 @@ function Footer({
   className,
 }: {
   toggleMenu: () => void;
-  className: string;
+  className?: string;
 }) {
   return (
     <section

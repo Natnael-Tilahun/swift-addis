@@ -1,19 +1,18 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Icons } from "@/components/icons";
 import Image from "next/image";
 export default function Testimonials() {
-  const [api, setApi] = useState<CarouselApi>();
+  // const [api, setApi] = useState<CarouselApi>();
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
-  const [testimonials, setTestimonials] = useState([
+  const [testimonials] = useState([
     {
       id: 1,
       name: "John Doe",

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FacebookIcon, TwitterIcon, InstagramIcon } from "lucide-react";
-export default function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
+export default function Page() {
+  // const id = params.id;
   const blogData = {
     title:
       "How to Maximize the Life of Your Vehicle's Ceramic Coating: Essential Maintenance Tips",

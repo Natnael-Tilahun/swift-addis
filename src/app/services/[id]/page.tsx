@@ -5,16 +5,18 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Service } from "@/types/type";
 
-export default function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
-  const [service, setService] = useState<Service>({
+export default function Page() {
+  // const id = params.id;
+  const [service] = useState<Service>({
     id: 2,
     name: "SWIFT INTERIOR DETAILING (FOR INTERIOR-ONLY SERVICE)",
     image: "/carwash.jpeg",
     description: "This package focuses solely on the interior of the vehicle.",
-    price: "2,999 – 3,999",
-    serviceTime: " 1:30 hr",
+    basePrice: 2999,
+    maxPrice: 3999,
+    duration: "90",
     features: [
       "Full interior vacuuming Vacuum floors and trunk area Vacuum cloth seats",
       "Full interior steam cleaning (seats, carpets, dashboard, mats, and headliner)",
@@ -37,7 +39,8 @@ export default function Page({ params }: { params: { id: string } }) {
       {
         id: "addon2",
         name: "Advanced Glass coating",
-        price: "999 – 1,999",
+        basePrice: 999,
+        duration: "90",
         description: "",
         features: [
           "Advanced nano-technology formulation",
@@ -51,7 +54,6 @@ export default function Page({ params }: { params: { id: string } }) {
           "Compatible with all types of automotive glass",
           "Adds a sleek and glossy finish to windows",
         ],
-        serviceTime: "00:30",
       },
     ],
   });
@@ -72,7 +74,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 quality={100}
                 fill={true}
                 style={{ objectFit: "cover" }}
-                src={service.image}
+                src={service?.image}
                 priority={true}
                 loading="eager"
                 className=" hover:scale-105 transition-all duration-300"
@@ -94,7 +96,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <div className="space-y-1">
               <h1 className="text-2xl font-semibold">Features</h1>
               <ul className="list-disc list-inside text-muted-foreground">
-                {service.features.map((feature) => (
+                {service?.features?.map((feature) => (
                   <li key={feature}>{feature}</li>
                 ))}
               </ul>
@@ -102,15 +104,15 @@ export default function Page({ params }: { params: { id: string } }) {
             <div className="space-y-1">
               <h1 className="text-2xl font-semibold">Add Ons</h1>
               <ul className="list-disc list-inside text-muted-foreground">
-                {service.addOns.map((addOn) => (
+                {service?.addOns?.map((addOn) => (
                   <li key={addOn.id}>
                     <span className="font-semibold">{addOn.name}</span>
-                    <p className="px-5">Description: {addOn.description}</p>
-                    <p className="px-5">Price: {addOn.price}</p>
-                    <p className="px-5">Service Time: {addOn.serviceTime}</p>
+                    <p className="px-5">Description: {addOn?.description}</p>
+                    <p className="px-5">Price: {addOn?.basePrice}</p>
+                    <p className="px-5">Service Time: {addOn.duration}</p>
                     <span className="px-5">
                       Features:
-                      {addOn.features.map((feature) => (
+                      {addOn?.features?.map((feature) => (
                         <li className="px-5" key={feature}>
                           {feature}
                         </li>
@@ -130,14 +132,14 @@ export default function Page({ params }: { params: { id: string } }) {
               Price:{" "}
               <span className="font-normal text-base">
                 {" "}
-                {service.price} Birr
+                {service.basePrice} - {service?.maxPrice} Birr
               </span>
             </h1>
             <h1 className="text-lg font-semibold">
               Service Time:{" "}
               <span className="font-normal text-base">
                 {" "}
-                {service.serviceTime} +
+                {service.duration} minutes
               </span>
             </h1>
             <Button className="w-full py-6 font-bold text-lg" asChild>

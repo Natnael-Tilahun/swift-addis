@@ -13,42 +13,42 @@ export default function About() {
           <span className="font-bold text-primary">
             Swift Addis Mobile Car Detailing
           </span>
-          , Addis Abeba's premier mobile car wash and detailing service. Founded
-          in 2024 by Yohannes Tadesse and Natnael Asfaw, we are driven by a
-          passion for excellence and a commitment to delivering unmatched
+          , Addis Abeba&apos;s premier mobile car wash and detailing service.
+          Founded in 2024 by Yohannes Tadesse and Natnael Asfaw, we are driven
+          by a passion for excellence and a commitment to delivering unmatched
           detailing services. With a shared vision for innovation, Yohannes and
           Natnael have set out to revolutionize car detailing in Ethiopia by
           combining top-tier service with European-standard detailing products.
-          with European-standard detailing products. Our advanced,
-          industry-leading products ensure your vehicle receives the same level
-          of care and precision you’d expect from world-class detailing
-          standards, right here in Addis Abeba.
+          Our advanced, industry-leading products ensure your vehicle receives
+          the same level of care and precision you&apos;d expect from
+          world-class detailing standards, right here in Addis Abeba.
         </p>
         <p>
           At <span className="font-bold text-primary">Swift Addis</span>, we
           believe your car deserves meticulous attention, and you deserve a
-          hassle-free experience. That’s why we take the stress out of car care
-          by bringing our state-of-the-art detailing expertise directly to your
-          home or office. As a fully mobile service, we save you the time, fuel,
-          and energy it takes to drive to a traditional car wash or detailing
-          center. No more long lines,traffic or wasted hours—our team comes to
-          you, ensuring your vehicle gets the care it needs while you can fully
-          hours—our team comes to you, ensuring your vehicle gets the care it
-          needs while you can fully enjoy your time at home.
+          hassle-free experience. That&apos;s why we take the stress out of car
+          care by bringing our state-of-the-art detailing expertise directly to
+          your home or office. As a fully mobile service, we save you the time,
+          fuel, and energy it takes to drive to a traditional car wash or
+          detailing center. No more long lines,traffic or wasted hours—our team
+          comes to you, ensuring your vehicle gets the care it needs while you
+          can fully hours—our team comes to you, ensuring your vehicle gets the
+          care it needs while you can fully enjoy your time at home.
         </p>
         <p>
           Our wide range of services includes everything from basic exterior
           washes to full interior and exterior detailing, ceramic coating, paint
-          correction, and fleet services. Whether you’re looking for a quick
-          clean or a luxury-level transformation, we have customizable packages
-          tailored to meet your needs. Our eco-friendly practices, including the
-          use of biodegradable products, reflect our commitment to protecting
-          the environment while ensuring your vehicle looks and feels brand new.
+          correction, and fleet services. Whether you&apos;re looking for a
+          quick clean or a luxury-level transformation, we have customizable
+          packages tailored to meet your needs. Our eco-friendly practices,
+          including the use of biodegradable products, reflect our commitment to
+          protecting the environment while ensuring your vehicle looks and feels
+          brand new.
         </p>
         <p>
           At Swift Addis, we stand by our motto:{" "}
           <span className="font-bold text-primary bg-primary/10 p-2 rounded-xl">
-            "Detailing Excellence Delivered Swiftly."
+            &quot;Detailing Excellence Delivered Swiftly.&quot;
           </span>{" "}
           Trust us to enhance the beauty and longevity of your car, one detail
           at a time.

@@ -15,9 +15,9 @@ export default function PrivacyPolicy() {
           for any commercial purpose without our prior written consent.
         </p>
         <p>
-          The Website is provided "as is" without any warranties, express or
-          implied. We do not warrant that the Website will be error-free or
-          uninterrupted.
+          The Website is provided &quot;as is&quot; without any warranties,
+          express or implied. We do not warrant that the Website will be
+          error-free or uninterrupted.
         </p>
         <p>
           In no event shall we be liable for any damages arising out of or in
