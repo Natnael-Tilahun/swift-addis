@@ -18,14 +18,11 @@ import type { Service, AddOn } from "@/types/type";
 export default function Step1() {
   const { data: services, isLoading: servicesLoading } = useServices();
   const { data: addOns, isLoading: addOnsLoading } = useAddons();
-  console.log("addOns: ", addOns);
-  // const searchParams = useSearchParams();
   const router = useRouter();
 
   const {
     selectedServicesWithTypes,
     selectedAddOns,
-    addOrUpdateServiceWithType,
     toggleAddOn,
     setTotalPrice,
   } = useBookingStore();
@@ -76,13 +73,13 @@ export default function Step1() {
   };
 
   const handleServiceSelection = (serviceId: string, type: string) => {
-    // Check if the service is already selected
+    // Check if the service is already selected with the same type
     const isSelected = selectedServicesWithTypes.some(
       (item) => item.serviceId === serviceId && item.vehicleType === type
     );
 
     if (isSelected) {
-      // Remove the service
+      // Remove the service if clicking on the same service and type
       const updatedServices = selectedServicesWithTypes.filter(
         (item) => item.serviceId !== serviceId
       );
@@ -93,13 +90,39 @@ export default function Step1() {
         setLockedVehicleType(null);
       }
     } else {
-      // Add new service
-      if (selectedServicesWithTypes.length === 0) {
-        setLockedVehicleType(type);
-        addOrUpdateServiceWithType(serviceId, type);
-      } else if (type === lockedVehicleType) {
-        addOrUpdateServiceWithType(serviceId, type);
+      let updatedServices = [...selectedServicesWithTypes];
+
+      // Check if this service exists but with different type
+      const existingServiceIndex = updatedServices.findIndex(
+        (item) => item.serviceId === serviceId
+      );
+
+      if (existingServiceIndex !== -1) {
+        // Update existing service type
+        updatedServices[existingServiceIndex].vehicleType = type;
+      } else {
+        // Add new service
+        updatedServices.push({ serviceId, vehicleType: type });
       }
+
+      // If vehicle type is different from locked type, filter services
+      if (lockedVehicleType && type !== lockedVehicleType) {
+        // Keep only services that support the new vehicle type
+        updatedServices = updatedServices
+          .filter((service) => {
+            const serviceData = services?.find(
+              (s: Service) => s._id === service.serviceId
+            );
+            return serviceData?.pricing[type];
+          })
+          .map((service) => ({
+            ...service,
+            vehicleType: type,
+          }));
+      }
+
+      setLockedVehicleType(type);
+      useBookingStore.getState().setSelectedServicesWithTypes(updatedServices);
     }
   };
 
@@ -127,15 +150,15 @@ export default function Step1() {
                         Object.entries(service.pricing).map(([type, price]) => (
                           <div
                             key={`${service._id}-${type}`}
-                            onClick={() =>
-                              handleServiceSelection(service._id, type)
-                            }
-                            className={`p-4 border rounded-lg transition-all duration-200 ${
+                            onClick={() => {
+                              handleServiceSelection(service._id, type);
+                            }}
+                            className={`p-4 border rounded-lg transition-all duration-200 hover:border-primary/50 ${
                               getVehicleTypeForService(service._id) === type
                                 ? "border-primary bg-primary/5"
                                 : lockedVehicleType &&
                                   lockedVehicleType !== type
-                                ? "opacity-50 cursor-not-allowed"
+                                ? ""
                                 : "hover:border-primary/50 hover:bg-gray-50 cursor-pointer"
                             }`}
                           >

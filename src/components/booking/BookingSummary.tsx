@@ -8,7 +8,7 @@ import {
 import { useServices } from "@/hooks/useServices";
 import { useAddons } from "@/hooks/useAddons";
 import { useBookingStore } from "@/store/useBookingStore";
-import { useEffect, useCallback } from "react";
+import {  useCallback } from "react";
 import type { Service, AddOn } from "@/types/type";
 
 export function BookingSummary({ children }: { children: React.ReactNode }) {
@@ -73,32 +73,32 @@ export function BookingSummary({ children }: { children: React.ReactNode }) {
   }, [services, addOns, selectedServicesWithTypes, selectedAddOns]);
 
   // Memoize the debug logging callback
-  const debugLog = useCallback(() => {
-    console.log("Current calculations:", {
-      duration: calculateTotalDuration(),
-      price: calculateTotalPrice(),
-      selectedServices: selectedServicesWithTypes.map((selected) => {
-        const service = services?.find(
-          (s: Service) => s._id === selected.serviceId
-        );
-        return {
-          name: service?.name,
-          duration: service?.duration[selected.vehicleType],
-          price: service?.pricing[selected.vehicleType]?.basePrice,
-        };
-      }),
-    });
-  }, [
-    services,
-    selectedServicesWithTypes,
-    calculateTotalDuration,
-    calculateTotalPrice,
-  ]);
+  // const debugLog = useCallback(() => {
+  //   console.log("Current calculations:", {
+  //     duration: calculateTotalDuration(),
+  //     price: calculateTotalPrice(),
+  //     selectedServices: selectedServicesWithTypes.map((selected) => {
+  //       const service = services?.find(
+  //         (s: Service) => s._id === selected.serviceId
+  //       );
+  //       return {
+  //         name: service?.name,
+  //         duration: service?.duration[selected.vehicleType],
+  //         price: service?.pricing[selected.vehicleType]?.basePrice,
+  //       };
+  //     }),
+  //   });
+  // }, [
+  //   services,
+  //   selectedServicesWithTypes,
+  //   calculateTotalDuration,
+  //   calculateTotalPrice,
+  // ]);
 
   // Use the memoized debug callback in useEffect
-  useEffect(() => {
-    debugLog();
-  }, [debugLog]);
+  // useEffect(() => {
+  //   debugLog();
+  // }, [debugLog]);
 
   const totalDuration = calculateTotalDuration();
   const totalPrice = calculateTotalPrice();
@@ -157,7 +157,9 @@ export function BookingSummary({ children }: { children: React.ReactNode }) {
                 <div>
                   <h3 className="font-medium mb-2">Add-ons</h3>
                   {addOns
-                    .filter((addon: AddOn) => selectedAddOns.includes(addon._id))
+                    .filter((addon: AddOn) =>
+                      selectedAddOns.includes(addon._id)
+                    )
                     .map((addon: AddOn) => (
                       <div
                         key={addon._id}

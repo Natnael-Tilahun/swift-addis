@@ -16,7 +16,6 @@ import { useState } from "react";
 import { MapPin } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useToast } from "@/hooks/use-toast";
-// import { useRouter } from "next/navigation";
 import { ImageUpload } from "./image-upload";
 import { format } from "date-fns";
 
@@ -446,7 +445,7 @@ export default function Step3() {
                                     location?.coordinates?.longitude ||
                                     0,
                                 ]}
-                                zoom={15}
+                                zoom={18}
                                 className="h-full w-full"
                                 marker={
                                   [
