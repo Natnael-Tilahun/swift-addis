@@ -26,47 +26,98 @@ function Footer({
       id="footer"
     >
       <div className="flex flex-wrap flex-col md:gap-5 gap-10 md:flex-row justify-between">
-        <div className="flex flex-row items-center flex-shrink-0 mr-6 gap-6">
-          <Image
-            src="/logo1.png"
-            width={100}
-            height={100}
-            alt="A logo of Swift Addis"
-            className="w-32 h-32 bg-contain object-contain rounded-full"
-          />
-
-          <span className="font-semibold text-xl tracking-tight">
-            Swift Addis
-          </span>
+        <div className="flex flex-col gap-6">
+          <Link href="/" className="flex flex-row items-center space-x-2">
+            <Image
+              src="/logo1.png"
+              width={60}
+              height={60}
+              alt="A logo of Swift Addis"
+              className="w-20 h-20 bg-contain object-contain rounded-full"
+            />
+            <span className="font-bold text-xl">Swift Addis</span>
+          </Link>
+          <p className="text-sm leading-6 text-gray-300">
+            Professional car detailing services that bring your vehicle back to
+            showroom condition.
+          </p>
+        </div>
+        <div className="mt-10 md:mt-0">
+          <h3 className="text-sm font-semibold leading-6 text-white">
+            Company
+          </h3>
+          <ul role="list" className="mt-6 space-y-4">
+            <li>
+              <Link
+                href="/about"
+                className="text-sm leading-6 text-gray-300 hover:text-white"
+              >
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/blog"
+                className="text-sm leading-6 text-gray-300 hover:text-white"
+              >
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact"
+                className="text-sm leading-6 text-gray-300 hover:text-white"
+              >
+                Contact
+              </Link>
+            </li>
+          </ul>
         </div>
         <div className="flex flex-col gap-2">
-          <h1 className="font-extrabold text-lg uppercase">Service Day</h1>
-          <p className="text-gray-400 flex items-center gap-3">
-            <Timer className="text-primary w-6 h-6" />
+          <h3 className="text-sm font-semibold leading-6 text-white">Legal</h3>
+          <Link
+            href="/terms-and-conditions"
+            className="text-sm leading-6 text-gray-300 hover:text-white mt-6"
+          >
+            Terms And Conditions
+          </Link>
+          <Link
+            href="/privacy-policy"
+            className="text-sm leading-6 text-gray-300 hover:text-white"
+          >
+            Privacy Policy
+          </Link>
+        </div>
+        <div className="flex flex-col gap-2">
+          <h1 className="text-sm font-semibold leading-6 text-white">
+            Service Day
+          </h1>
+          <p className="text-sm leading-6 text-gray-300 flex items-center gap-3 mt-6">
+            <Timer className="text-primary w-5 h-5" />
             <span>Monday - Saturday</span>
           </p>
-          <p className="text-gray-400 flex items-center gap-3">
-            <Timer className="text-primary w-6 h-6" />
+          <p className="text-sm leading-6 text-gray-300 flex items-center gap-3">
+            <Timer className="text-primary w-5 h-5" />
             <span>Sunday - Off day</span>
           </p>
         </div>
         <div className="flex flex-col gap-2">
-          <Link href="/terms-and-conditions" className="text-sm font-medium">
-            Terms And Conditions
-          </Link>
-          <Link href="/privacy-policy">Privacy Policy</Link>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-extrabold text-lg uppercase">Get in touch</h1>
-          <p className="flex items-center gap-3">
-            <Phone className="text-primary w-6 h-6" />
+          <h1 className="text-sm font-semibold leading-6 text-white">
+            Get In Touch
+          </h1>
+          <p className="flex items-center gap-3 mt-6">
+            <Phone className="text-primary w-5 h-5" />
             {/* <i className="ri-phone-fill ri-lg text-[#ed2e35] pr-3"></i>{" "} */}
-            <span className="text-gray-400">(+251) 933654654</span>
+            <span className="text-sm leading-6 text-gray-300">
+              (+251) 933654654
+            </span>
           </p>
           <p className="flex items-center gap-3">
-            <Mail className="text-primary w-6 h-6" />
+            <Mail className="text-primary w-5 h-5" />
             {/* <i className="ri-mail-fill ri-lg text-[#ed2e35] pr-3"></i>{" "} */}
-            <span className="text-gray-400">support@tekusmesa.com</span>
+            <span className="text-sm leading-6 text-gray-300">
+              support@tekusmesa.com
+            </span>
           </p>
         </div>
       </div>
@@ -77,7 +128,7 @@ function Footer({
         </div>
         <div className="flex text-white">
           <p className="pr-3">Follow us on: </p>
-          <div className="flex gap-2">
+          <div className="flex md:gap-4">
             <Link
               href="https://www.facebook.com/share/PSpAuta2fB8oASv3/?mibextid=LQQJ4d"
               target="_blank"

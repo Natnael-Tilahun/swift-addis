@@ -100,7 +100,7 @@ function Contact() {
 
   return (
     <section
-      className="w-full h-fit p-5 lg:p-14 xl:py-36 xl:px-48 bg-[#FFECF3]/30 "
+      className="w-full h-fit p-5 py-16 lg:p-14 xl:py-36 xl:px-48 bg-[#FFECF3]/30 "
       id="contact"
     >
       <Card className="w-full h-full  grid md:grid-cols-2 gap-6 p-5  relative z-40 shadow-lg">

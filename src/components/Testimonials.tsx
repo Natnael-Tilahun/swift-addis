@@ -62,10 +62,10 @@ export default function Testimonials() {
 
   return (
     <div
-      className="w-full h-fit py-10 lg:py-14 xl:py-20 flex flex-col gap-8 bg-[#FAFAFA] relative"
+      className="w-full h-fit py-12 flex flex-col gap-8 bg-[#FAFAFA] relative"
       id="testimonials"
     >
-      <h1 className="text-4xl font-bold text-center">Testimonials</h1>
+      <h1 className="text-4xl mb-12 font-bold text-center">Testimonials</h1>
       {testimonials.length > 0 ? (
         <Carousel
           key={testimonials.map((item) => item.id).join(",")}

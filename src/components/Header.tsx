@@ -16,7 +16,7 @@ function Header({
   return (
     <nav
       id="header"
-      className="flex justify-between items-center flex-wrap px-5 lg:px-14 xl:px-5 fixed inset-x-5 md:inset-x-5 top-5 z-50 h-14 backdrop-blur-md md:bg-white/70 bg-primary/80 border-b md:text-black text-white rounded-2xl md:rounded-2xl"
+      className="flex justify-between items-center flex-wrap px-5 lg:px-14 xl:px-5 fixed inset-x-5 md:inset-x-5 top-5 z-50 h-14 backdrop-blur-md md:bg-[#E6EEFF]/70 bg-[#E6EEFF]/70 border-b text-black rounded-2xl md:rounded-2xl"
     >
       <Link
         href="/"
@@ -39,7 +39,7 @@ function Header({
       </Link>
       <div className="block lg:hidden">
         <button
-          className="flex items-center px-3 py-2 border rounded  border-white "
+          className="flex items-center px-3 py-2 border rounded  border-black "
           onClick={toggleMenu}
         >
           {collapseNav ? (
@@ -66,7 +66,7 @@ function Header({
         </button>
       </div>
       <div
-        className={`w-full block lg:flex lg:items-center lg:w-auto duration-500 ease-in-out transition-all bg-primary/90 rounded-2xl md:rounded-none lg:bg-transparent shadow-lg lg:shadow-none fixed lg:static top-14 left-0 ${
+        className={`w-full block lg:flex lg:items-center lg:w-auto duration-500 ease-in-out transition-all bg-[#E6EEFF] rounded-2xl md:rounded-none lg:bg-transparent shadow-lg lg:shadow-none fixed lg:static top-20 left-0 ${
           collapseNav ? "hidden" : "block"
         }`}
       >

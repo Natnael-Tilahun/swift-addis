@@ -62,12 +62,12 @@ const config: Config = {
 			'pattern2': "url('/pattern2.svg')",
 			'heroImage': "url('/carwash15.jpg')",
 			'ellipse1': "url('/ellipse1.svg')",
-			'ellipse2': "url('/ellipse2.svg')",
-			'ellipse3': "url('/ellipse3.svg')",
+			'ellipse2': "url('/ellipse5.svg')",
+			'ellipse3': "url('/ellipse4.svg')",
 			'aboutEllipse': "url('/aboutEllipse.svg')",
 			'polygon1': "url('/polygon1.svg')",
-			'polygon2': "url('/polygon2.svg')",
-			'polygon3': "url('/polygon3.svg')",
+			'polygon2': "url('/polygon4.svg')",
+			'polygon3': "url('/polygon6.svg')",
 			'bookingSuccess': "url('/bookingSuccess.svg')",
 		}
   	}

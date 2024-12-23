@@ -11,10 +11,10 @@ function Hero() {
     >
       <div className="flex flex-col gap-8 md:w-1/2 w-full h-full justify-center">
         <div className="flex flex-col italic gap-0">
-          <h1 className="text-gray-200 px-4 text-4xl font-bold">
+          <h1 className="text-gray-200 px-4 md:text-4xl text-3xl font-bold">
             Detailing Excellence
           </h1>
-          <h2 className=" text-7xl font-extrabold [-webkit-text-stroke:2px_white] bg-gradient-to-b from-primary via-primary to-white text-transparent bg-clip-text">
+          <h2 className=" text-7xl font-extrabold [-webkit-text-stroke:2px_blue] bg-white text-transparent bg-clip-text">
             Delivered Swiftly
           </h2>
         </div>

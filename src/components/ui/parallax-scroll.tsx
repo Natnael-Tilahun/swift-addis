@@ -32,7 +32,7 @@ export const ParallaxScroll = ({
   return (
     <div
       className={cn(
-        "h-[40rem] items-start overflow-y-auto w-full scrollbar-hide",
+        "h-[40rem] items-start overflow-y-auto w-full scrollbar-hide rounded-3xl",
         "scrollbar-none", // Tailwind scrollbar hide
         "[&::-webkit-scrollbar]:hidden", // Webkit browsers
         "[-ms-overflow-style:none]", // IE and Edge
