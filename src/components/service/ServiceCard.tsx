@@ -36,7 +36,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
           onMouseLeave={plugin.current.reset}
           className="md:max-w-full max-w-sm z-40"
         >
-          <CarouselContent className="-ml-4 md:-ml-12 py-4 md:py-12 md:px-6">
+          <CarouselContent className="-ml-4 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16">
             {services.map((service, index) => (
               <CarouselItem
                 key={index}
@@ -76,7 +76,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                     </div>
                   </div>
 
-                  <div className="p-5 md:p-10 space-y-5 flex flex-col justify-between h-full">
+                  <div className="p-5  space-y-5 flex flex-col justify-between h-full">
                     <div className="flex justify-between items-center">
                       <div>
                         <h4

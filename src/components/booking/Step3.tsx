@@ -340,9 +340,9 @@ export default function Step3() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="grid grid-cols-3 gap-x-8 py-4"
+              className="grid md:grid-cols-3 grid-cols-1 gap-y-8 md:gap-y-0 gap-x-8 py-4"
             >
-              <div className="col-span-2 space-y-4 border rounded-lg p-6">
+              <div className="col-span-1 md:col-span-2 space-y-4 border rounded-lg p-6">
                 <FormField
                   control={form.control}
                   name="firstName"

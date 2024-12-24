@@ -45,9 +45,9 @@ export default function ServiceDetails({
         <ArrowLeftIcon className="w-5 h-5" /> Back to Services
       </Link>
 
-      <div className="grid grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
         {/* Left column - Service details */}
-        <div className="space-y-8 flex col-span-3 flex-col">
+        <div className="space-y-8 flex md:col-span-3 col-span-1 flex-col">
           <div className="relative w-full aspect-video rounded-xl overflow-hidden">
             <Image
               src={service.image || "/placeholder.jpg"}
@@ -139,7 +139,7 @@ export default function ServiceDetails({
         </div>
 
         {/* Right column - Vehicle selection */}
-        <Card className="flex col-span-2 flex-col gap-4 p-6 h-fit">
+        <Card className="flex md:col-span-2 col-span-1  flex-col gap-4 p-6 h-fit">
           <h1 className="text-2xl font-semibold">Select Vehicle Type</h1>
           <hr />
           <div className="flex flex-col gap-4">

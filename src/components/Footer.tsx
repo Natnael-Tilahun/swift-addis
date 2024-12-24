@@ -16,16 +16,16 @@ function Footer({
   toggleMenu,
   className,
 }: {
-  toggleMenu: () => void;
+  toggleMenu?: () => void;
   className?: string;
 }) {
   return (
     <section
       className={`w-full flex flex-col row-start-3 gap-10 items-cente  justify-between bg-black text-white px-10 lg:px-14 xl:px-20 pb-10 pt-16 rounded-t-3xl ${className}`}
-      onClick={toggleMenu}
+      // onClick={toggleMenu}
       id="footer"
     >
-      <div className="flex flex-wrap flex-col md:gap-5 gap-10 md:flex-row justify-between">
+      <div className="grid md:grid-cols-3 grid-col-2 lg:grid-cols-5 md:gap-20 gap-10">
         <div className="flex flex-col gap-6">
           <Link href="/" className="flex flex-row items-center space-x-2">
             <Image
@@ -57,7 +57,7 @@ function Footer({
             </li>
             <li>
               <Link
-                href="/blog"
+                href="/blogs"
                 className="text-sm leading-6 text-gray-300 hover:text-white"
               >
                 Blog
@@ -65,7 +65,7 @@ function Footer({
             </li>
             <li>
               <Link
-                href="/contact"
+                href="/#contact"
                 className="text-sm leading-6 text-gray-300 hover:text-white"
               >
                 Contact

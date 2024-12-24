@@ -48,7 +48,7 @@ export default function Step2() {
           <CardTitle>Select a date and time</CardTitle>
           <CardDescription>Date and time of the service</CardDescription>
         </CardHeader>
-        <CardContent className="grid grid-cols-3 gap-x-8 py-4">
+        <CardContent className="grid md:grid-cols-3 grid-cols-1 gap-y-8 md:gap-y-0 gap-x-8 py-4">
           {/* Calendar Section */}
           <div className="flex flex-col gap-2 w-full">
             <h1 className="text-lg font-medium">Select a date</h1>
@@ -69,7 +69,7 @@ export default function Step2() {
           </div>
 
           {/* Time Selection Section */}
-          <div className="flex flex-col gap-4 w-full">
+          <div className="flex flex-col gap-4 w-full ">
             <h1 className="text-lg font-medium">
               Available times on{" "}
               <span className="font-bold">
