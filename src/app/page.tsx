@@ -45,7 +45,7 @@ export default function Home() {
       <Services />
 
       {/* Gallery Section */}
-      <section className="py-24">
+      <section className="md:py-24 py-6">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">Our Work</h2>
           <Gallery />

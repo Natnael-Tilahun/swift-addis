@@ -8,7 +8,7 @@ import {
 import { useServices } from "@/hooks/useServices";
 import { useAddons } from "@/hooks/useAddons";
 import { useBookingStore } from "@/store/useBookingStore";
-import {  useCallback } from "react";
+import { useCallback } from "react";
 import type { Service, AddOn } from "@/types/type";
 
 export function BookingSummary({ children }: { children: React.ReactNode }) {
@@ -163,7 +163,7 @@ export function BookingSummary({ children }: { children: React.ReactNode }) {
                     .map((addon: AddOn) => (
                       <div
                         key={addon._id}
-                        className="flex justify-between items-start border-b pb-2 mb-2"
+                        className="flex justify-between items-start border-b pb-2 mb-2 gap-2"
                       >
                         <p className="font-medium">{addon.optionName}</p>
                         <div className="text-right">

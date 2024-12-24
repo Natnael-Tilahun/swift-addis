@@ -34,7 +34,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
-          className="md:max-w-full max-w-sm z-40"
+          className="md:max-w-full max-w-xs z-40"
         >
           <CarouselContent className="-ml-4 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16">
             {services.map((service, index) => (

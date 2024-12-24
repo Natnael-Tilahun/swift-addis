@@ -72,7 +72,7 @@ export default function Testimonials() {
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
-          className="md:max-w-full max-w-sm z-40"
+          className="md:max-w-full max-w-xs z-40"
         >
           <CarouselContent className="md:-ml-1 ml-5 w-full">
             {testimonials.map((testimonial, index) => (

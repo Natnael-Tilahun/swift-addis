@@ -25,8 +25,8 @@ function Footer({
       onClick={toggleMenu}
       id="footer"
     >
-      <div className="grid md:grid-cols-3 grid-col-2 lg:grid-cols-5 md:gap-20 gap-10">
-        <div className="flex flex-col gap-6">
+      <div className="grid md:grid-cols-3 grid-cols-2 lg:grid-cols-5 md:gap-20 gap-10 w-full">
+        <div className="flex flex-col col-span-2 md:col-span-1 gap-6">
           <Link href="/" className="flex flex-row items-center space-x-2">
             <Image
               src="/logo1.png"
@@ -42,7 +42,7 @@ function Footer({
             showroom condition.
           </p>
         </div>
-        <div className="mt-10 md:mt-0">
+        <div className=" md:mt-0 flex flex-col h-full w-full">
           <h3 className="text-sm font-semibold leading-6 text-white">
             Company
           </h3>
@@ -73,7 +73,7 @@ function Footer({
             </li>
           </ul>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col  w-full h-full">
           <h3 className="text-sm font-semibold leading-6 text-white">Legal</h3>
           <Link
             href="/terms-and-conditions"
@@ -83,12 +83,12 @@ function Footer({
           </Link>
           <Link
             href="/privacy-policy"
-            className="text-sm leading-6 text-gray-300 hover:text-white"
+            className="text-sm leading-6 text-gray-300 hover:text-white mt-6"
           >
             Privacy Policy
           </Link>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
           <h1 className="text-sm font-semibold leading-6 text-white">
             Service Day
           </h1>
@@ -101,7 +101,7 @@ function Footer({
             <span>Sunday - Off day</span>
           </p>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
           <h1 className="text-sm font-semibold leading-6 text-white">
             Get In Touch
           </h1>

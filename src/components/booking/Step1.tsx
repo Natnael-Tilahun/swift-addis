@@ -138,14 +138,14 @@ export default function Step1() {
                 Choose the services you want to book
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-6">
+            <CardContent className="grid gap-8">
               {servicesLoading ? (
                 <div>Loading services...</div>
               ) : services && services.length > 0 ? (
                 services.map((service: Service) => (
-                  <div key={service._id} className="space-y-3">
-                    <h3 className="font-semibold text-lg">{service.name}</h3>
-                    <div className="grid grid-cols-2 gap-3">
+                  <div key={service._id} className="space-y-2">
+                    <h3 className="font-semibold md:text-lg">{service.name}</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
                       {service.pricing &&
                         Object.entries(service.pricing).map(([type, price]) => (
                           <div
@@ -199,7 +199,7 @@ export default function Step1() {
                   Enhance your service with these add-ons
                 </CardDescription>
               </CardHeader>
-              <CardContent className="grid grid-cols-2 gap-4">
+              <CardContent className="grid md:grid-cols-2 gap-4">
                 {addOnsLoading ? (
                   <div>Loading add-ons...</div>
                 ) : addOns && addOns.length > 0 ? (
@@ -213,7 +213,7 @@ export default function Step1() {
                           : "hover:border-primary/50 hover:bg-gray-50"
                       }`}
                     >
-                      <div className="flex justify-between items-start">
+                      <div className="flex justify-between gap-2 items-start">
                         <div>
                           <h3 className="font-medium">{addon.optionName}</h3>
                           <p className="text-sm text-muted-foreground mt-1">
