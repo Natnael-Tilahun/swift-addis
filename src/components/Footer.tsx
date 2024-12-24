@@ -42,7 +42,7 @@ function Footer({
             showroom condition.
           </p>
         </div>
-        <div className=" md:mt-0 flex flex-col h-full w-full">
+        <div className=" flex flex-col h-full w-full">
           <h3 className="text-sm font-semibold leading-6 text-white">
             Company
           </h3>
