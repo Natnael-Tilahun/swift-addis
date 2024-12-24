@@ -24,7 +24,7 @@ export default function LayoutWrapper({
     <QueryClientProvider client={queryClient}>
       <Header toggleMenu={toggleMenu} collapseNav={collapseNav} />
       <main className="h-full w-full row-start-2">{children}</main>
-      <Footer  />
+      <Footer toggleMenu={() => setCollapseNav(true)} />
       <Toaster />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

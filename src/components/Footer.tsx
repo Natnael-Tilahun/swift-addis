@@ -22,7 +22,7 @@ function Footer({
   return (
     <section
       className={`w-full flex flex-col row-start-3 gap-10 items-cente  justify-between bg-black text-white px-10 lg:px-14 xl:px-20 pb-10 pt-16 rounded-t-3xl ${className}`}
-      // onClick={toggleMenu}
+      onClick={toggleMenu}
       id="footer"
     >
       <div className="grid md:grid-cols-3 grid-col-2 lg:grid-cols-5 md:gap-20 gap-10">
