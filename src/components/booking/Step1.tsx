@@ -27,14 +27,11 @@ export default function Step1() {
     selectedAddOns,
     toggleAddOn,
     setTotalPrice,
-    setLockedVehicleType,
-    lockedVehicleType,
   } = useBookingStore();
 
   // Calculate total price whenever selections change
-  // Calculate total price whenever selections change
   useEffect(() => {
-    if (!services || !addOns?.data) return;
+    if (!services || !addOns) return;
 
     // Calculate services total
     const servicesTotal = selectedServicesWithTypes.reduce(
@@ -51,13 +48,12 @@ export default function Step1() {
 
     // Calculate add-ons total
     const addOnsTotal = selectedAddOns.reduce((total, addOnId) => {
-      const addOn = addOns.data.find((a: AddOn) => a._id === addOnId);
+      const addOn = addOns.find((a: AddOn) => a._id === addOnId);
       return total + (addOn?.additionalPrice || 0);
     }, 0);
 
     // Set total price
-    const totalPrice = servicesTotal + addOnsTotal;
-    setTotalPrice(totalPrice);
+    setTotalPrice(servicesTotal + addOnsTotal);
   }, [
     selectedServicesWithTypes,
     selectedAddOns,
@@ -66,66 +62,10 @@ export default function Step1() {
     setTotalPrice,
   ]);
 
-  // Get vehicle type for a specific service
-  const getVehicleTypeForService = (serviceId: string) => {
-    return selectedServicesWithTypes.find(
-      (item) => item.serviceId === serviceId
-    )?.vehicleType;
-  };
-
-  const handleServiceSelection = (serviceId: string, type: string) => {
-    // Check if the service is already selected with the same type
-    const isSelected = selectedServicesWithTypes.some(
-      (item) => item.serviceId === serviceId && item.vehicleType === type
-    );
-
-    if (isSelected) {
-      // Remove the service if clicking on the same service and type
-      const updatedServices = selectedServicesWithTypes.filter(
-        (item) => item.serviceId !== serviceId
-      );
-      useBookingStore.getState().setSelectedServicesWithTypes(updatedServices);
-
-      // If no services left, reset the locked vehicle type
-      if (updatedServices.length === 0) {
-        setLockedVehicleType(null);
-      }
-    } else {
-      let updatedServices = [...selectedServicesWithTypes];
-
-      // Check if this service exists but with different type
-      const existingServiceIndex = updatedServices.findIndex(
-        (item) => item.serviceId === serviceId
-      );
-
-      if (existingServiceIndex !== -1) {
-        // Update existing service type
-        updatedServices[existingServiceIndex].vehicleType = type;
-      } else {
-        // Add new service
-        updatedServices.push({ serviceId, vehicleType: type });
-      }
-
-      // If vehicle type is different from locked type, filter services
-      if (lockedVehicleType && type !== lockedVehicleType) {
-        // Keep only services that support the new vehicle type
-        updatedServices = updatedServices
-          .filter((service) => {
-            const serviceData = services?.find(
-              (s: Service) => s._id === service.serviceId
-            );
-            return serviceData?.pricing[type];
-          })
-          .map((service) => ({
-            ...service,
-            vehicleType: type,
-          }));
-      }
-
-      setLockedVehicleType(type);
-      useBookingStore.getState().setSelectedServicesWithTypes(updatedServices);
-    }
-  };
+  // Get the selected service details
+  const selectedService = services?.find(
+    (s: Service) => s._id === selectedServicesWithTypes[0]?.serviceId
+  );
 
   return (
     <div className="space-y-6">
@@ -134,70 +74,61 @@ export default function Step1() {
           {/* Services Card */}
           <Card>
             <CardHeader>
-              <CardTitle>Select Services</CardTitle>
+              <CardTitle>Selected Service</CardTitle>
               <CardDescription>
-                Choose the services you want to book
+                Your selected service and its details
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-8">
+            <CardContent>
               {servicesLoading ? (
                 <div className="grid grid-cols-2 gap-4 h-full">
                   <Skeleton className="h-20 w-full"></Skeleton>
                   <Skeleton className="h-20 w-full"></Skeleton>
-                  <Skeleton className="h-20 w-full"></Skeleton>
-                  <Skeleton className="h-20 w-full"></Skeleton>
                 </div>
-              ) : services && services.length > 0 ? (
-                services.map((service: Service) => (
-                  <div key={service._id} className="space-y-2">
-                    <h3 className="font-semibold md:text-lg">{service.name}</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {service.pricing &&
-                        Object.entries(service.pricing).map(([type, price]) => (
-                          <div
-                            key={`${service._id}-${type}`}
-                            onClick={() => {
-                              handleServiceSelection(service._id, type);
-                            }}
-                            className={`p-4 border rounded-lg transition-all duration-200 hover:border-primary/50 ${
-                              getVehicleTypeForService(service._id) === type
-                                ? "border-primary bg-primary/5"
-                                : lockedVehicleType &&
-                                  lockedVehicleType !== type
-                                ? ""
-                                : "hover:border-primary/50 hover:bg-gray-50 cursor-pointer"
-                            }`}
-                          >
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <p className="font-medium">{type}</p>
-                                <p className="text-sm text-muted-foreground">
-                                  {service.duration[type]} min
-                                </p>
-                              </div>
-                              <Badge
-                                variant={
-                                  getVehicleTypeForService(service._id) === type
-                                    ? "default"
-                                    : "outline"
-                                }
-                              >
-                                {price.basePrice} Birr
-                              </Badge>
-                            </div>
+              ) : selectedService ? (
+                <div className="space-y-2">
+                  <h3 className="font-semibold md:text-lg">
+                    {selectedService.name}
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {selectedServicesWithTypes.map((selected) => (
+                      <div
+                        key={`${selected.serviceId}-${selected.vehicleType}`}
+                        className="p-4 border rounded-lg border-primary bg-primary/5"
+                      >
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <p className="font-medium">
+                              {selected.vehicleType}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {selectedService.duration[selected.vehicleType]}{" "}
+                              min
+                            </p>
                           </div>
-                        ))}
-                    </div>
+                          <Badge variant="default">
+                            {
+                              selectedService.pricing[selected.vehicleType]
+                                .basePrice
+                            }{" "}
+                            Birr
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))
+                </div>
               ) : (
-                <div>No services available</div>
+                <div className="text-center py-4 text-muted-foreground">
+                  No service selected. Please select a service from the services
+                  page.
+                </div>
               )}
             </CardContent>
           </Card>
 
-          {/* Add-ons Card */}
-          {selectedServicesWithTypes.length > 0 && (
+          {/* Add-ons Card - Only show if there's a selected service */}
+          {selectedService && (
             <Card>
               <CardHeader>
                 <CardTitle>Available Add-ons</CardTitle>
@@ -245,14 +176,16 @@ export default function Step1() {
                     </div>
                   ))
                 ) : (
-                  <div>No add-ons available</div>
+                  <div className="col-span-full text-center py-4 text-muted-foreground">
+                    No add-ons available for this service
+                  </div>
                 )}
               </CardContent>
             </Card>
           )}
         </div>
 
-        <BookingSummary>
+        <BookingSummary className="col-span-1">
           <Button
             className="w-full mt-4"
             size="lg"
@@ -260,7 +193,7 @@ export default function Step1() {
               useBookingStore.getState().setStep(2);
               router.push(`/booking?step=2`);
             }}
-            disabled={selectedServicesWithTypes.length === 0}
+            disabled={!selectedService}
           >
             Continue to Book
           </Button>

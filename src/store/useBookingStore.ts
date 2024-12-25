@@ -68,6 +68,7 @@ interface BookingState {
   addOrUpdateServiceWithType: (serviceId: string, vehicleType: string) => void;
   removeServiceWithType: (serviceId: string) => void;
   setLockedVehicleType: (type: string | null) => void;
+  setSelectedAddOns: (addOns: string[]) => void;
 }
 
 export const useBookingStore = create<BookingState>()(
@@ -209,6 +210,8 @@ export const useBookingStore = create<BookingState>()(
       }),
 
       setLockedVehicleType: (type) => set({ lockedVehicleType: type }),
+
+      setSelectedAddOns: (addOns) => set({ selectedAddOns: addOns }),
     }),
     {
       name: 'booking-storage',

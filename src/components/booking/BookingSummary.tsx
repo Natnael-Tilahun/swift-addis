@@ -11,7 +11,13 @@ import { useBookingStore } from "@/store/useBookingStore";
 import { useCallback } from "react";
 import type { Service, AddOn } from "@/types/type";
 
-export function BookingSummary({ children }: { children: React.ReactNode }) {
+export function BookingSummary({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const { data: services } = useServices();
   const { data: addOns } = useAddons();
 
@@ -106,7 +112,7 @@ export function BookingSummary({ children }: { children: React.ReactNode }) {
   const selectedDate = appointmentDate ? new Date(appointmentDate) : null;
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
         <CardTitle>Booking Summary</CardTitle>
         <CardDescription>Summary of your selections</CardDescription>
@@ -131,17 +137,18 @@ export function BookingSummary({ children }: { children: React.ReactNode }) {
                   return (
                     <div
                       key={serviceId}
-                      className="flex justify-between items-start border-b pb-2 mb-2"
+                      className="flex flex-col md:flex-row justify-between md:items-start md:gap-4 border-b pb-2 mb-2"
                     >
                       <div>
-                        <p className="font-medium">{service.name}</p>
+                        <p className="font-medium text-base">{service.name}</p>
                         <p className="text-sm text-muted-foreground">
                           {vehicleType}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">
-                          {service.pricing[vehicleType]?.basePrice} Birr
+                        <p className="font-medium text-base whitespace-nowrap">
+                          {service.pricing[vehicleType]?.basePrice} -{" "}
+                          {service.pricing[vehicleType]?.maxPrice} Birr
                         </p>
                         <p className="text-sm text-muted-foreground">
                           {service.duration[vehicleType]} min
@@ -181,7 +188,7 @@ export function BookingSummary({ children }: { children: React.ReactNode }) {
 
               {/* Appointment Details */}
               {selectedDate && (
-                <div className="border-t pt-4">
+                <div className=" pt-4">
                   <h3 className="font-medium mb-2">Appointment Details</h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">

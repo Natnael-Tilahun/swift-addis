@@ -15,7 +15,7 @@ import Link from "next/link";
 import type { Service } from "@/types/type";
 
 export default function ServiceCard({ services }: { services: Service[] }) {
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
   return (
     <div
@@ -79,15 +79,16 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                   <div className="p-5  space-y-5 flex flex-col justify-between h-full">
                     <div className="flex justify-between items-center">
                       <div>
-                        <h4
-                          className={`text-xl font-bold ${
+                        <Link
+                          href={`/services/${service._id}`}
+                          className={`text-xl font-bold hover:text-primary ${
                             service.tag == "Popular"
                               ? "text-white"
                               : "text-gray-900"
                           }`}
                         >
                           {service.name}
-                        </h4>
+                        </Link>
                       </div>
                     </div>
                     <p

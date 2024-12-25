@@ -10,64 +10,38 @@ import type { Service, AddOn } from "@/types/type";
 export default function ServiceDetails({
   service,
   addOns,
-  services,
 }: {
   service: Service;
   addOns: AddOn[];
-  services?: Service[];
 }) {
   const router = useRouter();
-  const { selectedServicesWithTypes, setLockedVehicleType, lockedVehicleType } =
-    useBookingStore();
+  const {
+    selectedServicesWithTypes,
+    setSelectedServicesWithTypes,
+    setLockedVehicleType,
+    setSelectedAddOns,
+  } = useBookingStore();
 
   const handleServiceSelection = (type: string) => {
-    const isSelected = selectedServicesWithTypes.some(
-      (item) => item.serviceId === service._id && item.vehicleType === type
-    );
+    // Create a new service selection with the current service and type
+    const newSelection = { serviceId: service._id, vehicleType: type };
 
-    if (isSelected) {
-      // Remove the service if clicking on the same service and type
-      const updatedServices = selectedServicesWithTypes.filter(
-        (item) => item.serviceId !== service._id
-      );
-      useBookingStore.getState().setSelectedServicesWithTypes(updatedServices);
-    } else {
-      let updatedServices = [...selectedServicesWithTypes];
+    // Replace any existing selection with the new one
+    setSelectedServicesWithTypes([newSelection]);
+    setLockedVehicleType(type);
 
-      // Check if this service exists but with different type
-      const existingServiceIndex = updatedServices.findIndex(
-        (item) => item.serviceId === service._id
-      );
+    // Clear previously selected add-ons
+    setSelectedAddOns([]);
 
-      if (existingServiceIndex !== -1) {
-        // Update existing service type
-        updatedServices[existingServiceIndex].vehicleType = type;
-      } else {
-        // Add new service
-        updatedServices.push({ serviceId: service._id, vehicleType: type });
-      }
-
-      //   // If vehicle type is different from locked type, filter services
-      if (lockedVehicleType && type !== lockedVehicleType) {
-        // Keep only services that support the new vehicle type
-        updatedServices = updatedServices
-          .filter((service) => {
-            const serviceData = services?.find(
-              (s: Service) => s._id === service.serviceId
-            );
-            return serviceData?.pricing[type];
-          })
-          .map((service) => ({
-            ...service,
-            vehicleType: type,
-          }));
-      }
-
-      setLockedVehicleType(type);
-      useBookingStore.getState().setSelectedServicesWithTypes(updatedServices);
-      router.push(`/booking?serviceId=${service._id}&step=1`);
-    }
+    // Navigate to booking page
+    router.push(`/booking?serviceId=${service._id}&step=1&carType=${type}`);
   };
+
+  // Check if this service is selected
+  const selectedType =
+    selectedServicesWithTypes[0]?.serviceId === service._id
+      ? selectedServicesWithTypes[0]?.vehicleType
+      : null;
 
   return (
     <div className="w-full h-full p-5 pb-16 lg:p-14 lg:pb-24 xl:pt-8 xl:pb-36 xl:px-36 space-y-8">
@@ -172,7 +146,7 @@ export default function ServiceDetails({
         </div>
 
         {/* Right column - Vehicle selection */}
-        <Card className="flex md:col-span-2 col-span-1  flex-col gap-4 p-6 h-fit">
+        <Card className="flex md:col-span-2 col-span-1 flex-col gap-4 p-6 h-fit">
           <h1 className="text-2xl font-semibold">Select Vehicle Type</h1>
           <hr />
           <div className="flex flex-col gap-4">
@@ -184,7 +158,12 @@ export default function ServiceDetails({
                     <div
                       key={vehicleType}
                       onClick={() => handleServiceSelection(vehicleType)}
-                      className="p-4 border rounded-lg space-y-2 hover:border-primary hover:bg-gray-50 cursor-pointer transition-all duration-200"
+                      className={`p-4 border rounded-lg space-y-2 cursor-pointer transition-all duration-200 
+                      ${
+                        selectedType === vehicleType
+                          ? "border-primary bg-primary/5"
+                          : "hover:border-primary hover:bg-gray-50"
+                      }`}
                     >
                       <p className="font-medium text-lg">{vehicleType}</p>
                       <div className="space-y-1 text-muted-foreground">
