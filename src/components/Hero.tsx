@@ -27,7 +27,7 @@ function Hero() {
             asChild
             className="md:w-48 w-full bg-primary font-bold text-white border"
           >
-            <Link href={`/booking?step=1`}>Book Now</Link>
+            <Link href={`/#services`}>Book Now</Link>
           </Button>
           <Button
             variant="outline"

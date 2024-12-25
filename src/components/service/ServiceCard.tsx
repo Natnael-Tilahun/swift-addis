@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import {
   Carousel,
@@ -7,6 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
@@ -15,7 +16,23 @@ import Link from "next/link";
 import type { Service } from "@/types/type";
 
 export default function ServiceCard({ services }: { services: Service[] }) {
-  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   return (
     <div
@@ -31,6 +48,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
       {services.length > 0 ? (
         <Carousel
           key={services.map((item) => item._id).join(",")}
+          setApi={setApi}
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
@@ -40,7 +58,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
             {services.map((service, index) => (
               <CarouselItem
                 key={index}
-                className="pl-4 md:pl-12 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/3"
+                className="pl-4 md:pl-12 lg:pl-8 basis-full sm:basis-1/2 md:basis-[30%] lg:basis-[32%]"
               >
                 <Card
                   className={`bg- glassmorphism-card overflow-hidden h-full w-full flex flex-col bg-white transition transform duration-300 hover:scale-105 rounded-2xl ${
@@ -76,7 +94,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                     </div>
                   </div>
 
-                  <div className="p-5  space-y-5 flex flex-col justify-between h-full">
+                  <div className="p-5 md:p-6 space-y-5 flex flex-col justify-between h-full">
                     <div className="flex justify-between items-center">
                       <div>
                         <Link
@@ -183,6 +201,20 @@ export default function ServiceCard({ services }: { services: Service[] }) {
           </CarouselContent>
           <CarouselPrevious className="hidden md:block" />
           <CarouselNext className="hidden md:block" />
+          <div className="md:py-2 py-4 flex justify-center max-w-xs md:max-w-full gap-2">
+            {Array.from({ length: count }).map((_, index) => (
+              <button
+                key={index}
+                className={`h-2 w-2 rounded-full transition-all ${
+                  index + 1 === current
+                    ? "bg-primary w-4"
+                    : "bg-muted-foreground/30"
+                }`}
+                onClick={() => api?.scrollTo(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </Carousel>
       ) : (
         <div className="flex flex-col items-center justify-center h-[40vh] border rounded-xl w-full">

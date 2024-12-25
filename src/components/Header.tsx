@@ -142,7 +142,7 @@ function Header({
             className="md:w-fit w-full font-bold px-5 text-lg lg:mt-0  border"
             asChild
           >
-            <Link href={`/booking?step=1`}>Book Now</Link>
+            <Link href={`/#services`}>Book Now</Link>
           </Button>
         </div>
       </div>

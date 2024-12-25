@@ -18,7 +18,7 @@ import dynamic from "next/dynamic";
 import { useToast } from "@/hooks/use-toast";
 import { ImageUpload } from "./image-upload";
 import { format } from "date-fns";
-
+import { ToastAction } from "@/components/ui/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -78,6 +78,7 @@ const Map = dynamic(() => import("@/components/Map"), {
 export default function Step3() {
   const { toast } = useToast();
   const [isLocating, setIsLocating] = useState(false);
+  const [locationAccuracy, setLocationAccuracy] = useState<number | null>(null);
   // const router = useRouter();
   const {
     selectedServicesWithTypes,
@@ -127,77 +128,99 @@ export default function Step3() {
   });
 
   // Get current location
-  const getCurrentLocation = () => {
-    setIsLocating(true);
-    if (!navigator.geolocation) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Geolocation is not supported by your browser",
-      });
-      setIsLocating(false);
-      return;
+  const getCurrentLocationWithGoogle = async () => {
+    const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+    if (!GOOGLE_MAPS_API_KEY) {
+      throw new Error("Google Maps API key is not configured");
     }
 
-    // Add geolocation options for higher accuracy
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 10000, // 10 seconds
-      maximumAge: 0, // Force fresh location data
-    };
+    try {
+      setIsLocating(true);
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-
-        try {
-          // Use OpenStreetMap Nominatim with more detailed parameters
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?` +
-              `format=json&` +
-              `lat=${latitude}&` +
-              `lon=${longitude}&` +
-              `zoom=18&` + // Higher zoom level for more detail
-              `addressdetails=1` // Get detailed address information
-          );
-          const data = await response.json();
-
-          // Set more precise location data
-          setFormData((prev) => ({
-            ...prev,
-            location: {
-              lat: latitude,
-              lng: longitude,
-              address: data.display_name,
-            },
-            address: data.display_name,
-          }));
-
-          // Update form values
-          form.setValue("address", data.display_name);
-          form.setValue("longitude", longitude);
-          form.setValue("latitude", latitude);
-        } catch (error) {
-          console.error("Error getting address:", error);
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Failed to get address details",
+      // Get precise coordinates using browser's geolocation
+      const position = await new Promise<GeolocationPosition>(
+        (resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 20000, // Increased timeout
+            maximumAge: 0,
           });
-
-          // Still set coordinates even if address lookup fails
-          setFormData((prev) => ({
-            ...prev,
-            location: {
-              lat: latitude,
-              lng: longitude,
-            },
-          }));
         }
-        setIsLocating(false);
-      },
-      (error) => {
-        let errorMessage = "Failed to get location";
+      );
+
+      const { latitude, longitude, accuracy } = position.coords;
+      setLocationAccuracy(accuracy);
+
+      // More lenient accuracy check (300 meters instead of 100)
+      if (accuracy > 300) {
+        toast({
+          variant: "destructive",
+          title: "Low Accuracy Warning",
+          description:
+            "Your location accuracy is low. The address might not be precise.",
+        });
+        // Continue with the location instead of throwing error
+      }
+
+      // Use Google's Geocoding API
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?` +
+          `latlng=${latitude},${longitude}&` +
+          `key=${GOOGLE_MAPS_API_KEY}&` +
+          `result_type=street_address|route|premise|subpremise|point_of_interest&` +
+          `language=en`
+      );
+
+      const data = await response.json();
+
+      if (!data.results || data.results.length === 0) {
+        throw new Error(
+          "Could not find an address for this location. Please try again or enter manually."
+        );
+      }
+
+      // Get the most detailed result available
+      const result = data.results[0];
+
+      // Store the precise coordinates from the Geocoding result
+      const preciseLocation = {
+        lat: result.geometry.location.lat,
+        lng: result.geometry.location.lng,
+        address: result.formatted_address,
+      };
+
+      // Update form data with precise location
+      setFormData((prev) => ({
+        ...prev,
+        location: preciseLocation,
+        address: preciseLocation.address,
+      }));
+
+      // Update form values
+      form.setValue("address", preciseLocation.address);
+      form.setValue("longitude", preciseLocation.lng);
+      form.setValue("latitude", preciseLocation.lat);
+
+      setLocation({
+        address: preciseLocation.address,
+        coordinates: {
+          latitude: preciseLocation.lat,
+          longitude: preciseLocation.lng,
+        },
+      });
+
+      // Show accuracy information in the success toast
+      toast({
+        title: "Location found",
+        description: `Accuracy: ±${Math.round(accuracy)}m`,
+      });
+    } catch (error) {
+      console.error("Location error:", error);
+
+      let errorMessage = "Failed to get location";
+
+      if (error instanceof GeolocationPositionError) {
         switch (error.code) {
           case error.PERMISSION_DENIED:
             errorMessage = "Please allow location access to use this feature.";
@@ -206,75 +229,54 @@ export default function Step3() {
             errorMessage = "Location information is unavailable.";
             break;
           case error.TIMEOUT:
-            errorMessage = "Location request timed out.";
+            errorMessage = "Location request timed out. Please try again.";
             break;
         }
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
 
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: errorMessage,
-        });
-        setIsLocating(false);
-      },
-      options // Add the options here
-    );
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: errorMessage,
+        action: (
+          <ToastAction onClick={getCurrentLocation} altText="Try again">
+            Try again
+          </ToastAction>
+        ),
+      });
+
+      throw error;
+    } finally {
+      setIsLocating(false);
+    }
   };
 
-  // const handleContinue = () => {
-  //   // Create customer details object from form data with reformatted location
-  //   const customerDetails = {
-  //     firstName: formData.firstName,
-  //     phone: formData.phone,
-  //     email: formData.email,
-  //     address: formData.address,
-  //     location: formData.location
-  //       ? {
-  //           coordinates: {
-  //             latitude: formData.location.lat,
-  //             longitude: formData.location.lng,
-  //           },
-  //           address: formData.location.address || formData.address,
-  //         }
-  //       : null,
-  //     appointmentNote: formData.appointmentNote,
-  //   };
+  const getCurrentLocationWithOSM = async () => {
+    // Implementation for OpenStreetMap
+    // This is a placeholder implementation
+    // Replace with actual OpenStreetMap implementation
+    return {
+      lat: 0,
+      lng: 0,
+      address: "Fallback address",
+    };
+  };
 
-  //   // Log all booking details
-  //   const bookingDetails = {
-  //     services: selectedServicesWithTypes.map((service) => ({
-  //       serviceId: service.serviceId,
-  //       vehicleType: service.vehicleType,
-  //     })),
-  //     appointmentDetails: {
-  //       date: appointmentDate,
-  //       time: appointmentTime,
-  //     },
-  //     customer: customerDetails,
-  //     vehicleDetails: {
-  //       carType: "SUV", // You might want to make this dynamic
-  //       images: form.getValues("carImages")
-  //         ? [{ url: form.getValues("carImages") }]
-  //         : [],
-  //     },
-  //     totalAmount: selectedServicesWithTypes.reduce(
-  //       (total, service) => total + (service.price || 0),
-  //       0
-  //     ),
-  //   };
-
-  //   console.log(
-  //     "Complete Booking Details:",
-  //     JSON.stringify(bookingDetails, null, 2)
-  //   );
-
-  //   // Store customer details in the booking store
-  //   setCustomerDetails(customerDetails);
-
-  //   // Continue to next step
-  //   setStep(4);
-  //   router.push("/booking?step=4");
-  // };
+  const getCurrentLocation = async () => {
+    try {
+      // Try Google Maps first
+      const googleResult = await getCurrentLocationWithGoogle();
+      return googleResult;
+    } catch (error) {
+      console.error("Error getting location:", error);
+      // Fallback to OpenStreetMap if Google fails
+      console.warn("Falling back to OpenStreetMap");
+      const osmResult = await getCurrentLocationWithOSM();
+      return osmResult;
+    }
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (!appointmentDate) {
@@ -362,6 +364,21 @@ export default function Step3() {
       },
     });
   }
+
+  // Add a cleanup function for component unmount
+  // useEffect(() => {
+  //   return () => {
+  //     // Clear location data when component unmounts
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       location: {
+  //         lat: null,
+  //         lng: null,
+  //         address: "",
+  //       },
+  //     }));
+  //   };
+  // }, []);
 
   return (
     <div>
@@ -488,7 +505,7 @@ export default function Step3() {
                                     location?.coordinates?.longitude ||
                                     0,
                                 ]}
-                                zoom={18}
+                                zoom={16}
                                 className="h-full w-full"
                                 marker={[
                                   formData?.location?.lat ||
@@ -501,16 +518,13 @@ export default function Step3() {
                               />
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">
-                              Latitude:{" "}
-                              {(
-                                formData?.location?.lat ||
-                                location?.coordinates?.latitude
-                              )?.toFixed(6)}
-                              , Longitude:{" "}
-                              {(
-                                formData?.location?.lng ||
-                                location?.coordinates?.longitude
-                              )?.toFixed(6)}
+                              Latitude: {formData?.location?.lat?.toFixed(6)},
+                              Longitude: {formData?.location?.lng?.toFixed(6)}
+                              {locationAccuracy && (
+                                <span className="ml-2">
+                                  (Accuracy: ±{Math.round(locationAccuracy)}m)
+                                </span>
+                              )}
                             </p>
                           </div>
                         ) : null}

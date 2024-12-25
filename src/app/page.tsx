@@ -35,7 +35,7 @@ export default function Home() {
             services to keep your car looking its best.
           </p>
           <Button className="border" size="lg" asChild>
-            <Link href={`/booking?step=1`}>
+            <Link href={`/#services`}>
               Book Now <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
