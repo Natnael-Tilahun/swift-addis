@@ -139,17 +139,30 @@ export default function Step3() {
       return;
     }
 
+    // Add geolocation options for higher accuracy
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000, // 10 seconds
+      maximumAge: 0, // Force fresh location data
+    };
+
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
 
         try {
-          // Reverse geocoding using OpenStreetMap Nominatim
+          // Use OpenStreetMap Nominatim with more detailed parameters
           const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            `https://nominatim.openstreetmap.org/reverse?` +
+              `format=json&` +
+              `lat=${latitude}&` +
+              `lon=${longitude}&` +
+              `zoom=18&` + // Higher zoom level for more detail
+              `addressdetails=1` // Get detailed address information
           );
           const data = await response.json();
 
+          // Set more precise location data
           setFormData((prev) => ({
             ...prev,
             location: {
@@ -159,11 +172,20 @@ export default function Step3() {
             },
             address: data.display_name,
           }));
+
+          // Update form values
           form.setValue("address", data.display_name);
           form.setValue("longitude", longitude);
           form.setValue("latitude", latitude);
         } catch (error) {
           console.error("Error getting address:", error);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Failed to get address details",
+          });
+
+          // Still set coordinates even if address lookup fails
           setFormData((prev) => ({
             ...prev,
             location: {
@@ -175,13 +197,27 @@ export default function Step3() {
         setIsLocating(false);
       },
       (error) => {
+        let errorMessage = "Failed to get location";
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = "Please allow location access to use this feature.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            errorMessage = "Location request timed out.";
+            break;
+        }
+
         toast({
           variant: "destructive",
           title: "Error",
-          description: `Failed to get location: ${error.message}`,
+          description: errorMessage,
         });
         setIsLocating(false);
-      }
+      },
+      options // Add the options here
     );
   };
 
