@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,27 +10,61 @@ import type { Service, AddOn } from "@/types/type";
 export default function ServiceDetails({
   service,
   addOns,
+  services,
 }: {
   service: Service;
   addOns: AddOn[];
+  services?: Service[];
 }) {
   const router = useRouter();
-  const { setServiceIds, setVehicleDetails, service_ids } = useBookingStore();
-  const handleServiceSelect = (vehicleType: string) => {
-    if (service) {
-      if (!service_ids.includes(service._id)) {
-        setServiceIds([...service_ids, service._id]);
+  const { selectedServicesWithTypes, setLockedVehicleType, lockedVehicleType } =
+    useBookingStore();
+
+  const handleServiceSelection = (type: string) => {
+    const isSelected = selectedServicesWithTypes.some(
+      (item) => item.serviceId === service._id && item.vehicleType === type
+    );
+
+    if (isSelected) {
+      // Remove the service if clicking on the same service and type
+      const updatedServices = selectedServicesWithTypes.filter(
+        (item) => item.serviceId !== service._id
+      );
+      useBookingStore.getState().setSelectedServicesWithTypes(updatedServices);
+    } else {
+      let updatedServices = [...selectedServicesWithTypes];
+
+      // Check if this service exists but with different type
+      const existingServiceIndex = updatedServices.findIndex(
+        (item) => item.serviceId === service._id
+      );
+
+      if (existingServiceIndex !== -1) {
+        // Update existing service type
+        updatedServices[existingServiceIndex].vehicleType = type;
+      } else {
+        // Add new service
+        updatedServices.push({ serviceId: service._id, vehicleType: type });
       }
 
-      // Set vehicle details
-      setVehicleDetails({
-        carType: vehicleType,
-        make: "",
-        model: "",
-        year: 0,
-      });
+      //   // If vehicle type is different from locked type, filter services
+      if (lockedVehicleType && type !== lockedVehicleType) {
+        // Keep only services that support the new vehicle type
+        updatedServices = updatedServices
+          .filter((service) => {
+            const serviceData = services?.find(
+              (s: Service) => s._id === service.serviceId
+            );
+            return serviceData?.pricing[type];
+          })
+          .map((service) => ({
+            ...service,
+            vehicleType: type,
+          }));
+      }
 
-      // Navigate to booking page
+      setLockedVehicleType(type);
+      useBookingStore.getState().setSelectedServicesWithTypes(updatedServices);
       router.push(`/booking?serviceId=${service._id}&step=1`);
     }
   };
@@ -150,7 +183,7 @@ export default function ServiceDetails({
                   ([vehicleType, prices]) => (
                     <div
                       key={vehicleType}
-                      onClick={() => handleServiceSelect(vehicleType)}
+                      onClick={() => handleServiceSelection(vehicleType)}
                       className="p-4 border rounded-lg space-y-2 hover:border-primary hover:bg-gray-50 cursor-pointer transition-all duration-200"
                     >
                       <p className="font-medium text-lg">{vehicleType}</p>

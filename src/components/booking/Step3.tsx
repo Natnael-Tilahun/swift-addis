@@ -432,8 +432,15 @@ export default function Step3() {
                             }}
                           />
                         </FormControl>
-                        {(formData?.location?.lat ||
-                          location?.coordinates?.latitude) && (
+                        {/* Map and Coordinates Section */}
+                        {(formData?.location?.lat !== null &&
+                          formData?.location?.lng !== null &&
+                          formData?.location?.lat !== 0 &&
+                          formData?.location?.lng !== 0) ||
+                        (location?.coordinates?.latitude &&
+                          location?.coordinates?.longitude &&
+                          location?.coordinates?.latitude !== 0 &&
+                          location?.coordinates?.longitude !== 0) ? (
                           <div className="mt-2">
                             <div className="h-[200px] w-full rounded-md overflow-hidden border">
                               <Map
@@ -447,16 +454,14 @@ export default function Step3() {
                                 ]}
                                 zoom={18}
                                 className="h-full w-full"
-                                marker={
-                                  [
-                                    formData?.location?.lat ||
-                                      location?.coordinates?.latitude ||
-                                      0,
-                                    formData?.location?.lng ||
-                                      location?.coordinates?.longitude ||
-                                      0,
-                                  ] as [number, number]
-                                }
+                                marker={[
+                                  formData?.location?.lat ||
+                                    location?.coordinates?.latitude ||
+                                    0,
+                                  formData?.location?.lng ||
+                                    location?.coordinates?.longitude ||
+                                    0,
+                                ]}
                               />
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">
@@ -472,7 +477,7 @@ export default function Step3() {
                               )?.toFixed(6)}
                             </p>
                           </div>
-                        )}
+                        ) : null}
                         <FormMessage />
                       </div>
                     </FormItem>

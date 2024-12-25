@@ -11,7 +11,6 @@ export const api = axios.create({
 export const getServices = async () => {
     try {
         const { data } = await api.get('/service');
-        console.log("services data", data);
         return data;
     } catch (error) {
         console.error("Error fetching services:", error);
@@ -21,7 +20,6 @@ export const getServices = async () => {
 
 export const getAddons = async () => {
   const { data } = await api.get('/addons');
-  console.log("addons data", data);
   return data.data;
 };
 

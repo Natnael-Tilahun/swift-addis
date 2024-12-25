@@ -48,6 +48,7 @@ interface BookingState {
   serviceStartingTime: string | null;
   appointmentNote: string;
   totalPrice?: number;
+  lockedVehicleType: string | null;
 
   // Actions
   setStep: (step: number) => void;
@@ -66,6 +67,7 @@ interface BookingState {
   setSelectedServicesWithTypes: (services: SelectedServiceWithType[]) => void;
   addOrUpdateServiceWithType: (serviceId: string, vehicleType: string) => void;
   removeServiceWithType: (serviceId: string) => void;
+  setLockedVehicleType: (type: string | null) => void;
 }
 
 export const useBookingStore = create<BookingState>()(
@@ -100,6 +102,7 @@ export const useBookingStore = create<BookingState>()(
       serviceStartingTime: null,
       appointmentNote: '',
       totalPrice: 0,
+      lockedVehicleType: null,
 
       setStep: (step) => set({ step }),
       
@@ -204,6 +207,8 @@ export const useBookingStore = create<BookingState>()(
           service_ids: newServices.map(s => s.serviceId)
         };
       }),
+
+      setLockedVehicleType: (type) => set({ lockedVehicleType: type }),
     }),
     {
       name: 'booking-storage',

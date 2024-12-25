@@ -14,11 +14,14 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const services = await fetchServices();
   const service = await getServiceById(params.id);
   const addOns = await fetchAddons();
   if (!service) {
     notFound();
   }
 
-  return <ServiceDetails service={service} addOns={addOns?.data} />;
+  return (
+    <ServiceDetails service={service} services={services} addOns={addOns?.data} />
+  );
 }

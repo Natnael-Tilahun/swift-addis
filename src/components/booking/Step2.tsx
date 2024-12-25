@@ -56,6 +56,9 @@ export default function Step2() {
               mode="single"
               selected={selectedDate}
               onSelect={handleDateSelect}
+              disabled={(date) =>
+                date.getTime() < new Date().setHours(0, 0, 0, 0)
+              }
               className="rounded-md w-full h-full flex border"
               classNames={{
                 months:

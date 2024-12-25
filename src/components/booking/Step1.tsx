@@ -1,6 +1,6 @@
 import { useServices } from "@/hooks/useServices";
 import { useAddons } from "@/hooks/useAddons";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 // import { useSearchParams } from "next/navigation";
 import { useBookingStore } from "@/store/useBookingStore";
 import { Button } from "@/components/ui/button";
@@ -11,10 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { BookingSummary } from "@/components/booking/BookingSummary";
 import { useRouter } from "next/navigation";
 import type { Service, AddOn } from "@/types/type";
+
 export default function Step1() {
   const { data: services, isLoading: servicesLoading } = useServices();
   const { data: addOns, isLoading: addOnsLoading } = useAddons();
@@ -25,12 +27,11 @@ export default function Step1() {
     selectedAddOns,
     toggleAddOn,
     setTotalPrice,
+    setLockedVehicleType,
+    lockedVehicleType,
   } = useBookingStore();
 
-  const [lockedVehicleType, setLockedVehicleType] = useState<string | null>(
-    null
-  );
-
+  // Calculate total price whenever selections change
   // Calculate total price whenever selections change
   useEffect(() => {
     if (!services || !addOns?.data) return;
@@ -140,7 +141,12 @@ export default function Step1() {
             </CardHeader>
             <CardContent className="grid gap-8">
               {servicesLoading ? (
-                <div>Loading services...</div>
+                <div className="grid grid-cols-2 gap-4 h-full">
+                  <Skeleton className="h-20 w-full"></Skeleton>
+                  <Skeleton className="h-20 w-full"></Skeleton>
+                  <Skeleton className="h-20 w-full"></Skeleton>
+                  <Skeleton className="h-20 w-full"></Skeleton>
+                </div>
               ) : services && services.length > 0 ? (
                 services.map((service: Service) => (
                   <div key={service._id} className="space-y-2">
@@ -201,7 +207,10 @@ export default function Step1() {
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-4">
                 {addOnsLoading ? (
-                  <div>Loading add-ons...</div>
+                  <div className="grid col-span-full grid-cols-2 gap-4 h-full">
+                    <Skeleton className="h-20 w-full"></Skeleton>
+                    <Skeleton className="h-20 w-full"></Skeleton>
+                  </div>
                 ) : addOns && addOns.length > 0 ? (
                   addOns.map((addon: AddOn) => (
                     <div
