@@ -167,8 +167,8 @@ export default function Step1() {
                               : "outline"
                           }
                         >
-                          {addon.additionalPrice.minBasePrice} -{" "}
-                          {addon.additionalPrice.maxPrice} Birr
+                          {addon.additionalPrice?.minBasePrice ?? 0} -{" "}
+                          {addon.additionalPrice?.maxPrice ?? 0} Birr
                         </Badge>
                       </div>
                       <div className="mt-2 text-sm text-muted-foreground">

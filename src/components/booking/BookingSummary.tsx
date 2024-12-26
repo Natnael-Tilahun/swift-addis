@@ -190,8 +190,8 @@ export function BookingSummary({
                         <p className="font-medium">{addon.optionName}</p>
                         <div className="text-right">
                           <p className="font-medium">
-                            {addon.additionalPrice.minBasePrice} -{" "}
-                            {addon.additionalPrice.maxPrice} Birr
+                            {addon.additionalPrice?.minBasePrice || 0} -{" "}
+                            {addon.additionalPrice?.maxPrice || 0} Birr
                           </p>
                           <p className="text-sm text-muted-foreground">
                             {addon.duration} min

@@ -134,8 +134,8 @@ export default function ServiceDetails({
                           Duration: {duration} min
                         </div>
                         <div className="mt-2 text-sm text-muted-foreground">
-                          Price: {additionalPrice.minBasePrice} -{" "}
-                          {additionalPrice.maxPrice} Birr
+                          Price: {additionalPrice?.minBasePrice ?? 0} -{" "}
+                          {additionalPrice?.maxPrice ?? 0} Birr
                         </div>
                       </div>
                     )
