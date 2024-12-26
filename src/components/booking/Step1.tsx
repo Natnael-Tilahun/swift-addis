@@ -49,7 +49,7 @@ export default function Step1() {
     // Calculate add-ons total
     const addOnsTotal = selectedAddOns.reduce((total, addOnId) => {
       const addOn = addOns.find((a: AddOn) => a._id === addOnId);
-      return total + (addOn?.additionalPrice || 0);
+      return total + (addOn?.additionalPrice.minBasePrice || 0);
     }, 0);
 
     // Set total price
@@ -167,7 +167,8 @@ export default function Step1() {
                               : "outline"
                           }
                         >
-                          {addon.additionalPrice} Birr
+                          {addon.additionalPrice.minBasePrice} -{" "}
+                          {addon.additionalPrice.maxPrice} Birr
                         </Badge>
                       </div>
                       <div className="mt-2 text-sm text-muted-foreground">

@@ -28,7 +28,10 @@ interface AddOn {
   optionName: string;
   description?: string;
   duration?: number;
-  additionalPrice?: number;
+  additionalPrice?: {
+    minBasePrice: number;
+    maxPrice: number;
+  };
   basePrice?: number | null; // Making it nullable for the Corporate Fleet Package
   maxPrice?: number;
   features?: string[];

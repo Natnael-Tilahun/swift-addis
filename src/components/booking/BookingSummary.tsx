@@ -53,29 +53,44 @@ export function BookingSummary({
     return servicesDuration + addonsDuration;
   }, [services, addOns, selectedServicesWithTypes, selectedAddOns]);
 
-  // Calculate total price
-  const calculateTotalPrice = useCallback(() => {
-    if (!services || !addOns) return 0;
+  // Calculate total price range
+  const calculateTotalPriceRange = useCallback(() => {
+    if (!services || !addOns) return { minTotal: 0, maxTotal: 0 };
 
-    // Calculate services total
-    const servicesTotal = selectedServicesWithTypes.reduce(
+    // Calculate services total range
+    const servicesTotals = selectedServicesWithTypes.reduce(
       (total, selected) => {
         const service = services.find(
           (s: Service) => s._id === selected.serviceId
         );
         if (!service?.pricing?.[selected.vehicleType]) return total;
-        return total + service.pricing[selected.vehicleType].basePrice;
+        return {
+          minTotal:
+            total.minTotal + service.pricing[selected.vehicleType].basePrice,
+          maxTotal:
+            total.maxTotal + service.pricing[selected.vehicleType].maxPrice,
+        };
       },
-      0
+      { minTotal: 0, maxTotal: 0 }
     );
 
-    // Calculate add-ons total
-    const addonsTotal = selectedAddOns.reduce((total, addonId) => {
-      const addon = addOns.find((a: AddOn) => a._id === addonId);
-      return total + (addon?.additionalPrice || 0);
-    }, 0);
+    // Calculate add-ons total range
+    const addonsTotals = selectedAddOns.reduce(
+      (total, addonId) => {
+        const addon = addOns.find((a: AddOn) => a._id === addonId);
+        if (!addon?.additionalPrice) return total;
+        return {
+          minTotal: total.minTotal + addon.additionalPrice.minBasePrice,
+          maxTotal: total.maxTotal + addon.additionalPrice.maxPrice,
+        };
+      },
+      { minTotal: 0, maxTotal: 0 }
+    );
 
-    return servicesTotal + addonsTotal;
+    return {
+      minTotal: servicesTotals.minTotal + addonsTotals.minTotal,
+      maxTotal: servicesTotals.maxTotal + addonsTotals.maxTotal,
+    };
   }, [services, addOns, selectedServicesWithTypes, selectedAddOns]);
 
   // Memoize the debug logging callback
@@ -107,7 +122,7 @@ export function BookingSummary({
   // }, [debugLog]);
 
   const totalDuration = calculateTotalDuration();
-  const totalPrice = calculateTotalPrice();
+  const { minTotal, maxTotal } = calculateTotalPriceRange();
 
   const selectedDate = appointmentDate ? new Date(appointmentDate) : null;
 
@@ -175,7 +190,8 @@ export function BookingSummary({
                         <p className="font-medium">{addon.optionName}</p>
                         <div className="text-right">
                           <p className="font-medium">
-                            {addon.additionalPrice} Birr
+                            {addon.additionalPrice.minBasePrice} -{" "}
+                            {addon.additionalPrice.maxPrice} Birr
                           </p>
                           <p className="text-sm text-muted-foreground">
                             {addon.duration} min
@@ -219,8 +235,12 @@ export function BookingSummary({
                   <span className="font-medium">{totalDuration} min</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Total Price:</span>
-                  <span className="font-medium">{totalPrice} Birr</span>
+                  <span className="text-muted-foreground">
+                    Total Price Range:
+                  </span>
+                  <span className="font-medium">
+                    {minTotal} - {maxTotal} Birr
+                  </span>
                 </div>
               </div>
               {children}
