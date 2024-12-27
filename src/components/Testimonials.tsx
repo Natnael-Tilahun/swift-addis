@@ -11,7 +11,17 @@ import { Icons } from "@/components/icons";
 import Image from "next/image";
 export default function Testimonials() {
   // const [api, setApi] = useState<CarouselApi>();
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+  const plugin = useRef(
+    Autoplay({
+      delay: 2000,
+      stopOnInteraction: false,
+      loop: true,
+      playOnInit: true,
+      playOnScroll: true,
+      stopOnFocusIn: true,
+      stopOnMouseEnter: true,
+    })
+  );
   const [testimonials] = useState([
     {
       id: 1,
@@ -65,24 +75,31 @@ export default function Testimonials() {
       className="w-full h-fit py-12 flex flex-col gap-8 bg-[#FAFAFA] relative"
       id="testimonials"
     >
-      <h1 className="text-4xl mb-12 font-bold text-center">Testimonials</h1>
+      <h1 className="text-4xl mb-2 md:mb-12 font-bold text-center">
+        Testimonials
+      </h1>
       {testimonials.length > 0 ? (
         <Carousel
           key={testimonials.map((item) => item.id).join(",")}
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
-          className="md:max-w-full max-w-xs z-40"
+          className="md:max-w-full max-w-sm z-40 px-4"
         >
           <CarouselContent className="md:-ml-1 ml-5 w-full">
             {testimonials.map((testimonial, index) => (
-              <CarouselItem key={index} className="md:pl-10  md:basis-2/5">
+              <CarouselItem
+                key={index}
+                className={`md:pl-10 pl-4 basis-full md:basis-2/5 ${
+                  index === 0 ? "pl-0" : ""
+                }`}
+              >
                 <Card
                   className={`bg-primary/10 ${
-                    index % 2 === 0 ? "bg-[#EDF2FF]" : "bg-[#FFECF3]"
-                  }`}
+                    index % 2 === 0 ? "bg-[#EDF2FF]/70" : "bg-[#FFECF3]/50"
+                  } `}
                 >
-                  <CardContent className="flex flex-col gap-16 justify-between p-8">
+                  <CardContent className="flex flex-col gap-16 justify-between p-5 md:p-8">
                     <div className="flex flex-col gap-8">
                       <Icons.rectangle
                         fill={index % 2 === 0 ? "blue" : "red"}

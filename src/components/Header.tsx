@@ -66,7 +66,7 @@ function Header({
         </button>
       </div>
       <div
-        className={`w-full block lg:flex lg:items-center lg:w-auto duration-500 ease-in-out transition-all bg-[#E6EEFF] rounded-2xl md:rounded-none lg:bg-transparent shadow-lg lg:shadow-none fixed lg:static top-20 left-0 ${
+        className={`w-full block lg:flex lg:items-center lg:w-auto duration-500 ease-in-out transition-all bg-[#E6EEFF] rounded-2xl md:rounded-none lg:bg-transparent shadow-lg lg:shadow-none fixed lg:static top-16 left-0 ${
           collapseNav ? "hidden" : "block"
         }`}
       >

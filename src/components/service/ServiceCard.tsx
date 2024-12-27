@@ -16,7 +16,20 @@ import Link from "next/link";
 import type { Service } from "@/types/type";
 
 export default function ServiceCard({ services }: { services: Service[] }) {
-  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+  const plugin = useRef(
+    Autoplay({
+      delay: 3000,
+      playOnInit: true,
+      stopOnInteraction: false,
+      playOnScroll: true,
+      stopOnFocusIn: true,
+      loop: true,
+      stopOnMouseEnter: true,
+      onMouseLeave: () => {
+        plugin.current.reset();
+      },
+    })
+  );
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -50,8 +63,6 @@ export default function ServiceCard({ services }: { services: Service[] }) {
           key={services.map((item) => item._id).join(",")}
           setApi={setApi}
           plugins={[plugin.current]}
-          onMouseEnter={plugin.current.stop}
-          onMouseLeave={plugin.current.reset}
           className="md:max-w-full max-w-xs z-40"
         >
           <CarouselContent className="-ml-4 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16">
@@ -76,22 +87,23 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                     />
                     {service?.tag && (
                       <div
-                        className={`absolute top-2  left-2 px-3 py-1 bg-slate-50 text-black rounded-full text-xs font-bold 
-                     `}
+                        className={`absolute top-2  left-2 px-3 py-1 bg-slate-50 text-black rounded-full text-xs font-bold`}
                       >
                         {service.tag}
                       </div>
                     )}
 
-                    <div className="absolute bottom-2 right-2 bg-[#e5eafd] text-black opacity-90 p-2 whitespace-nowrap rounded-lg text-center">
-                      <h4 className="text-base font-bold ">
-                        {service.pricing?.["AUTO"]?.basePrice} -{" "}
-                        {service.pricing?.["AUTO"]?.maxPrice} Birr
-                      </h4>
-                      <p className="text-sm font-medium whitespace-nowrap">
-                        {service.duration?.["AUTO"]} min
-                      </p>
-                    </div>
+                    {service.name !== "CORPORATE FLEET PACKAGE" && (
+                      <div className="absolute bottom-2 right-2 bg-[#e5eafd] text-black opacity-90 p-2 whitespace-nowrap rounded-lg text-center">
+                        <h4 className="text-base font-bold ">
+                          {service.pricing?.["AUTO"]?.basePrice} -{" "}
+                          {service.pricing?.["AUTO"]?.maxPrice} Birr
+                        </h4>
+                        <p className="text-sm font-medium whitespace-nowrap">
+                          {service.duration?.["AUTO"]} min
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="p-5 md:p-6 space-y-5 flex flex-col justify-between h-full">
@@ -155,33 +167,17 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                           <span className="ml-3 text-sm">{feature} </span>
                         </li>
                       ))}
-                      {service?.features && service?.features?.length > 3 && (
+                      {/* {service?.features && service?.features?.length > 3 && (
                         <Link
                           href={`/services/${service._id}`}
                           className="text-base text-primary hover:underline px-8 block"
                         >
                           ... view {service?.features?.length - 3} more
                         </Link>
-                      )}
+                      )} */}
                     </ul>
 
                     <div className="w-full h-full flex flex-col gap-1">
-                      {/* <p className="text-base flex items-center gap-1">
-                        <Timer className=" w-5 h-5" />
-                        <span>Hours Range:</span>
-                        <span className="font-medium">
-                          {" "}
-                          {service.serviceTime}
-                        </span>
-                      </p>
-                      <p className="text-base flex items-center gap-1">
-                        <Timer className=" w-5 h-5" />
-                        <span>Price Range:</span>
-                        <span className="font-medium">
-                          {" "}
-                          ( {service.price} ) ETB
-                        </span>
-                      </p> */}
                       <Button
                         className="w-full py-6 mt-auto font-bold text-lg"
                         asChild
@@ -190,7 +186,9 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                           href={`/services/${service._id}`}
                           className="w-full"
                         >
-                          View Details
+                          {service.name === "CORPORATE FLEET PACKAGE"
+                            ? "Get Quote"
+                            : "View Details"}
                         </Link>
                       </Button>
                     </div>

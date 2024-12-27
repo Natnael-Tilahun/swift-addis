@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -15,6 +15,20 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const [collapseNav, setCollapseNav] = useState(true);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setCollapseNav(true);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   function toggleMenu() {
     setCollapseNav((prevState) => !prevState);
@@ -22,10 +36,14 @@ export default function LayoutWrapper({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Header toggleMenu={toggleMenu} collapseNav={collapseNav} />
-      <main className="h-full w-full row-start-2">{children}</main>
+      <div ref={navRef}>
+        <Header toggleMenu={toggleMenu} collapseNav={collapseNav} />
+      </div>
+      <main className="h-full w-full row-start-2">
+        {children}
+        <Toaster />
+      </main>
       <Footer toggleMenu={() => setCollapseNav(true)} />
-      <Toaster />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

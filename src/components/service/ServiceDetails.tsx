@@ -3,10 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, PhoneIcon, MailIcon } from "lucide-react";
 import { useBookingStore } from "@/store/useBookingStore";
 import { Separator } from "@/components/ui/separator";
 import type { Service, AddOn } from "@/types/type";
+import { Button } from "@/components/ui/button";
+
 export default function ServiceDetails({
   service,
   addOns,
@@ -87,106 +89,147 @@ export default function ServiceDetails({
               </div>
             )}
 
-            <Separator />
+            {service.name !== "CORPORATE FLEET PACKAGE" && (
+              <>
+                <Separator />
+                {addOns && addOns?.length > 0 && (
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <h2 className="text-xl font-semibold">
+                        Available Add-ons
+                      </h2>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Enhance your service with these add-ons
+                      </p>
+                    </div>
 
-            {addOns && addOns?.length > 0 && (
-              <div className="space-y-4">
-                <div className="space-y-1">
-                  <h2 className="text-xl font-semibold">Available Add-ons</h2>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Enhance your service with these add-ons
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  {addOns.map(
-                    ({
-                      optionName,
-                      description,
-                      features,
-                      duration,
-                      additionalPrice,
-                      _id,
-                    }: AddOn) => (
-                      <div key={_id} className={`p-4 border rounded-lg`}>
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-medium">{optionName}</h3>
-                            <p className="text-sm text-muted-foreground mt-1">
-                              {description}
-                            </p>
-                            {features && (
-                              <ul className="mt-2 space-y-1">
-                                {features.map((feature, index) => (
-                                  <li
-                                    key={index}
-                                    className="text-sm text-muted-foreground flex items-center gap-2"
-                                  >
-                                    <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                                    {feature}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
+                    <div className="space-y-4">
+                      {addOns.map(
+                        ({
+                          optionName,
+                          description,
+                          features,
+                          duration,
+                          additionalPrice,
+                          _id,
+                        }: AddOn) => (
+                          <div key={_id} className={`p-4 border rounded-lg`}>
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h3 className="font-medium">{optionName}</h3>
+                                <p className="text-sm text-muted-foreground mt-1">
+                                  {description}
+                                </p>
+                                {features && (
+                                  <ul className="mt-2 space-y-1">
+                                    {features.map((feature, index) => (
+                                      <li
+                                        key={index}
+                                        className="text-sm text-muted-foreground flex items-center gap-2"
+                                      >
+                                        <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                                        {feature}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
+                            </div>
+                            <div className="mt-2 text-sm text-muted-foreground">
+                              Duration: {duration} min
+                            </div>
+                            <div className="mt-2 text-sm text-muted-foreground">
+                              Price: {additionalPrice?.minBasePrice ?? 0} -{" "}
+                              {additionalPrice?.maxPrice ?? 0} Birr
+                            </div>
                           </div>
-                        </div>
-                        <div className="mt-2 text-sm text-muted-foreground">
-                          Duration: {duration} min
-                        </div>
-                        <div className="mt-2 text-sm text-muted-foreground">
-                          Price: {additionalPrice?.minBasePrice ?? 0} -{" "}
-                          {additionalPrice?.maxPrice ?? 0} Birr
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
 
-        {/* Right column - Vehicle selection */}
+        {/* Right column - Vehicle selection or Contact Info */}
         <Card className="flex md:col-span-2 col-span-1 flex-col gap-4 p-6 h-fit">
-          <h1 className="text-2xl font-semibold">Select Vehicle Type</h1>
-          <hr />
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <h1 className="text-lg font-medium">Price & Duration</h1>
-              <div className="grid grid-cols-1 gap-4">
-                {Object.entries(service.pricing).map(
-                  ([vehicleType, prices]) => (
-                    <div
-                      key={vehicleType}
-                      onClick={() => handleServiceSelection(vehicleType)}
-                      className={`p-4 border rounded-lg space-y-2 cursor-pointer transition-all duration-200 
-                      ${
-                        selectedType === vehicleType
-                          ? "border-primary bg-primary/5"
-                          : "hover:border-primary hover:bg-gray-50"
-                      }`}
+          {service.name === "CORPORATE FLEET PACKAGE" ? (
+            <div className="space-y-6">
+              <h1 className="text-2xl font-semibold">Get in Touch</h1>
+              <hr />
+              <div className="space-y-4">
+                <p className="text-muted-foreground">
+                  For corporate fleet packages, we offer customized solutions
+                  based on your specific needs. Please contact us to discuss
+                  your requirements and get a personalized quote.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <PhoneIcon className="w-5 h-5 text-primary" />
+                    <a href="tel:+251911234567" className="hover:text-primary">
+                      +251 911 234 567
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MailIcon className="w-5 h-5 text-primary" />
+                    <a
+                      href="mailto:info@example.com"
+                      className="hover:text-primary"
                     >
-                      <p className="font-medium text-lg">{vehicleType}</p>
-                      <div className="space-y-1 text-muted-foreground">
-                        <p className="flex justify-between">
-                          <span>Price Range:</span>
-                          <span className="text-primary font-medium">
-                            {prices.basePrice} - {prices.maxPrice} Birr
-                          </span>
-                        </p>
-                        <p className="flex justify-between">
-                          <span>Duration:</span>
-                          <span className="text-primary font-medium">
-                            {service.duration[vehicleType]} minutes
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  )
-                )}
+                      info@example.com
+                    </a>
+                  </div>
+                </div>
+                <Button className="w-full" asChild>
+                  <Link href="/#contact">Get Quote</Link>
+                </Button>
               </div>
             </div>
-          </div>
+          ) : (
+            <>
+              <h1 className="text-2xl font-semibold">Select Vehicle Type</h1>
+              <hr />
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-lg font-medium">Price & Duration</h1>
+                  <div className="grid grid-cols-1 gap-4">
+                    {Object.entries(service.pricing).map(
+                      ([vehicleType, prices]) => (
+                        <div
+                          key={vehicleType}
+                          onClick={() => handleServiceSelection(vehicleType)}
+                          className={`p-4 border rounded-lg space-y-2 cursor-pointer transition-all duration-200 
+                          ${
+                            selectedType === vehicleType
+                              ? "border-primary bg-primary/5"
+                              : "hover:border-primary hover:bg-gray-50"
+                          }`}
+                        >
+                          <p className="font-medium text-lg">{vehicleType}</p>
+                          <div className="space-y-1 text-muted-foreground">
+                            <p className="flex justify-between">
+                              <span>Price Range:</span>
+                              <span className="text-primary font-medium">
+                                {prices.basePrice} - {prices.maxPrice} Birr
+                              </span>
+                            </p>
+                            <p className="flex justify-between">
+                              <span>Duration:</span>
+                              <span className="text-primary font-medium">
+                                {service.duration[vehicleType]} minutes
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </Card>
       </div>
     </div>
