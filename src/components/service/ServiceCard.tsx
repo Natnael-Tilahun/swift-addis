@@ -21,13 +21,8 @@ export default function ServiceCard({ services }: { services: Service[] }) {
       delay: 3000,
       playOnInit: true,
       stopOnInteraction: false,
-      playOnScroll: true,
       stopOnFocusIn: true,
-      loop: true,
       stopOnMouseEnter: true,
-      onMouseLeave: () => {
-        plugin.current.reset();
-      },
     })
   );
   const [api, setApi] = useState<CarouselApi>();

@@ -15,9 +15,7 @@ export default function Testimonials() {
     Autoplay({
       delay: 2000,
       stopOnInteraction: false,
-      loop: true,
       playOnInit: true,
-      playOnScroll: true,
       stopOnFocusIn: true,
       stopOnMouseEnter: true,
     })
