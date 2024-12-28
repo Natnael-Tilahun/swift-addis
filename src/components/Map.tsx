@@ -1,6 +1,7 @@
 "use client";
 
 import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
+import { useTranslations } from "next-intl";
 
 interface MapProps {
   center: [number, number];
@@ -10,12 +11,13 @@ interface MapProps {
 }
 
 export default function Map({ center, zoom, className, marker }: MapProps) {
+  const t = useTranslations("map");
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
   });
 
   if (loadError) {
-    return <div>Error loading maps</div>;
+    return <div>{t("errors.loading")}</div>;
   }
 
   if (!isLoaded) {

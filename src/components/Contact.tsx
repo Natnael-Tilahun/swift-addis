@@ -7,6 +7,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +43,8 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 function Contact() {
+  const t = useTranslations("contact");
+
   // const NODE_ENV = process.env.NODE_ENV;
   // const YOUR_SERVICE_ID = "service_ooam44u";
   // const YOUR_TEMPLATE_ID = "template_g0arq1v";
@@ -100,36 +103,32 @@ function Contact() {
 
   return (
     <section
-      className="w-full h-fit p-5 py-16 lg:p-14 xl:py-36 xl:px-48 bg-[#FFECF3]/30 "
+      className="w-full h-fit p-5 py-16 lg:p-14 xl:py-36 xl:px-48 bg-[#FFECF3]/30"
       id="contact"
     >
-      <Card className="w-full h-full  grid md:grid-cols-2 gap-6 p-5  relative z-40 shadow-lg">
+      <Card className="w-full h-full grid md:grid-cols-2 gap-6 p-5 relative z-40 shadow-lg">
         <div className="flex flex-col bg-gradient-to-br from-primary to-[#052FA3] p-8 gap-4 text-white rounded-xl justify-between z-40 relative">
           {/* <div className='w-1/2 h-full bg-dot_reds'></div> */}
           <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">Let’s Get in Touch</h1>
-            <p className="text-justify">
-              Need to get in touch with us? Either fill out the form with your
-              inquiry or find the department email you&apos;d like to contact
-              below.
-            </p>
+            <h1 className="text-3xl font-bold">{t("lets_talk")}</h1>
+            <p className="text-justify">{t("intro_text")}</p>
           </div>
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold"> Telephone</h2>
-              <p className="">0917 777 7777</p>
+              <h2 className="text-md font-semibold">{t("info.telephone.label")}</h2>
+              <p>{t("info.telephone.value")}</p>
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold"> Phone hours supports</h2>
-              <p className="">Mon - Fri (12:00 - 12:00) </p>
+              <h2 className="text-md font-semibold">{t("info.support_hours.label")}</h2>
+              <p>{t("info.support_hours.value")}</p>
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold"> Phone hours sell</h2>
-              <p className="">Mon - Fri (12:00 - 12:00) </p>
+              <h2 className="text-md font-semibold">{t("info.sales_hours.label")}</h2>
+              <p>{t("info.sales_hours.value")}</p>
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold"> Support contact</h2>
-              <p className="">info@example.com</p>
+              <h2 className="text-md font-semibold">{t("info.support_contact.label")}</h2>
+              <p>{t("info.support_contact.value")}</p>
             </div>
           </div>
           <div className="md:w-[40%] w-2/3 h-1/3 md:h-1/2 bg-pattern1 lg:block absolute right-0 bottom-0 opacity-100 z-50"></div>
@@ -147,9 +146,9 @@ function Contact() {
               name="fullname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>{t("form.full_name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your Full Name" {...field} />
+                    <Input placeholder={t("form.full_name_placeholder")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,9 +159,9 @@ function Contact() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("form.email")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your Email" {...field} />
+                    <Input placeholder={t("form.email_placeholder")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,9 +172,9 @@ function Contact() {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel>{t("form.phone")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your Phone Number" {...field} />
+                    <Input placeholder={t("form.phone_placeholder")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -186,10 +185,10 @@ function Contact() {
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Message</FormLabel>
+                  <FormLabel>{t("form.message")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Your Message"
+                      placeholder={t("form.message_placeholder")}
                       className="resize-none"
                       {...field}
                     />
@@ -199,7 +198,7 @@ function Contact() {
               )}
             />
             <Button className="w-full" type="submit">
-              Send Message
+              {t("form.send")}
             </Button>
           </form>
         </Form>

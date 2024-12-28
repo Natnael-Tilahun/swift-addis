@@ -31,55 +31,50 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useCreateBooking } from "@/hooks/useCreateBooking";
+import { useTranslations } from "next-intl";
 
 export enum CarType {
   AUTO = "AUTO",
   SUV = "SUV",
 }
 
-const formSchema = z.object({
-  firstName: z.string({ message: "First Name is required" }).min(2, {
-    message: "First Name must be at least 2 characters.",
-  }),
-  lastName: z.string({ message: "Last Name is required" }).min(2, {
-    message: "Last Name must be at least 2 characters.",
-  }),
-  phone: z.string({ message: "Phone is required" }).min(10, {
-    message: "Phone must be at least 10 characters.",
-  }),
-  email: z.string().email().optional(),
-  address: z.string({ message: "Address is required" }),
-  appointmentNote: z.string().optional(),
-  // carImages: z.string().optional(),
-  longitude: z.number().optional(),
-  latitude: z.number().optional(),
-  // location: z.object({
-  //   latitude: z.number(),
-  //   longitude: z.number(),
-  //   address: z.string().optional()
-  // }),
-  images: z.array(
-    z.object({
-      url: z.string(),
-      description: z.string().optional(),
-      _id: z.string().optional(),
-    })
-  ),
-});
-
-// Dynamically import the Map component to avoid SSR issues
-const Map = dynamic(() => import("@/components/Map"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[200px] w-full bg-muted animate-pulse rounded-md" />
-  ),
-});
+type GeolocationError = {
+  code: number;
+  message: string;
+};
 
 export default function Step3() {
+  const t = useTranslations("booking_step3");
   const { toast } = useToast();
   const [isLocating, setIsLocating] = useState(false);
   const [locationAccuracy, setLocationAccuracy] = useState<number | null>(null);
-  // const router = useRouter();
+  const formSchema = z.object({
+    firstName: z
+      .string({ message: t("form.validation.first_name_required") })
+      .min(2, {
+        message: t("form.validation.first_name_min"),
+      }),
+    lastName: z
+      .string({ message: t("form.validation.last_name_required") })
+      .min(2, {
+        message: t("form.validation.last_name_min"),
+      }),
+    phone: z.string({ message: t("form.validation.phone_required") }).min(10, {
+      message: t("form.validation.phone_min"),
+    }),
+    email: z.string().email().optional(),
+    address: z.string({ message: t("form.validation.address_required") }),
+    appointmentNote: z.string().optional(),
+    longitude: z.number().optional(),
+    latitude: z.number().optional(),
+    images: z.array(
+      z.object({
+        url: z.string(),
+        description: z.string().optional(),
+        _id: z.string().optional(),
+      })
+    ),
+  });
   const {
     selectedServicesWithTypes,
     selectedAddOns,
@@ -127,23 +122,30 @@ export default function Step3() {
     },
   });
 
+  // Dynamically import the Map component to avoid SSR issues
+  const Map = dynamic(() => import("@/components/Map"), {
+    ssr: false,
+    loading: () => (
+      <div className="h-[200px] w-full bg-muted animate-pulse rounded-md" />
+    ),
+  });
+
   // Get current location
   const getCurrentLocationWithGoogle = async () => {
     const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     if (!GOOGLE_MAPS_API_KEY) {
-      throw new Error("Google Maps API key is not configured");
+      throw new Error(t("location.errors.api_key"));
     }
 
     try {
       setIsLocating(true);
 
-      // Get precise coordinates using browser's geolocation
       const position = await new Promise<GeolocationPosition>(
         (resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject, {
             enableHighAccuracy: true,
-            timeout: 20000, // Increased timeout
+            timeout: 20000,
             maximumAge: 0,
           });
         }
@@ -152,15 +154,19 @@ export default function Step3() {
       const { latitude, longitude, accuracy } = position.coords;
       setLocationAccuracy(accuracy);
 
-      // More lenient accuracy check (300 meters instead of 100)
       if (accuracy > 300) {
         toast({
-          variant: "destructive",
-          title: "Low Accuracy Warning",
-          description:
-            "Your location accuracy is low. The address might not be precise.",
+          title: t("location.errors.low_accuracy"),
+          description: t("location.accuracy", { meters: Math.round(accuracy) }),
+          action: (
+            <ToastAction
+              altText={t("buttons.try_again")}
+              onClick={getCurrentLocation}
+            >
+              {t("buttons.try_again")}
+            </ToastAction>
+          ),
         });
-        // Continue with the location instead of throwing error
       }
 
       // Use Google's Geocoding API
@@ -175,9 +181,7 @@ export default function Step3() {
       const data = await response.json();
 
       if (!data.results || data.results.length === 0) {
-        throw new Error(
-          "Could not find an address for this location. Please try again or enter manually."
-        );
+        throw new Error(t("location.errors.no_address"));
       }
 
       // Get the most detailed result available
@@ -212,42 +216,28 @@ export default function Step3() {
 
       // Show accuracy information in the success toast
       toast({
-        title: "Location found",
-        description: `Accuracy: ±${Math.round(accuracy)}m`,
+        title: t("location.found"),
+        description: t("location.accuracy", { meters: Math.round(accuracy) }),
       });
-    } catch (error) {
-      console.error("Location error:", error);
-
-      let errorMessage = "Failed to get location";
-
-      if (error instanceof GeolocationPositionError) {
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage = "Please allow location access to use this feature.";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errorMessage = "Location information is unavailable.";
-            break;
-          case error.TIMEOUT:
-            errorMessage = "Location request timed out. Please try again.";
-            break;
-        }
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
+    } catch (error: unknown) {
+      let errorMessage = t("location.errors.generic");
+      
+      // Type guard to check if error is GeolocationError
+      const geolocationError = error as GeolocationError;
+      
+      if (geolocationError.code === 1) {
+        errorMessage = t("location.errors.permission_denied");
+      } else if (geolocationError.code === 2) {
+        errorMessage = t("location.errors.unavailable");
+      } else if (geolocationError.code === 3) {
+        errorMessage = t("location.errors.timeout");
       }
 
       toast({
         variant: "destructive",
-        title: "Error",
+        title: t("booking.error.title"),
         description: errorMessage,
-        action: (
-          <ToastAction onClick={getCurrentLocation} altText="Try again">
-            Try again
-          </ToastAction>
-        ),
       });
-
-      throw error;
     } finally {
       setIsLocating(false);
     }
@@ -346,8 +336,8 @@ export default function Step3() {
 
         // Show success toast
         toast({
-          title: "Booking created successfully",
-          description: `Booking ID: ${response._id}`,
+          title: t("booking.success.title"),
+          description: t("booking.success.description", { id: response._id }),
         });
 
         form.reset();
@@ -383,66 +373,79 @@ export default function Step3() {
   return (
     <div>
       <Card>
-        <CardHeader>
-          <CardTitle>Personal Information</CardTitle>
-          <CardDescription>
-            Please provide your personal information so we can contact you.
-          </CardDescription>
+        <CardHeader className="border-b">
+          <CardTitle>{t("form.title")}</CardTitle>
+          <CardDescription>{t("form.subTitle")}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
               className="grid md:grid-cols-3 grid-cols-1 gap-y-8 md:gap-y-0 gap-x-8 py-4"
+              onSubmit={form.handleSubmit(onSubmit)}
             >
               <div className="col-span-1 md:col-span-2 space-y-4 border rounded-lg p-6">
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter you first name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Last Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter you last name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("form.labels.first_name")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t("form.placeholders.first_name")}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("form.labels.last_name")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t("form.placeholders.last_name")}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                 <FormField
                   control={form.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone</FormLabel>
+                      <FormLabel>{t("form.labels.phone")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter you phone" {...field} />
+                        <Input
+                          placeholder={t("form.placeholders.phone")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t("form.labels.email")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter you email" {...field} />
+                        <Input
+                          placeholder={t("form.placeholders.email")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -456,7 +459,7 @@ export default function Step3() {
                     <FormItem>
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
-                          <FormLabel>Address</FormLabel>
+                          <FormLabel>{t("form.labels.address")}</FormLabel>
                           <Button
                             type="button"
                             variant="outline"
@@ -467,13 +470,13 @@ export default function Step3() {
                           >
                             <MapPin className="h-4 w-4" />
                             {isLocating
-                              ? "Getting location..."
-                              : "Use current location"}
+                              ? t("location.getting_location")
+                              : t("location.get_location")}
                           </Button>
                         </div>
                         <FormControl>
                           <Input
-                            placeholder="Enter your address"
+                            placeholder={t("form.placeholders.address")}
                             {...field}
                             value={formData?.address}
                             onChange={(e) => {
@@ -486,72 +489,39 @@ export default function Step3() {
                           />
                         </FormControl>
                         {/* Map and Coordinates Section */}
-                        {(formData?.location?.lat !== null &&
-                          formData?.location?.lng !== null &&
-                          formData?.location?.lat !== 0 &&
-                          formData?.location?.lng !== 0) ||
-                        (location?.coordinates?.latitude &&
-                          location?.coordinates?.longitude &&
-                          location?.coordinates?.latitude !== 0 &&
-                          location?.coordinates?.longitude !== 0) ? (
-                          <div className="mt-2">
-                            <div className="h-[200px] w-full rounded-md overflow-hidden border">
-                              <Map
-                                center={[
-                                  formData?.location?.lat ||
-                                    location?.coordinates?.latitude ||
-                                    0,
-                                  formData?.location?.lng ||
-                                    location?.coordinates?.longitude ||
-                                    0,
-                                ]}
-                                zoom={16}
-                                className="h-full w-full"
-                                marker={[
-                                  formData?.location?.lat ||
-                                    location?.coordinates?.latitude ||
-                                    0,
-                                  formData?.location?.lng ||
-                                    location?.coordinates?.longitude ||
-                                    0,
-                                ]}
-                              />
+                        {formData?.location?.lat !== null &&
+                          formData?.location?.lng !== null && (
+                            <div className="mt-2">
+                              <div className="h-[200px] w-full rounded-md overflow-hidden border">
+                                <Map
+                                  center={[
+                                    formData.location.lat || 0,
+                                    formData.location.lng || 0,
+                                  ]}
+                                  zoom={16}
+                                  className="h-full w-full"
+                                  marker={[
+                                    formData.location.lat || 0,
+                                    formData.location.lng || 0,
+                                  ]}
+                                />
+                              </div>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                {t("coordinates.latitude")}: {formData?.location?.lat?.toFixed(6)},
+                                {t("coordinates.longitude")}: {formData?.location?.lng?.toFixed(6)}
+                                {locationAccuracy && (
+                                  <span className="ml-2">
+                                    {t("location.accuracy", { meters: Math.round(locationAccuracy) })}
+                                  </span>
+                                )}
+                              </p>
                             </div>
-                            <p className="text-sm text-muted-foreground mt-1">
-                              Latitude: {formData?.location?.lat?.toFixed(6)},
-                              Longitude: {formData?.location?.lng?.toFixed(6)}
-                              {locationAccuracy && (
-                                <span className="ml-2">
-                                  (Accuracy: ±{Math.round(locationAccuracy)}m)
-                                </span>
-                              )}
-                            </p>
-                          </div>
-                        ) : null}
+                          )}
                         <FormMessage />
                       </div>
                     </FormItem>
                   )}
                 />
-
-                {/* <LocationPicker
-                          control={form.control}
-                          name="location"
-                        /> */}
-
-                {/* <FormField
-                  control={form.control}
-                  name="carImages"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Car Images</FormLabel>
-                      <FormControl>
-                        <Input type="file" accept="image/*" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
 
                 <ImageUpload control={form.control} existingImages={images} />
 
@@ -560,9 +530,12 @@ export default function Step3() {
                   name="appointmentNote"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Appointment Note</FormLabel>
+                      <FormLabel>{t("form.labels.notes")}</FormLabel>
                       <FormControl>
-                        <Textarea {...field} />
+                        <Textarea
+                          placeholder={t("form.placeholders.notes")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -576,15 +549,9 @@ export default function Step3() {
                   <Button
                     type="submit"
                     className="w-full mt-4"
-                    // onClick={handleContinue}
-                    // disabled={
-                    //   !formData.firstName ||
-                    //   !formData.phone ||
-                    //   !formData.address
-                    // }
                     disabled={isPending}
                   >
-                    {isPending ? "Loading..." : "Confirm Booking"}
+                    {isPending ? t("booking.submitting") : t("buttons.submit")}
                   </Button>
                 </BookingSummary>
               </div>

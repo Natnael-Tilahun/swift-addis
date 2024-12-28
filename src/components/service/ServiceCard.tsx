@@ -14,8 +14,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import type { Service } from "@/types/type";
+import { useTranslations } from "next-intl";
 
 export default function ServiceCard({ services }: { services: Service[] }) {
+  const t = useTranslations("services");
   const plugin = useRef(
     Autoplay({
       delay: 3000,
@@ -44,27 +46,25 @@ export default function ServiceCard({ services }: { services: Service[] }) {
 
   return (
     <div
-      className="w-full h-fit min-h-[50vh] p-5 py-16 lg:p-14 xl:py-20 flex flex-col gap-8 mx-auto bg-[#EDF2FF]/30 relative -mt-20"
+      className="lg:container w-full md:px-14 lg:px-0 h-fit min-h-[50vh] p-5 py-16 lg:py-14 xl:py-20 flex flex-col gap-8 mx-auto bg-[#EDF2FF]/30 relative -mt-20"
       id="services"
     >
       <div className="flex flex-col gap-1">
-        <h1 className="text-4xl font-bold text-center">Our Services</h1>
-        <p className="text-muted-foreground text-center">
-          We offer a wide range of services to keep your car looking its best.
-        </p>
+        <h1 className="text-4xl font-bold text-center">{t("title")}</h1>
+        <p className="text-muted-foreground text-center">{t("subtitle")}</p>
       </div>
       {services.length > 0 ? (
         <Carousel
           key={services.map((item) => item._id).join(",")}
           setApi={setApi}
           plugins={[plugin.current]}
-          className="md:max-w-full max-w-xs z-40"
+          className="min-w-full max-w-xs z-40"
         >
-          <CarouselContent className="-ml-4 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16">
+          <CarouselContent className="-ml-0 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16  ">
             {services.map((service, index) => (
               <CarouselItem
                 key={index}
-                className="pl-4 md:pl-12 lg:pl-8 basis-full sm:basis-1/2 md:basis-[30%] lg:basis-[32%]"
+                className="pl-4 md:pl-12 lg:pl-8 basis-full md:basis-[50%] lg:basis-[32%] "
               >
                 <Card
                   className={`bg- glassmorphism-card overflow-hidden h-full w-full flex flex-col bg-white transition transform duration-300 hover:scale-105 rounded-2xl ${
@@ -91,11 +91,13 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                     {service.name !== "CORPORATE FLEET PACKAGE" && (
                       <div className="absolute bottom-2 right-2 bg-[#e5eafd] text-black opacity-90 p-2 whitespace-nowrap rounded-lg text-center">
                         <h4 className="text-base font-bold ">
-                          {service.pricing?.["AUTO"]?.basePrice} -{" "}
-                          {service.pricing?.["AUTO"]?.maxPrice} Birr
+                          {t("price_range", {
+                            min: service.pricing?.["AUTO"]?.basePrice,
+                            max: service.pricing?.["AUTO"]?.maxPrice,
+                          })}
                         </h4>
                         <p className="text-sm font-medium whitespace-nowrap">
-                          {service.duration?.["AUTO"]} min
+                          {t("duration", { time: service.duration?.["AUTO"] })}
                         </p>
                       </div>
                     )}
@@ -182,8 +184,8 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                           className="w-full"
                         >
                           {service.name === "CORPORATE FLEET PACKAGE"
-                            ? "Get Quote"
-                            : "View Details"}
+                            ? t("get_quote")
+                            : t("view_details")}
                         </Link>
                       </Button>
                     </div>
@@ -204,7 +206,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                     : "bg-muted-foreground/30"
                 }`}
                 onClick={() => api?.scrollTo(index)}
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={t("slide_label", { number: index + 1 })}
               />
             ))}
           </div>
@@ -212,7 +214,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
       ) : (
         <div className="flex flex-col items-center justify-center h-[40vh] border rounded-xl w-full">
           <p className="text-center text-muted-foreground text-xl font-medium">
-            No services found
+            {t("no_services")}
           </p>
         </div>
       )}

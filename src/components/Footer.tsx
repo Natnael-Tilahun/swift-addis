@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Phone, Mail, Timer } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   RiFacebookCircleFill,
   RiTelegramFill,
@@ -19,9 +20,13 @@ function Footer({
   toggleMenu?: () => void;
   className?: string;
 }) {
+  const t = useTranslations("footer");
+  const tMetadata = useTranslations("metadata");
+
+
   return (
     <section
-      className={`w-full flex flex-col row-start-3 gap-10 items-cente  justify-between bg-black text-white px-10 lg:px-14 xl:px-20 pb-10 pt-16 rounded-t-3xl ${className}`}
+      className={`w-full flex flex-col row-start-3 gap-10 items-cente justify-between bg-black text-white px-10 lg:px-14 xl:px-20 pb-10 pt-16 rounded-t-3xl ${className}`}
       onClick={toggleMenu}
       id="footer"
     >
@@ -32,19 +37,18 @@ function Footer({
               src="/logo1.png"
               width={60}
               height={60}
-              alt="A logo of Swift Addis"
+              alt={t("about")}
               className="w-20 h-20 bg-contain object-contain rounded-full"
             />
-            <span className="font-bold text-xl">Swift Addis</span>
+            <span className="font-bold text-xl">{tMetadata("title")}</span>
           </Link>
           <p className="text-sm leading-6 text-gray-300">
-            Professional car detailing services that bring your vehicle back to
-            showroom condition.
+            {t("company_description")}
           </p>
         </div>
-        <div className=" flex flex-col h-full w-full">
+        <div className="flex flex-col h-full w-full">
           <h3 className="text-sm font-semibold leading-6 text-white">
-            Company
+            {t("sections.company")}
           </h3>
           <ul role="list" className="mt-6 space-y-4">
             <li>
@@ -52,7 +56,7 @@ function Footer({
                 href="/about"
                 className="text-sm leading-6 text-gray-300 hover:text-white"
               >
-                About Us
+                {t("links.about")}
               </Link>
             </li>
             <li>
@@ -60,7 +64,7 @@ function Footer({
                 href="/blogs"
                 className="text-sm leading-6 text-gray-300 hover:text-white"
               >
-                Blog
+                {t("links.blog")}
               </Link>
             </li>
             <li>
@@ -68,66 +72,65 @@ function Footer({
                 href="/#contact"
                 className="text-sm leading-6 text-gray-300 hover:text-white"
               >
-                Contact
+                {t("links.contact")}
               </Link>
             </li>
           </ul>
         </div>
-        <div className="flex flex-col  w-full h-full">
-          <h3 className="text-sm font-semibold leading-6 text-white">Legal</h3>
+        <div className="flex flex-col w-full h-full">
+          <h3 className="text-sm font-semibold leading-6 text-white">
+            {t("sections.legal")}
+          </h3>
           <Link
             href="/terms-and-conditions"
             className="text-sm leading-6 text-gray-300 hover:text-white mt-6"
           >
-            Terms And Conditions
+            {t("links.terms")}
           </Link>
           <Link
             href="/privacy-policy"
             className="text-sm leading-6 text-gray-300 hover:text-white mt-6"
           >
-            Privacy Policy
+            {t("links.privacy")}
           </Link>
         </div>
         <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
           <h1 className="text-sm font-semibold leading-6 text-white">
-            Service Day
+            {t("sections.service_day")}
           </h1>
           <p className="text-sm leading-6 text-gray-300 flex items-center gap-3 mt-6">
             <Timer className="text-primary w-5 h-5" />
-            <span>Monday - Saturday</span>
+            <span>{t("schedule.weekdays")}</span>
           </p>
           <p className="text-sm leading-6 text-gray-300 flex items-center gap-3">
             <Timer className="text-primary w-5 h-5" />
-            <span>Sunday - Off day</span>
+            <span>{t("schedule.sunday")}</span>
           </p>
         </div>
         <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
           <h1 className="text-sm font-semibold leading-6 text-white">
-            Get In Touch
+            {t("sections.get_in_touch")}
           </h1>
           <p className="flex items-center gap-3 mt-6">
             <Phone className="text-primary w-5 h-5" />
-            {/* <i className="ri-phone-fill ri-lg text-[#ed2e35] pr-3"></i>{" "} */}
             <span className="text-sm leading-6 text-gray-300">
-              (+251) 933654654
+              {t("contact_info.phone")}
             </span>
           </p>
           <p className="flex items-center gap-3">
             <Mail className="text-primary w-5 h-5" />
-            {/* <i className="ri-mail-fill ri-lg text-[#ed2e35] pr-3"></i>{" "} */}
             <span className="text-sm leading-6 text-gray-300">
-              support@tekusmesa.com
+              {t("contact_info.email")}
             </span>
           </p>
         </div>
       </div>
-      <div className="text-gray-500 pt-5  border-t-[1px] border-gray-600 flex flex-wrap gap-5 justify-between">
+      <div className="text-gray-500 pt-5 border-t-[1px] border-gray-600 flex flex-wrap gap-5 justify-between">
         <div className="flex-shrink-0">
-          © 2024 <span className="text-white">Swift Addis</span>. All Rights
-          Reserved.
+          {t("copyright")}
         </div>
         <div className="flex text-white">
-          <p className="pr-3">Follow us on: </p>
+          <p className="pr-3">{t("social.follow_us")}</p>
           <div className="flex md:gap-4">
             <Link
               href="https://www.facebook.com/share/PSpAuta2fB8oASv3/?mibextid=LQQJ4d"

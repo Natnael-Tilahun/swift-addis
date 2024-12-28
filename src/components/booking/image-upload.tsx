@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Control } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 interface Image {
   url: string;
@@ -44,6 +45,7 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ control, existingImages }: ImageUploadProps) {
+  const t = useTranslations("image_upload");
   const [previews, setPreviews] = useState<string[]>([]);
 
   // Load existing images on component mount
@@ -79,7 +81,7 @@ export function ImageUpload({ control, existingImages }: ImageUploadProps) {
       name="images"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Car Images</FormLabel>
+          <FormLabel>{t("label")}</FormLabel>
           <FormControl>
             <div className="space-y-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -90,7 +92,7 @@ export function ImageUpload({ control, existingImages }: ImageUploadProps) {
                   >
                     <Image
                       src={preview}
-                      alt={`Preview ${index + 1}`}
+                      alt={t("preview.alt", { number: index + 1 })}
                       fill
                       className="object-cover rounded-lg"
                       unoptimized
@@ -121,7 +123,7 @@ export function ImageUpload({ control, existingImages }: ImageUploadProps) {
                   <div className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg hover:bg-gray-50">
                     <Upload className="w-8 h-8 mb-2 text-gray-500" />
                     <p className="text-sm text-gray-500">
-                      Click to upload car images
+                      {t("upload.title")}
                     </p>
                   </div>
                   <Input

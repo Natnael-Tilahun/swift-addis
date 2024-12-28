@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -10,6 +12,7 @@ import { useAddons } from "@/hooks/useAddons";
 import { useBookingStore } from "@/store/useBookingStore";
 import { useCallback } from "react";
 import type { Service, AddOn } from "@/types/type";
+import { useTranslations } from "next-intl";
 
 export function BookingSummary({
   children,
@@ -18,6 +21,7 @@ export function BookingSummary({
   children: React.ReactNode;
   className?: string;
 }) {
+  const t = useTranslations("booking_summary");
   const { data: services } = useServices();
   const { data: addOns } = useAddons();
 
@@ -129,20 +133,18 @@ export function BookingSummary({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle>Booking Summary</CardTitle>
-        <CardDescription>Summary of your selections</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {selectedServicesWithTypes.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
-            No services selected yet
-          </p>
+          <p className="text-muted-foreground text-sm">{t("no_services")}</p>
         ) : (
           <>
             <div className="space-y-4">
               {/* Services Summary */}
               <div>
-                <h3 className="font-medium mb-2">Services</h3>
+                <h3 className="font-medium mb-2">{t("sections.services")}</h3>
                 {selectedServicesWithTypes.map(({ serviceId, vehicleType }) => {
                   const service = services?.find(
                     (s: Service) => s._id === serviceId
@@ -162,11 +164,13 @@ export function BookingSummary({
                       </div>
                       <div className="text-right">
                         <p className="font-medium text-base whitespace-nowrap">
-                          {service.pricing[vehicleType]?.basePrice} -{" "}
-                          {service.pricing[vehicleType]?.maxPrice} Birr
+                          {t("price.range", {
+                            min: service.pricing[vehicleType]?.basePrice,
+                            max: service.pricing[vehicleType]?.maxPrice
+                          })}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          {service.duration[vehicleType]} min
+                          {service.duration[vehicleType]} {t("time.duration")}
                         </p>
                       </div>
                     </div>
@@ -177,7 +181,7 @@ export function BookingSummary({
               {/* Add-ons Summary */}
               {selectedAddOns.length > 0 && addOns && (
                 <div>
-                  <h3 className="font-medium mb-2">Add-ons</h3>
+                  <h3 className="font-medium mb-2">{t("sections.addons")}</h3>
                   {addOns
                     .filter((addon: AddOn) =>
                       selectedAddOns.includes(addon._id)
@@ -190,11 +194,13 @@ export function BookingSummary({
                         <p className="font-medium">{addon.optionName}</p>
                         <div className="text-right">
                           <p className="font-medium">
-                            {addon.additionalPrice?.minBasePrice || 0} -{" "}
-                            {addon.additionalPrice?.maxPrice || 0} Birr
+                            {t("price.range", {
+                              min: addon.additionalPrice?.minBasePrice || 0,
+                              max: addon.additionalPrice?.maxPrice || 0
+                            })}
                           </p>
                           <p className="text-sm text-muted-foreground">
-                            {addon.duration} min
+                            {addon.duration} {t("time.duration")}
                           </p>
                         </div>
                       </div>
@@ -205,10 +211,10 @@ export function BookingSummary({
               {/* Appointment Details */}
               {selectedDate && (
                 <div className=" pt-4">
-                  <h3 className="font-medium mb-2">Appointment Details</h3>
+                  <h3 className="font-medium mb-2">{t("sections.appointment")}</h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Date:</span>
+                      <span className="text-muted-foreground">{t("time.date")}:</span>
                       <span className="font-medium">
                         {selectedDate.toLocaleDateString("en-US", {
                           weekday: "short",
@@ -220,7 +226,7 @@ export function BookingSummary({
                     </div>
                     {appointmentTime && (
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Time:</span>
+                        <span className="text-muted-foreground">{t("time.time")}:</span>
                         <span className="font-medium">{appointmentTime}</span>
                       </div>
                     )}
@@ -231,15 +237,15 @@ export function BookingSummary({
               {/* Totals */}
               <div className="border-t pt-4 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Total Duration:</span>
-                  <span className="font-medium">{totalDuration} min</span>
+                  <span className="text-muted-foreground">{t("totals.duration")}:</span>
+                  <span className="font-medium">
+                    {t("totals.duration_value", { duration: totalDuration })}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    Total Price Range:
-                  </span>
+                  <span className="text-muted-foreground">{t("totals.price_range")}:</span>
                   <span className="font-medium">
-                    {minTotal} - {maxTotal} Birr
+                    {t("totals.price_value", { min: minTotal, max: maxTotal })}
                   </span>
                 </div>
               </div>

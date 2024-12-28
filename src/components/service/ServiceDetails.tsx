@@ -8,6 +8,7 @@ import { useBookingStore } from "@/store/useBookingStore";
 import { Separator } from "@/components/ui/separator";
 import type { Service, AddOn } from "@/types/type";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export default function ServiceDetails({
   service,
@@ -16,6 +17,7 @@ export default function ServiceDetails({
   service: Service;
   addOns: AddOn[];
 }) {
+  const t = useTranslations("service_details");
   const router = useRouter();
   const {
     selectedServicesWithTypes,
@@ -51,7 +53,7 @@ export default function ServiceDetails({
         href="/#services"
         className="text-primary flex items-center bg-gray-100 rounded-xl py-2 px-4 gap-2 hover:bg-gray-200 w-fit"
       >
-        <ArrowLeftIcon className="w-5 h-5" /> Back to Services
+        <ArrowLeftIcon className="w-5 h-5" /> {t("navigation.back")}
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
@@ -74,7 +76,7 @@ export default function ServiceDetails({
             </div>
             {service?.features && service?.features?.length > 0 && (
               <div key={service._id} className="space-y-2">
-                <h2 className="font-medium">Features</h2>
+                <h2 className="font-medium">{t("sections.features")}</h2>
                 <ul className="grid grid-cols-2 gap-2">
                   {service.features.map((feature: string, index: number) => (
                     <li
@@ -95,11 +97,9 @@ export default function ServiceDetails({
                 {addOns && addOns?.length > 0 && (
                   <div className="space-y-4">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-semibold">
-                        Available Add-ons
-                      </h2>
+                      <h2 className="text-xl font-semibold">{t("sections.addons.title")}</h2>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Enhance your service with these add-ons
+                        {t("sections.addons.description")}
                       </p>
                     </div>
 
@@ -136,11 +136,13 @@ export default function ServiceDetails({
                               </div>
                             </div>
                             <div className="mt-2 text-sm text-muted-foreground">
-                              Duration: {duration} min
+                              {t("sections.addons.duration", { duration })}
                             </div>
                             <div className="mt-2 text-sm text-muted-foreground">
-                              Price: {additionalPrice?.minBasePrice ?? 0} -{" "}
-                              {additionalPrice?.maxPrice ?? 0} Birr
+                              {t("sections.addons.price", { 
+                                min: additionalPrice?.minBasePrice ?? 0,
+                                max: additionalPrice?.maxPrice ?? 0 
+                              })}
                             </div>
                           </div>
                         )
@@ -157,43 +159,36 @@ export default function ServiceDetails({
         <Card className="flex md:col-span-2 col-span-1 flex-col gap-4 p-6 h-fit">
           {service.name === "CORPORATE FLEET PACKAGE" ? (
             <div className="space-y-6">
-              <h1 className="text-2xl font-semibold">Get in Touch</h1>
+              <h1 className="text-2xl font-semibold">{t("corporate.title")}</h1>
               <hr />
               <div className="space-y-4">
-                <p className="text-muted-foreground">
-                  For corporate fleet packages, we offer customized solutions
-                  based on your specific needs. Please contact us to discuss
-                  your requirements and get a personalized quote.
-                </p>
+                <p className="text-muted-foreground">{t("corporate.description")}</p>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <PhoneIcon className="w-5 h-5 text-primary" />
-                    <a href="tel:+251911234567" className="hover:text-primary">
-                      +251 911 234 567
+                    <a href={`tel:${t("corporate.contact.phone")}`} className="hover:text-primary">
+                      {t("corporate.contact.phone")}
                     </a>
                   </div>
                   <div className="flex items-center gap-2">
                     <MailIcon className="w-5 h-5 text-primary" />
-                    <a
-                      href="mailto:info@example.com"
-                      className="hover:text-primary"
-                    >
-                      info@example.com
+                    <a href={`mailto:${t("corporate.contact.email")}`} className="hover:text-primary">
+                      {t("corporate.contact.email")}
                     </a>
                   </div>
                 </div>
                 <Button className="w-full" asChild>
-                  <Link href="/#contact">Get Quote</Link>
+                  <Link href="/#contact">{t("corporate.button")}</Link>
                 </Button>
               </div>
             </div>
           ) : (
             <>
-              <h1 className="text-2xl font-semibold">Select Vehicle Type</h1>
+              <h1 className="text-2xl font-semibold">{t("vehicle_selection.title")}</h1>
               <hr />
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <h1 className="text-lg font-medium">Price & Duration</h1>
+                  <h1 className="text-lg font-medium">{t("vehicle_selection.pricing.title")}</h1>
                   <div className="grid grid-cols-1 gap-4">
                     {Object.entries(service.pricing).map(
                       ([vehicleType, prices]) => (
@@ -210,15 +205,20 @@ export default function ServiceDetails({
                           <p className="font-medium text-lg">{vehicleType}</p>
                           <div className="space-y-1 text-muted-foreground">
                             <p className="flex justify-between">
-                              <span>Price Range:</span>
+                              <span>{t("vehicle_selection.pricing.price_range")}</span>
                               <span className="text-primary font-medium">
-                                {prices.basePrice} - {prices.maxPrice} Birr
+                                {t("vehicle_selection.pricing.price_value", {
+                                  min: prices.basePrice,
+                                  max: prices.maxPrice
+                                })}
                               </span>
                             </p>
                             <p className="flex justify-between">
-                              <span>Duration:</span>
+                              <span>{t("vehicle_selection.pricing.duration")}</span>
                               <span className="text-primary font-medium">
-                                {service.duration[vehicleType]} minutes
+                                {t("vehicle_selection.pricing.duration_value", {
+                                  duration: service.duration[vehicleType]
+                                })}
                               </span>
                             </p>
                           </div>

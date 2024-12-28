@@ -40,8 +40,8 @@ export const blogPosts = [
       `,
       coverImage: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80',
       author: {
-        name: 'John Smith',
-        image: 'https://i.pravatar.cc/150?img=1',
+        name: 'Swift Addis',
+        image: '/logo1.png',
       },
       publishedAt: '2024-03-15',
     },
@@ -90,8 +90,8 @@ export const blogPosts = [
       `,
       coverImage: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80',
       author: {
-        name: 'Sarah Johnson',
-        image: 'https://i.pravatar.cc/150?img=2',
+        name: 'Swift Addis',
+        image: '/logo1.png',
       },
       publishedAt: '2024-03-10',
     },

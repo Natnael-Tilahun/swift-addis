@@ -15,7 +15,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { BookingSummary } from "@/components/booking/BookingSummary";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import { useTranslations } from "next-intl";
+
 export default function Step2() {
+  const t = useTranslations("booking_step2");
   const router = useRouter();
   const {
     appointmentDate,
@@ -45,13 +48,13 @@ export default function Step2() {
     <div>
       <Card>
         <CardHeader className="border-b">
-          <CardTitle>Select a date and time</CardTitle>
-          <CardDescription>Date and time of the service</CardDescription>
+          <CardTitle>{t("title")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent className="grid md:grid-cols-3 grid-cols-1 gap-y-8 md:gap-y-0 gap-x-8 py-4">
           {/* Calendar Section */}
           <div className="flex flex-col gap-2 w-full">
-            <h1 className="text-lg font-medium">Select a date</h1>
+            <h1 className="text-lg font-medium">{t("date.title")}</h1>
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -72,17 +75,16 @@ export default function Step2() {
           </div>
 
           {/* Time Selection Section */}
-          <div className="flex flex-col gap-4 w-full ">
+          <div className="flex flex-col gap-4 w-full">
             <h1 className="text-lg font-medium">
-              Available times on{" "}
-              <span className="font-bold">
-                {selectedDate.toLocaleDateString("en-US", {
+              {t("date.available_times", {
+                date: selectedDate.toLocaleDateString("en-US", {
                   weekday: "long",
                   year: "numeric",
                   month: "short",
                   day: "numeric",
-                })}
-              </span>
+                })
+              })}
             </h1>
             <div className="grid grid-cols-3 gap-4 w-full border rounded-md p-4">
               {isLoading || isFetching ? (
@@ -117,7 +119,7 @@ export default function Step2() {
                 }}
                 disabled={!appointmentDate || !appointmentTime}
               >
-                Continue
+                {t("continue_button")}
               </Button>
             </BookingSummary>
           </div>

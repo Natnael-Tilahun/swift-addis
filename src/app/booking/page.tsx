@@ -11,8 +11,10 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useBookingStore } from "@/store/useBookingStore";
 import { useEffect } from "react";
 import { ArrowLeftIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 function BookingContent() {
+  const t = useTranslations("booking");
   const searchParams = useSearchParams();
   const router = useRouter();
   const { step, setStep, selectedServicesWithTypes } = useBookingStore();
@@ -69,91 +71,39 @@ function BookingContent() {
           <ArrowLeftIcon className="w-4 h-4" />
           {step === 1
             ? searchParams.get("serviceId")
-              ? "Back to Service Details"
-              : "Back to Services"
-            : "Previous Step"}
+              ? t("back.to_service")
+              : t("back.to_services")
+            : t("back.previous")}
         </Button>
         <div className="flex items-center gap-2">
-          <p className="text-sm font-semibold">Step {step}/4</p>
+          <p className="text-sm font-semibold">{t("step_counter", { step })}</p>
         </div>
       </div>
       <TabsList className="grid w-full h-fit grid-cols-4 overflow-x-scroll py-4 rounded- bg-transparent">
-        <TabsTrigger
-          value="1"
-          disabled={step < 1}
-          className={`h-full transition-all duration-200
+        {[1, 2, 3, 4].map((stepNum) => (
+          <TabsTrigger
+            key={stepNum}
+            value={stepNum.toString()}
+            disabled={step < stepNum}
+            className={`h-full transition-all duration-200
               ${
-                step >= 1
+                step >= stepNum
                   ? "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:bg-primary/10 data-[state=inactive]:text-primary"
                   : "data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-500"
               } border data-[state=inactive]:border-gray-400`}
-        >
-          <p
-            className={`text-sm font-semibold rounded-full w-8 h-8 flex items-center justify-center
-              ${
-                step >= 1 ? "bg-primary text-white" : "bg-gray-400 text-white"
-              }`}
           >
-            1
-          </p>
-        </TabsTrigger>
-        <TabsTrigger
-          value="2"
-          disabled={step < 2}
-          className={`h-full transition-all duration-200
+            <p
+              className={`text-sm font-semibold rounded-full w-8 h-8 flex items-center justify-center
               ${
-                step >= 2
-                  ? "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:bg-primary/10 data-[state=inactive]:text-primary"
-                  : "data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-500"
-              } border data-[state=inactive]:border-gray-400`}
-        >
-          <p
-            className={`text-sm font-semibold rounded-full w-8 h-8 flex items-center justify-center
-              ${
-                step >= 2 ? "bg-primary text-white" : "bg-gray-400 text-white"
+                step >= stepNum
+                  ? "bg-primary text-white"
+                  : "bg-gray-400 text-white"
               }`}
-          >
-            2
-          </p>
-        </TabsTrigger>
-        <TabsTrigger
-          value="3"
-          disabled={step < 3}
-          className={`h-full transition-all duration-200
-              ${
-                step >= 3
-                  ? "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:bg-primary/10 data-[state=inactive]:text-primary"
-                  : "data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-500"
-              } border data-[state=inactive]:border-gray-400`}
-        >
-          <p
-            className={`text-sm font-semibold rounded-full w-8 h-8 flex items-center justify-center
-              ${
-                step >= 3 ? "bg-primary text-white" : "bg-gray-400 text-white"
-              }`}
-          >
-            3
-          </p>
-        </TabsTrigger>
-        <TabsTrigger
-          value="4"
-          disabled={step < 4}
-          className={`h-full transition-all duration-200
-              ${
-                step >= 4
-                  ? "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:bg-primary/10 data-[state=inactive]:text-primary"
-                  : "data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-500"
-              } border data-[state=inactive]:border-gray-400`}
-        >
-          <p
-            className={`text-sm font-semibold rounded-full w-8 h-8 flex items-center justify-center
-              ${
-                step >= 4 ? "bg-primary text-white" : "bg-gray-400 text-white"
-              }`}
-          >
-            4
-          </p>
-        </TabsTrigger>
+            >
+              {stepNum}
+            </p>
+          </TabsTrigger>
+        ))}
       </TabsList>
       <TabsContent value="1">
         <Step1 />
@@ -172,9 +122,11 @@ function BookingContent() {
 }
 
 export default function Booking() {
+  const t = useTranslations("booking");
+
   return (
     <div className="w-full h-full p-5 pb-16 lg:p-14 lg:pb-24 xl:pt-0 xl:pb-36 xl:px-36 space-y-8">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>{t("loading")}</div>}>
         <BookingContent />
       </Suspense>
     </div>

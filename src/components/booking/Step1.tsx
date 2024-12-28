@@ -1,3 +1,5 @@
+"use client";
+
 import { useServices } from "@/hooks/useServices";
 import { useAddons } from "@/hooks/useAddons";
 import { useEffect } from "react";
@@ -16,8 +18,10 @@ import { Badge } from "@/components/ui/badge";
 import { BookingSummary } from "@/components/booking/BookingSummary";
 import { useRouter } from "next/navigation";
 import type { Service, AddOn } from "@/types/type";
+import { useTranslations } from "next-intl";
 
 export default function Step1() {
+  const t = useTranslations("booking_step1");
   const { data: services, isLoading: servicesLoading } = useServices();
   const { data: addOns, isLoading: addOnsLoading } = useAddons();
   const router = useRouter();
@@ -71,12 +75,11 @@ export default function Step1() {
     <div className="space-y-6">
       <div className="grid md:grid-cols-3 grid-cols-1 gap-6">
         <div className="col-span-1 md:col-span-2 space-y-6">
-          {/* Services Card */}
           <Card>
             <CardHeader>
-              <CardTitle>Selected Service</CardTitle>
+              <CardTitle>{t("selected_service.title")}</CardTitle>
               <CardDescription>
-                Your selected service and its details
+                {t("selected_service.description")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -102,16 +105,15 @@ export default function Step1() {
                               {selected.vehicleType}
                             </p>
                             <p className="text-sm text-muted-foreground">
-                              {selectedService.duration[selected.vehicleType]}{" "}
-                              min
+                              {t("selected_service.duration", {
+                                duration: selectedService.duration[selected.vehicleType]
+                              })}
                             </p>
                           </div>
                           <Badge variant="default">
-                            {
-                              selectedService.pricing[selected.vehicleType]
-                                .basePrice
-                            }{" "}
-                            Birr
+                            {t("selected_service.price", {
+                              price: selectedService.pricing[selected.vehicleType].basePrice
+                            })}
                           </Badge>
                         </div>
                       </div>
@@ -120,20 +122,18 @@ export default function Step1() {
                 </div>
               ) : (
                 <div className="text-center py-4 text-muted-foreground">
-                  No service selected. Please select a service from the services
-                  page.
+                  {t("selected_service.no_service")}
                 </div>
               )}
             </CardContent>
           </Card>
 
-          {/* Add-ons Card - Only show if there's a selected service */}
           {selectedService && (
             <Card>
               <CardHeader>
-                <CardTitle>Available Add-ons</CardTitle>
+                <CardTitle>{t("addons.title")}</CardTitle>
                 <CardDescription>
-                  Enhance your service with these add-ons
+                  {t("addons.description")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-4">
@@ -167,18 +167,20 @@ export default function Step1() {
                               : "outline"
                           }
                         >
-                          {addon.additionalPrice?.minBasePrice ?? 0} -{" "}
-                          {addon.additionalPrice?.maxPrice ?? 0} Birr
+                          {t("addons.price_range", {
+                            min: addon.additionalPrice?.minBasePrice ?? 0,
+                            max: addon.additionalPrice?.maxPrice ?? 0
+                          })}
                         </Badge>
                       </div>
                       <div className="mt-2 text-sm text-muted-foreground">
-                        Duration: {addon.duration} min
+                        {t("addons.duration", { duration: addon.duration })}
                       </div>
                     </div>
                   ))
                 ) : (
                   <div className="col-span-full text-center py-4 text-muted-foreground">
-                    No add-ons available for this service
+                    {t("addons.no_addons")}
                   </div>
                 )}
               </CardContent>
@@ -196,7 +198,7 @@ export default function Step1() {
             }}
             disabled={!selectedService}
           >
-            Continue to Book
+            {t("continue_button")}
           </Button>
         </BookingSummary>
       </div>

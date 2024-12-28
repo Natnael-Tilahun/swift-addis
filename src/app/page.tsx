@@ -7,8 +7,12 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const t = useTranslations("hero");
+  const tCommon = useTranslations("common");
+
   return (
     <div className="w-full h-full">
       {/* <Hero /> */}
@@ -25,34 +29,39 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 container mx-auto px-6">
           <h1 className="text-gray-200 md:text-4xl text-3xl font-bold">
-            Detailing Excellence
+            {t("title")}
           </h1>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 mt-3">
-            Delivered Swiftly
+            {t("subtitle")}
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-2xl">
-            We are a mobile car detailing service that provides a wide range of
-            services to keep your car looking its best.
+            {t("description")}
           </p>
           <Button className="border" size="lg" asChild>
             <Link href={`/#services`}>
-              Book Now <ArrowRight className="ml-2 h-4 w-4" />
+              {tCommon("cta")} <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
       </section>
 
+      {/* Services Section */}
       <Services />
 
       {/* Gallery Section */}
       <section className="md:py-24 py-6">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Work</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">
+            {t("title_gallery")}
+          </h2>
           <Gallery />
         </div>
       </section>
-      {/* <Gallery /> */}
+
+      {/* Testimonials Section */}
       <Testimonials />
+
+      {/* Contact Section */}
       <Contact />
     </div>
   );

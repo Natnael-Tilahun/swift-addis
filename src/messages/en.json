@@ -1,0 +1,439 @@
+{
+  "metadata": {
+    "title": "Swift Addis",
+    "description": "Discover our mobile car detailing services. We offer a wide range of car cleaning and maintenance solutions to keep your vehicle looking its best. Book now for a hassle-free car detailing experience brought to your doorstep!"
+  },
+  "common": {
+    "cta": "Book Now",
+    "view_packages": "View Packages",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit"
+  },
+  "header": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "menu": "Menu",
+    "gallery": "Gallery",
+    "testimonials": "Testimonials",
+    "blogs": "Blogs"
+  },
+  "LanguageSwitcher": {
+    "am": "አማርኛ",
+    "en": "English",
+    "label": "Language"
+  },
+  "hero": {
+    "title": "Detailing Excellence",
+    "subtitle": "Delivered Swiftly",
+    "description": "We are a mobile car detailing service that provides a wide range of services to keep your car looking its best.",
+    "title_gallery": "Our Work"
+  },
+  "gallery": {
+    "title": "Our Gallery",
+    "description": "Take a look at some of our recent work",
+    "view_more": "View More",
+    "before": "Before",
+    "after": "After",
+    "no_images": "No images found",
+    "alt": {
+      "exterior": "Car exterior detailing",
+      "interior": "Car interior cleaning",
+      "paint": "Paint protection",
+      "wheel": "Wheel detailing",
+      "full": "Full car detailing",
+      "polish": "Car polishing"
+    }
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "no_testimonials": "No testimonials found",
+    "submit_testimonial": "Submit Your Testimonial",
+    "client_says": "What Our Clients Say",
+    "mock": {
+      "name": "John Doe",
+      "role": {
+        "developer": "Developer",
+        "ceo": "CEO"
+      },
+      "content": "Our customers love the seamless integration and automation capabilities provided by Automatisera platform. It has greatly improved their overall experience and satisfaction."
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "description": "Professional car detailing services tailored to your needs",
+    "book_service": "Book Service",
+    "learn_more": "Learn More",
+    "subtitle": "We offer a wide range of services to keep your car looking its best",
+    "no_services": "No services found",
+    "view_details": "View Details",
+    "get_quote": "Get Quote",
+    "price_range": "{min} - {max} Birr",
+    "duration": "{time} min",
+    "view_more_features": "... view {count} more",
+    "slide_label": "Go to slide {number}"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Get in touch with us",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send Message",
+    "success": "Message sent successfully",
+    "error": "Error sending message",
+    "lets_talk": "Let's Get in Touch",
+    "intro_text": "Need to get in touch with us? Either fill out the form with your inquiry or find the department email you'd like to contact below.",
+    "form": {
+      "full_name": "Full Name",
+      "full_name_placeholder": "Your Full Name",
+      "email": "Email",
+      "email_placeholder": "Your Email",
+      "phone": "Phone Number",
+      "phone_placeholder": "Your Phone Number",
+      "message": "Message",
+      "message_placeholder": "Your Message",
+      "send": "Send Message"
+    },
+    "info": {
+      "telephone": {
+        "label": "Telephone",
+        "value": "0917 777 7777"
+      },
+      "support_hours": {
+        "label": "Phone hours supports",
+        "value": "Mon - Fri (12:00 - 12:00)"
+      },
+      "sales_hours": {
+        "label": "Phone hours sell",
+        "value": "Mon - Fri (12:00 - 12:00)"
+      },
+      "support_contact": {
+        "label": "Support contact",
+        "value": "info@example.com"
+      }
+    },
+    "validation": {
+      "name_min": "Full name must be at least 2 characters.",
+      "name_max": "Full name must not be longer than 30 characters.",
+      "email_required": "Please select an email to display."
+    }
+  },
+  "footer": {
+    "about": "About Swift Addis",
+    "quick_links": "Quick Links",
+    "social_media": "Follow Us",
+    "copyright": "© 2024 Swift Addis. All rights reserved.",
+    "privacy_policy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "company_description": "Professional car detailing services that bring your vehicle back to showroom condition.",
+    "sections": {
+      "company": "Company",
+      "legal": "Legal",
+      "service_day": "Service Day",
+      "get_in_touch": "Get In Touch"
+    },
+    "links": {
+      "about": "About Us",
+      "blog": "Blog",
+      "contact": "Contact",
+      "terms": "Terms And Conditions",
+      "privacy": "Privacy Policy"
+    },
+    "schedule": {
+      "weekdays": "Monday - Saturday",
+      "sunday": "Sunday - Off day"
+    },
+    "contact_info": {
+      "phone": "(+251) 933654654",
+      "email": "support@tekusmesa.com"
+    },
+    "social": {
+      "follow_us": "Follow us on:",
+      "platforms": {
+        "facebook": "Facebook",
+        "telegram": "Telegram",
+        "email": "Email",
+        "linkedin": "LinkedIn",
+        "youtube": "YouTube",
+        "twitter": "Twitter",
+        "instagram": "Instagram",
+        "tiktok": "TikTok"
+      }
+    }
+  },
+  "about": {
+    "title": "About Swift Addis",
+    "subtitle": "Dedicated to delivering exceptional car detailing services",
+    "team_image_alt": "Our team at Swift Addis",
+    "cards": {
+      "mission": {
+        "title": "Our Mission",
+        "description": "To make sure our customers get the highest quality car detailing services without having to leave the comfort of their own home while taking a minimum time."
+      },
+      "team": {
+        "title": "Expert Team",
+        "description": "Our dedicated team of professionals have deep understanding and experience in automotive care."
+      },
+      "quality": {
+        "title": "Quality First",
+        "description": "We use only premium European/American standard products and advanced detailing tools and techniques for the best results."
+      }
+    },
+    "story": {
+      "title": "Our Story",
+      "company_name": "Swift Addis Mobile Car Detailing",
+      "paragraphs": {
+        "intro": "Welcome to {company}, Addis Abeba's premier mobile car wash and detailing service. Founded in 2024 by Yohannes Tadesse and Natnael Asfaw, we are driven by a passion for excellence and a commitment to delivering unmatched detailing services. With a shared vision for innovation, Yohannes and Natnael have set out to revolutionize car detailing in Ethiopia by combining top-tier service with European-standard detailing products. Our advanced, industry-leading products ensure your vehicle receives the same level of care and precision you'd expect from world-class detailing standards, right here in Addis Abeba.",
+        "service": "At {company}, we believe your car deserves meticulous attention, and you deserve a hassle-free experience. That's why we take the stress out of car care by bringing our state-of-the-art detailing expertise directly to your home or office. As a fully mobile service, we save you the time, fuel, and energy it takes to drive to a traditional car wash or detailing center. No more long lines,traffic or wasted hours—our as our team comes to you,ensuring your vehicle gets the care it needs while you can fully enjoy your time at home without worrying that you have to provide water,electric city or any kind of equipments as we bring our own water and silent generator to power our own equipments.",
+        "services": "Our wide range of services includes everything from basic exterior washes to full interior and exterior detailing, ceramic coating, paint correction, and fleet services. Whether you're looking for a quick clean or a luxury-level transformation, we have customizable packages tailored to meet your needs. Our eco-friendly practices, including the use of biodegradable products, reflect our commitment to protecting the environment while ensuring your vehicle looks and feels brand new.",
+        "motto": "At Swift Addis, we stand by our motto: {motto}, Trust us to enhance the beauty and longevity of your car, one detail at a time."
+      },
+      "motto_text": "\"Detailing Excellence Delivered Swiftly.\"",
+      "closing": "Discover the Swift Addis experience today and redefine your car care routine."
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Latest news and tips about car detailing",
+    "read_more": "Read More",
+    "published_at": "Published on {date}",
+    "image_alt": "{title} cover image",
+    "author": {
+      "published_prefix": "Published on",
+      "author_image_alt": "{name}'s profile picture",
+      "fallback_avatar": "?"
+    }
+  },
+  "privacy_policy": {
+    "title": "Privacy Policy",
+    "updated": "Updated:",
+    "content": [
+      "These Terms and Conditions govern your use of https://automatiseramera.se/. By accessing or using the Website, you agree to be bound by these terms. If you do not agree to these terms, please do not use the Website.",
+     
+      "The Website and its content are protected by copyright and other intellectual property laws. You may not use the Website or its content for any commercial purpose without our prior written consent.",
+     
+      "The Website is provided \"as is\" without any warranties, express or implied. We do not warrant that the Website will be error-free or uninterrupted.",
+     
+      "In no event shall we be liable for any damages arising out of or in connection with your use of the Website, including, without limitation, direct, indirect, incidental, special, or consequential damages.",
+     
+      "We may update these Terms and Conditions from time to time. Your continued use of the Website after the effective date of any such changes constitutes your acceptance of the revised terms."
+    ]
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "updated": "Updated:",
+    "content": [
+      "These Terms and Conditions govern your use of https://automatiseramera.se/. By accessing or using the Website, you agree to be bound by these terms. If you do not agree to these terms, please do not use the Website.",
+     
+      "The Website and its content are protected by copyright and other intellectual property laws. You may not use the Website or its content for any commercial purpose without our prior written consent.",
+     
+      "The Website is provided \"as is\" without any warranties, express or implied. We do not warrant that the Website will be error-free or uninterrupted.",
+     
+      "In no event shall we be liable for any damages arising out of or in connection with your use of the Website, including, without limitation, direct, indirect, incidental, special, or consequential damages.",
+     
+      "We may update these Terms and Conditions from time to time. Your continued use of the Website after the effective date of any such changes constitutes your acceptance of the revised terms."
+    ]
+  },
+  "not_found": {
+    "title": "Not Found",
+    "description": "Could not find the requested resource",
+    "return_home": "Return Home"
+  },
+  "booking": {
+    "loading": "Loading...",
+    "step_counter": "Step {step}/4",
+    "back": {
+      "to_service": "Back to Service Details",
+      "to_services": "Back to Services",
+      "previous": "Previous Step"
+    },
+    "steps": {
+      "step1": "Step 1",
+      "step2": "Step 2",
+      "step3": "Step 3",
+      "step4": "Step 4"
+    }
+  },
+  "booking_step1": {
+    "selected_service": {
+      "title": "Selected Service",
+      "description": "Your selected service and its details",
+      "duration": "{duration} min",
+      "price": "{price} Birr",
+      "no_service": "No service selected. Please select a service from the services page."
+    },
+    "addons": {
+      "title": "Available Add-ons",
+      "description": "Enhance your service with these add-ons",
+      "price_range": "{min} - {max} Birr",
+      "duration": "Duration: {duration} min",
+      "no_addons": "No add-ons available for this service"
+    },
+    "continue_button": "Continue to Book"
+  },
+  "booking_step2": {
+    "title": "Select a date and time",
+    "description": "Date and time of the service",
+    "date": {
+      "title": "Select a date",
+      "available_times": "Available times on {date}"
+    },
+    "loading": {
+      "times": "Loading available times..."
+    },
+    "continue_button": "Continue"
+  },
+  "booking_step3": {
+    "form": {
+      "title": "Personal Information",
+      "description": "Please fill in your details for the booking",
+      "validation": {
+        "first_name_required": "First Name is required",
+        "first_name_min": "First Name must be at least 2 characters.",
+        "last_name_required": "Last Name is required",
+        "last_name_min": "Last Name must be at least 2 characters.",
+        "phone_required": "Phone is required",
+        "phone_min": "Phone must be at least 10 characters."
+      },
+      "labels": {
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "phone": "Phone",
+        "email": "Email",
+        "address": "Address",
+        "notes": "Additional Notes"
+      },
+      "placeholders": {
+        "first_name": "Enter your first name",
+        "last_name": "Enter your last name",
+        "phone": "Enter your phone number",
+        "email": "Enter your email",
+        "address": "Enter your address",
+        "notes": "Any special requests or notes?"
+      }
+    },
+    "location": {
+      "get_location": "Use current location",
+      "getting_location": "Getting location...",
+      "accuracy": "Accuracy: ±{meters}m",
+      "found": "Location found",
+      "errors": {
+        "api_key": "Google Maps API key is not configured",
+        "permission_denied": "Please allow location access to use this feature.",
+        "unavailable": "Location information is unavailable.",
+        "timeout": "Location request timed out. Please try again.",
+        "no_address": "Could not find an address for this location. Please try again or enter manually.",
+        "generic": "Failed to get location",
+        "low_accuracy": "Your location accuracy is low. The address might not be precise."
+      }
+    },
+    "booking": {
+      "errors": {
+        "no_date": "Please select an appointment date",
+        "no_time": "Please select an appointment time"
+      },
+      "success": {
+        "title": "Booking created successfully",
+        "description": "Booking ID: {id}"
+      },
+      "error": {
+        "title": "Error",
+        "generic": "Something went wrong"
+      },
+      "submitting": "Submitting..."
+    },
+    "buttons": {
+      "try_again": "Try again",
+      "submit": "Submit Booking"
+    },
+    "coordinates": {
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    }
+  },
+  "booking_summary": {
+    "title": "Booking Summary",
+    "description": "Summary of your selections",
+    "no_services": "No services selected yet",
+    "sections": {
+      "services": "Services",
+      "addons": "Add-ons",
+      "appointment": "Appointment Details"
+    },
+    "time": {
+      "duration": "min",
+      "date": "Date",
+      "time": "Time"
+    },
+    "totals": {
+      "duration": "Total Duration",
+      "duration_value": "{duration} min",
+      "price_range": "Total Price Range",
+      "price_value": "{min} - {max} Birr"
+    },
+    "price": {
+      "range": "{min} - {max} Birr"
+    }
+  },
+  "image_upload": {
+    "label": "Car Images",
+    "upload": {
+      "title": "Click to upload car images",
+      "button": "Upload"
+    },
+    "preview": {
+      "alt": "Preview {number}"
+    }
+  },
+  "booking_step4": {
+    "title": "Thank you for booking with us",
+    "description": "We will contact you soon to confirm the booking",
+    "buttons": {
+      "home": "Back to home"
+    }
+  },
+  "map": {
+    "errors": {
+      "loading": "Error loading maps"
+    }
+  },
+  "service_details": {
+    "navigation": {
+      "back": "Back to Services"
+    },
+    "sections": {
+      "features": "Features",
+      "addons": {
+        "title": "Available Add-ons",
+        "description": "Enhance your service with these add-ons",
+        "duration": "Duration: {duration} min",
+        "price": "Price: {min} - {max} Birr"
+      }
+    },
+    "corporate": {
+      "title": "Get in Touch",
+      "description": "For corporate fleet packages, we offer customized solutions based on your specific needs. Please contact us to discuss your requirements and get a personalized quote.",
+      "contact": {
+        "phone": "+251 911 234 567",
+        "email": "info@example.com"
+      },
+      "button": "Get Quote"
+    },
+    "vehicle_selection": {
+      "title": "Select Vehicle Type",
+      "pricing": {
+        "title": "Price & Duration",
+        "price_range": "Price Range:",
+        "duration": "Duration:",
+        "duration_value": "{duration} minutes",
+        "price_value": "{min} - {max} Birr"
+      }
+    }
+  }
+ }
+ 
+ 

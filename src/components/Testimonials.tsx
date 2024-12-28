@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -9,8 +9,20 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { Icons } from "@/components/icons";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+
+// Move testimonials data outside component
+const testimonialIds = [
+  { id: 1, role: "developer" },
+  { id: 2, role: "ceo" },
+  { id: 3, role: "developer" },
+  { id: 4, role: "developer" },
+  { id: 5, role: "developer" },
+];
+
 export default function Testimonials() {
-  // const [api, setApi] = useState<CarouselApi>();
+  const t = useTranslations("testimonials");
+  
   const plugin = useRef(
     Autoplay({
       delay: 2000,
@@ -20,53 +32,6 @@ export default function Testimonials() {
       stopOnMouseEnter: true,
     })
   );
-  const [testimonials] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      image: "/avatar.jpeg",
-      testimonial:
-        "Our customers love the seamless integration and automation capabilities provided by Automatisera platform. It has greatly improved their overall experience and satisfaction.",
-      rating: 5,
-      role: "Developer",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      image: "/avatar.jpeg",
-      testimonial:
-        "Our customers love the seamless integration and automation capabilities provided by Automatisera platform. It has greatly improved their overall experience and satisfaction.",
-      rating: 5,
-      role: "CEO",
-    },
-    {
-      id: 3,
-      name: "John Doe",
-      image: "/avatar.jpeg",
-      testimonial:
-        "Our customers love the seamless integration and automation capabilities provided by Automatisera platform. It has greatly improved their overall experience and satisfaction.",
-      rating: 5,
-      role: "Developer",
-    },
-    {
-      id: 4,
-      name: "John Doe",
-      image: "/avatar.jpeg",
-      testimonial:
-        "Our customers love the seamless integration and automation capabilities provided by Automatisera platform. It has greatly improved their overall experience and satisfaction.",
-      rating: 5,
-      role: "Developer",
-    },
-    {
-      id: 5,
-      name: "John Doe",
-      image: "/avatar.jpeg",
-      testimonial:
-        "Our customers love the seamless integration and automation capabilities provided by Automatisera platform. It has greatly improved their overall experience and satisfaction.",
-      rating: 5,
-      role: "Developer",
-    },
-  ]);
 
   return (
     <div
@@ -74,18 +39,18 @@ export default function Testimonials() {
       id="testimonials"
     >
       <h1 className="text-4xl mb-2 md:mb-12 font-bold text-center">
-        Testimonials
+        {t("title")}
       </h1>
-      {testimonials.length > 0 ? (
+      {testimonialIds.length > 0 ? (
         <Carousel
-          key={testimonials.map((item) => item.id).join(",")}
+          key={testimonialIds.map((item) => item.id).join(",")}
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
           className="md:max-w-full max-w-sm z-40 px-4"
         >
           <CarouselContent className="md:-ml-1 ml-5 w-full">
-            {testimonials.map((testimonial, index) => (
+            {testimonialIds.map((item, index) => (
               <CarouselItem
                 key={index}
                 className={`md:pl-10 pl-4 basis-full md:basis-2/5 ${
@@ -104,23 +69,23 @@ export default function Testimonials() {
                         className="w-10 h-10"
                       />
                       <p className="text-secondary-foreground">
-                        {testimonial.testimonial}
+                        {t("mock.content")}
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
                       <Image
-                        src={testimonial.image}
-                        alt={testimonial.name}
+                        src="/avatar.jpeg"
+                        alt={t("mock.name")}
                         width={50}
                         height={50}
                         className="rounded-full"
                       />
                       <div className="flex flex-col gap-1">
                         <p className="font-medium text-base">
-                          {testimonial.name}
+                          {t("mock.name")}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          {testimonial.role}
+                          {t(`mock.role.${item.role}`)}
                         </p>
                       </div>
                     </div>
@@ -131,7 +96,7 @@ export default function Testimonials() {
           </CarouselContent>
         </Carousel>
       ) : (
-        <p>No testimonials found</p>
+        <p>{t("no_testimonials")}</p>
       )}
       <div className="md:w-[100%] w-1/2 h-1/2 md:h-full bg-groupsvg2 lg:block absolute left-0 top-0 -z-0 opacity-100"></div>
     </div>

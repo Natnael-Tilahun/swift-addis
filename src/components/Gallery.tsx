@@ -3,41 +3,44 @@
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { useTranslations } from "next-intl";
 
 const galleryImages = [
   {
     id: 1,
     src: "https://images.unsplash.com/photo-1605515298946-d062f2e9da53?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    alt: "Car exterior detailing",
+    altKey: "exterior"
   },
   {
     id: 2,
     src: "https://images.unsplash.com/photo-1600964373031-f0b65565f354?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    alt: "Car interior cleaning",
+    altKey: "interior"
   },
   {
     id: 3,
     src: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    alt: "Paint protection",
+    altKey: "paint"
   },
   {
     id: 4,
     src: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    alt: "Wheel detailing",
+    altKey: "wheel"
   },
   {
     id: 5,
     src: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    alt: "Full car detailing",
+    altKey: "full"
   },
   {
     id: 6,
     src: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    alt: "Car polishing",
+    altKey: "polish"
   },
 ];
 
 export default function Gallery() {
+  const t = useTranslations("gallery");
+
   return (
     <div
       id="gallery"
@@ -49,7 +52,7 @@ export default function Gallery() {
             <AspectRatio ratio={4 / 3}>
               <Image
                 src={image.src}
-                alt={image.alt}
+                alt={t(`alt.${image.altKey}`)}
                 fill
                 className="object-cover transition-transform hover:scale-105"
               />
@@ -59,7 +62,7 @@ export default function Gallery() {
       ) : (
         <div className="flex flex-col items-center justify-center h-[40vh] border rounded-xl w-full">
           <p className="text-center text-muted-foreground text-xl font-medium">
-            No images found
+            {t("no_images")}
           </p>
         </div>
       )}

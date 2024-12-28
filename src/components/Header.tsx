@@ -5,6 +5,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 function Header({
   collapseNav,
@@ -13,6 +15,10 @@ function Header({
   collapseNav: boolean;
   toggleMenu: () => void;
 }) {
+  const tCommon = useTranslations("common");
+  const tMetadata = useTranslations("metadata");
+  const t = useTranslations("header");
+
   return (
     <nav
       id="header"
@@ -26,7 +32,7 @@ function Header({
         }}
       >
         <div className="flex items-center justify-center flex-shrink-0 mr-6 gap-4">
-          <div className=" w-14 h-14  relative">
+          <div className=" w-12 h-12 md:w-14 md:h-14  relative">
             <Image
               src="/logo1.png"
               fill={true}
@@ -34,7 +40,9 @@ function Header({
               className=" bg-contain rounded-full"
             />
           </div>
-          <h1 className="font-semibold text-xl tracking-tight">Swift Addis</h1>
+          <h1 className="font-extrabold text-xl md:text-2xl tracking-tight text-primary uppercase">
+            {tMetadata("title")}
+          </h1>
         </div>
       </Link>
       <div className="block lg:hidden">
@@ -48,7 +56,7 @@ function Header({
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <title>Menu</title>
+              <title>{t("menu")}</title>
               <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
             </svg>
           ) : (
@@ -77,7 +85,7 @@ function Header({
             onClick={toggleMenu}
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary mr-10  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
-            Home
+            {t("home")}
           </Link>
           <Link
             href="/#services"
@@ -85,7 +93,7 @@ function Header({
             onClick={toggleMenu}
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary mr-10  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
-            Services
+            {t("services")}
           </Link>
           <Link
             href="/#gallery"
@@ -93,7 +101,7 @@ function Header({
             onClick={toggleMenu}
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary  mr-6  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
-            Gallery
+            {t("gallery")}
           </Link>
           <Link
             href="/#testimonials"
@@ -101,7 +109,7 @@ function Header({
             onClick={toggleMenu}
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary mr-6  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
-            Testimonials
+            {t("testimonials")}
           </Link>
           <Link
             href="/#contact"
@@ -109,7 +117,7 @@ function Header({
             onClick={toggleMenu}
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary mr-6  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
-            Contact
+            {t("contact")}
           </Link>
           <Link
             href="/about"
@@ -117,7 +125,7 @@ function Header({
             onClick={toggleMenu}
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary mr-6  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
-            About
+            {t("about")}
           </Link>
           <Link
             href="/blogs"
@@ -125,10 +133,10 @@ function Header({
             onClick={toggleMenu}
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary mr-10  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
-            Blogs
+            {t("blogs")}
           </Link>
         </div>
-        <div className="w-full p-5 md:w-fit md:p-0">
+        <div className="w-full flex gap-4 p-5 md:w-fit md:p-0">
           {/* <Link
             href="/book"
             scroll={true}
@@ -137,12 +145,13 @@ function Header({
           >
             Book Now
           </Link> */}
+          <LanguageSwitcher />
           <Button
             onClick={toggleMenu}
             className="md:w-fit w-full font-bold px-5 text-lg lg:mt-0  border"
             asChild
           >
-            <Link href={`/#services`}>Book Now</Link>
+            <Link href={`/#services`}>{tCommon("cta")}</Link>
           </Button>
         </div>
       </div>
