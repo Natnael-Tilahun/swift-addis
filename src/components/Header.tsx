@@ -22,7 +22,7 @@ function Header({
   return (
     <nav
       id="header"
-      className="flex justify-between items-center flex-wrap px-5 lg:px-14 xl:px-5 fixed inset-x-5 md:inset-x-5 top-5 z-50 h-14 backdrop-blur-md md:bg-[#E6EEFF]/70 bg-[#E6EEFF]/70 border-b text-black rounded-2xl md:rounded-2xl"
+      className="flex justify-between items-center flex-nowrap px-4 lg:px-14 xl:px-5 fixed inset-x-5 md:inset-x-5 top-5 z-50 h-14 backdrop-blur-md md:bg-[#E6EEFF]/70 bg-[#E6EEFF]/70 border-b text-black rounded-2xl md:rounded-2xl"
     >
       <Link
         href="/"
@@ -31,7 +31,7 @@ function Header({
           if (!collapseNav) toggleMenu();
         }}
       >
-        <div className="flex items-center justify-center flex-shrink-0 mr-6 gap-4">
+        <div className="flex items-center justify-center flex-shrink-0 mr-4 md:mr-6 gap-2 md:gap-4">
           <div className=" w-12 h-12 md:w-14 md:h-14  relative">
             <Image
               src="/logo1.png"
@@ -40,7 +40,7 @@ function Header({
               className=" bg-contain rounded-full"
             />
           </div>
-          <h1 className="font-extrabold text-xl md:text-2xl tracking-tight text-primary uppercase">
+          <h1 className="font-extrabold text-lg md:text-2xl tracking-tight text-primary uppercase">
             {tMetadata("title")}
           </h1>
         </div>
