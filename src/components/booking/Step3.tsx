@@ -221,10 +221,10 @@ export default function Step3() {
       });
     } catch (error: unknown) {
       let errorMessage = t("location.errors.generic");
-      
+
       // Type guard to check if error is GeolocationError
       const geolocationError = error as GeolocationError;
-      
+
       if (geolocationError.code === 1) {
         errorMessage = t("location.errors.permission_denied");
       } else if (geolocationError.code === 2) {
@@ -375,7 +375,7 @@ export default function Step3() {
       <Card>
         <CardHeader className="border-b">
           <CardTitle>{t("form.title")}</CardTitle>
-          <CardDescription>{t("form.subTitle")}</CardDescription>
+          <CardDescription>{t("form.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -384,39 +384,39 @@ export default function Step3() {
               onSubmit={form.handleSubmit(onSubmit)}
             >
               <div className="col-span-1 md:col-span-2 space-y-4 border rounded-lg p-6">
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("form.labels.first_name")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder={t("form.placeholders.first_name")}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.labels.first_name")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t("form.placeholders.first_name")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("form.labels.last_name")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder={t("form.placeholders.last_name")}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.labels.last_name")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t("form.placeholders.last_name")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}
@@ -507,11 +507,15 @@ export default function Step3() {
                                 />
                               </div>
                               <p className="text-sm text-muted-foreground mt-1">
-                                {t("coordinates.latitude")}: {formData?.location?.lat?.toFixed(6)},
-                                {t("coordinates.longitude")}: {formData?.location?.lng?.toFixed(6)}
+                                {t("coordinates.latitude")}:{" "}
+                                {formData?.location?.lat?.toFixed(6)},
+                                {t("coordinates.longitude")}:{" "}
+                                {formData?.location?.lng?.toFixed(6)}
                                 {locationAccuracy && (
                                   <span className="ml-2">
-                                    {t("location.accuracy", { meters: Math.round(locationAccuracy) })}
+                                    {t("location.accuracy", {
+                                      meters: Math.round(locationAccuracy),
+                                    })}
                                   </span>
                                 )}
                               </p>

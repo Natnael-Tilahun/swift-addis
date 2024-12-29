@@ -206,6 +206,10 @@
       "published_prefix": "Published on",
       "author_image_alt": "{name}'s profile picture",
       "fallback_avatar": "?"
+    },
+    "header": {
+      "post_cover_alt": "{title} cover image",
+      "default_cover_alt": "cover image"
     }
   },
   "privacy_policy": {

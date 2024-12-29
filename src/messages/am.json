@@ -206,6 +206,10 @@
       "published_prefix": "የታተመው በ",
       "author_image_alt": "የ{name} የመገለጫ ምስል",
       "fallback_avatar": "?"
+    },
+    "header": {
+      "post_cover_alt": "{title} ሽፋን ምስል",
+      "default_cover_alt": "ሽፋን ምስል"
     }
   },
   "privacy_policy": {
@@ -299,7 +303,6 @@
     "form": {
       "title": "የግል መረጃ",
       "description": "እባክዎ ቀጠሮ ለመያዝ ያሉትን ዝርዝሮችዎን ይሙሉ",
-      "subTitle": "የመረጃ 3 መስመር",
       "validation": {
         "first_name_required": "የመጀመሪያ ስም ያስፈልጋል",
         "first_name_min": "የመጀመሪያ ስም ቢያንስ 2 ፊደሎች መሆን አለበት።",
