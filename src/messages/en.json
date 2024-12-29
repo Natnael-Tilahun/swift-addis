@@ -101,19 +101,19 @@
     "info": {
       "telephone": {
         "label": "Telephone",
-        "value": "0917 777 7777"
+        "value": "(+251) 91 164 5695"
       },
       "support_hours": {
         "label": "Phone hours supports",
-        "value": "Mon - Fri (12:00 - 12:00)"
+        "value": "Mon - Sat (12:00 - 12:00), Sun - (07:00 - 12:00)"
       },
       "sales_hours": {
         "label": "Phone hours sell",
-        "value": "Mon - Fri (12:00 - 12:00)"
+        "value": "Mon - Sat (12:00 - 12:00), Sun - (07:00 - 12:00)"
       },
       "support_contact": {
         "label": "Support contact",
-        "value": "info@example.com"
+        "value": "Info@swiftaddisdetailing.com"
       }
     },
     "validation": {
@@ -144,12 +144,12 @@
       "privacy": "Privacy Policy"
     },
     "schedule": {
-      "weekdays": "Monday - Saturday",
-      "sunday": "Sunday - Off day"
+      "weekdays": "Mon - Sat (12:00 - 12:00 )",
+      "sunday": "Sun - ( 07:00 - 12:00 )"
     },
     "contact_info": {
-      "phone": "(+251) 933654654",
-      "email": "support@tekusmesa.com"
+      "phone": "(+251) 91 164 5695",
+      "email": "Info@swiftaddisdetailing.com"
     },
     "social": {
       "follow_us": "Follow us on:",
@@ -268,7 +268,7 @@
     },
     "addons": {
       "title": "Available Add-ons",
-      "description": "Enhance your service with these add-ons",
+      "description": "If this add ons are not already included in your package but you want additional work done on your vehicle please choose the services below",
       "price_range": "{min} - {max} Birr",
       "duration": "Duration: {duration} min",
       "no_addons": "No add-ons available for this service"

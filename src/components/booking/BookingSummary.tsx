@@ -194,7 +194,9 @@ export function BookingSummary({
                         key={addon._id}
                         className="flex justify-between items-start border-b pb-2 mb-2 gap-2"
                       >
-                        <p className="font-medium">{addon.optionName}</p>
+                        <p className="font-medium">
+                          {addon.optionName[locale] || addon.optionName["en"]}
+                        </p>
                         <div className="text-right">
                           <p className="font-medium">
                             {t("price.range", {

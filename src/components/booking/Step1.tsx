@@ -24,6 +24,7 @@ export default function Step1() {
   const t = useTranslations("booking_step1");
   const locale = useLocale();
   const { data: services, isLoading: servicesLoading } = useServices();
+  console.log("services:", services);
   const { data: addOns, isLoading: addOnsLoading } = useAddons();
   const router = useRouter();
 
@@ -151,31 +152,34 @@ export default function Step1() {
                     <div
                       key={addon._id}
                       onClick={() => toggleAddOn(addon._id)}
-                      className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
+                      className={`p-4 border rounded-lg cursor-pointer space-y-4 transition-all duration-200 ${
                         selectedAddOns.includes(addon._id)
                           ? "border-primary bg-primary/5"
                           : "hover:border-primary/50 hover:bg-gray-50"
                       }`}
                     >
-                      <div className="flex justify-between gap-2 items-start">
-                        <div>
-                          <h3 className="font-medium">{addon.optionName}</h3>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {addon.description}
-                          </p>
+                      <div className="flex flex-col gap-2 ">
+                        <div className="flex w-full justify-between gap-1">
+                          <h3 className="font-medium">
+                            {addon.optionName[locale]}
+                          </h3>
+                          <Badge
+                            className="text-xs whitespace-nowrap"
+                            variant={
+                              selectedAddOns.includes(addon._id)
+                                ? "default"
+                                : "outline"
+                            }
+                          >
+                            {t("addons.price_range", {
+                              min: addon.additionalPrice?.minBasePrice ?? 0,
+                              max: addon.additionalPrice?.maxPrice ?? 0,
+                            })}
+                          </Badge>
                         </div>
-                        <Badge
-                          variant={
-                            selectedAddOns.includes(addon._id)
-                              ? "default"
-                              : "outline"
-                          }
-                        >
-                          {t("addons.price_range", {
-                            min: addon.additionalPrice?.minBasePrice ?? 0,
-                            max: addon.additionalPrice?.maxPrice ?? 0,
-                          })}
-                        </Badge>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {addon.description[locale]}
+                        </p>
                       </div>
                       <div className="mt-2 text-sm text-muted-foreground">
                         {t("addons.duration", { duration: addon.duration })}

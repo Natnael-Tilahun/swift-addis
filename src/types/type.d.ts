@@ -28,18 +28,28 @@ export interface Service {
   };
 }
 
-interface AddOn {
+export interface AddOn {
   _id: string;
-  optionName: string;
-  description?: string;
-  duration?: number;
+  optionName: {
+    en: string;
+    am: string;
+    [key: string]: string;
+  };
+  description: {
+    en: string;
+    am: string;
+    [key: string]: string;
+  };
+  duration: number;
   additionalPrice?: {
     minBasePrice: number;
     maxPrice: number;
   };
-  basePrice?: number | null; // Making it nullable for the Corporate Fleet Package
-  maxPrice?: number;
-  features?: string[];
+  features?: {
+    en: string[];
+    am: string[];
+    [key: string]: string[];
+  };
 }
 
 

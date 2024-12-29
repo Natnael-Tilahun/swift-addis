@@ -23,7 +23,6 @@ function Footer({
   const t = useTranslations("footer");
   const tMetadata = useTranslations("metadata");
 
-
   return (
     <section
       className={`w-full flex flex-col row-start-3 gap-10 items-cente justify-between bg-black text-white px-10 lg:px-14 xl:px-20 pb-10 pt-16 rounded-t-3xl ${className}`}
@@ -126,9 +125,7 @@ function Footer({
         </div>
       </div>
       <div className="text-gray-500 pt-5 border-t-[1px] border-gray-600 flex flex-wrap gap-5 justify-between">
-        <div className="flex-shrink-0">
-          {t("copyright")}
-        </div>
+        <div>{t("copyright")}</div>
         <div className="flex text-white">
           <p className="pr-3">{t("social.follow_us")}</p>
           <div className="flex md:gap-4">

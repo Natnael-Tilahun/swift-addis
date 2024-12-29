@@ -122,21 +122,25 @@ export default function ServiceDetails({
                             <div key={_id} className={`p-4 border rounded-lg`}>
                               <div className="flex justify-between items-start">
                                 <div>
-                                  <h3 className="font-medium">{optionName}</h3>
+                                  <h3 className="font-medium">
+                                    {optionName[locale]}
+                                  </h3>
                                   <p className="text-sm text-muted-foreground mt-1">
-                                    {description}
+                                    {description[locale]}
                                   </p>
                                   {features && (
                                     <ul className="mt-2 space-y-1">
-                                      {features.map((feature, index) => (
-                                        <li
-                                          key={index}
-                                          className="text-sm text-muted-foreground flex items-center gap-2"
-                                        >
-                                          <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                                          {feature}
-                                        </li>
-                                      ))}
+                                      {features[locale]?.map(
+                                        (feature: string, index: number) => (
+                                          <li
+                                            key={index}
+                                            className="text-sm text-muted-foreground flex items-center gap-2"
+                                          >
+                                            <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                                            {feature}
+                                          </li>
+                                        )
+                                      )}
                                     </ul>
                                   )}
                                 </div>
@@ -204,7 +208,7 @@ export default function ServiceDetails({
               </h1>
               <hr />
               <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-3">
                   <h1 className="text-lg font-medium">
                     {t("vehicle_selection.pricing.title")}
                   </h1>
@@ -214,10 +218,10 @@ export default function ServiceDetails({
                         <div
                           key={vehicleType}
                           onClick={() => handleServiceSelection(vehicleType)}
-                          className={`p-4 border rounded-lg space-y-2 cursor-pointer transition-all duration-200 
+                          className={`p-4 border border-primary/40 shadow-md rounded-lg space-y-2 cursor-pointer transition-all duration-200 
                           ${
                             selectedType === vehicleType
-                              ? "border-primary bg-primary/5"
+                              ? "border-primary bg-primary/10"
                               : "hover:border-primary hover:bg-gray-50"
                           }`}
                         >

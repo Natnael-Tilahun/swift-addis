@@ -28,10 +28,10 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 container mx-auto px-6">
-          <h1 className="text-gray-200 md:text-4xl text-3xl font-bold">
+          <h1 className="text-gray-200 md:text-4xl text-2xl font-bold">
             {t("title")}
           </h1>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 mt-3">
+          <h1 className="text-3xl md:text-6xl font-bold text-white mb-6 mt-3 ">
             {t("subtitle")}
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-2xl">
