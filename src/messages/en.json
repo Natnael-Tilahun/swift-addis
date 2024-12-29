@@ -297,7 +297,8 @@
         "last_name_required": "Last Name is required",
         "last_name_min": "Last Name must be at least 2 characters.",
         "phone_required": "Phone is required",
-        "phone_min": "Phone must be at least 10 characters."
+        "phone_min": "Phone must be at least 10 characters.",
+        "address_required": "Address is required"
       },
       "labels": {
         "first_name": "First Name",

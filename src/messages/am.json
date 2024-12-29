@@ -306,7 +306,8 @@
         "last_name_required": "የአባት ስም ያስፈልጋል",
         "last_name_min": "የአባት ስም ቢያንስ 2 ፊደሎች መሆን አለበት።",
         "phone_required": "ስልክ ቁጥር ያስፈልጋል",
-        "phone_min": "ስልክ ቁጥር ቢያንስ 10 ቁጥሮች መሆን አለበት።"
+        "phone_min": "ስልክ ቁጥር ቢያንስ 10 ቁጥሮች መሆን አለበት።",
+        "address_required": "አድራሻ ያስፈልጋል"
       },
       "labels": {
         "first_name": "የመጀመሪያ ስም",
