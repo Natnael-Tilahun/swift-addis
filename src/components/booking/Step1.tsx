@@ -18,10 +18,11 @@ import { Badge } from "@/components/ui/badge";
 import { BookingSummary } from "@/components/booking/BookingSummary";
 import { useRouter } from "next/navigation";
 import type { Service, AddOn } from "@/types/type";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function Step1() {
   const t = useTranslations("booking_step1");
+  const locale = useLocale();
   const { data: services, isLoading: servicesLoading } = useServices();
   const { data: addOns, isLoading: addOnsLoading } = useAddons();
   const router = useRouter();
@@ -91,7 +92,7 @@ export default function Step1() {
               ) : selectedService ? (
                 <div className="space-y-2">
                   <h3 className="font-semibold md:text-lg">
-                    {selectedService.name}
+                    {selectedService.name[locale]}
                   </h3>
                   <div className="grid md:grid-cols-2 gap-4">
                     {selectedServicesWithTypes.map((selected) => (
@@ -106,13 +107,18 @@ export default function Step1() {
                             </p>
                             <p className="text-sm text-muted-foreground">
                               {t("selected_service.duration", {
-                                duration: selectedService.duration[selected.vehicleType]
+                                duration:
+                                  selectedService.duration[
+                                    selected.vehicleType
+                                  ],
                               })}
                             </p>
                           </div>
                           <Badge variant="default">
                             {t("selected_service.price", {
-                              price: selectedService.pricing[selected.vehicleType].basePrice
+                              price:
+                                selectedService.pricing[selected.vehicleType]
+                                  .basePrice,
                             })}
                           </Badge>
                         </div>
@@ -132,9 +138,7 @@ export default function Step1() {
             <Card>
               <CardHeader>
                 <CardTitle>{t("addons.title")}</CardTitle>
-                <CardDescription>
-                  {t("addons.description")}
-                </CardDescription>
+                <CardDescription>{t("addons.description")}</CardDescription>
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-4">
                 {addOnsLoading ? (
@@ -169,7 +173,7 @@ export default function Step1() {
                         >
                           {t("addons.price_range", {
                             min: addon.additionalPrice?.minBasePrice ?? 0,
-                            max: addon.additionalPrice?.maxPrice ?? 0
+                            max: addon.additionalPrice?.maxPrice ?? 0,
                           })}
                         </Badge>
                       </div>

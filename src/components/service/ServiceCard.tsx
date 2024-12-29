@@ -14,10 +14,11 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import type { Service } from "@/types/type";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function ServiceCard({ services }: { services: Service[] }) {
   const t = useTranslations("services");
+  const locale = useLocale();
   const plugin = useRef(
     Autoplay({
       delay: 3000,
@@ -60,11 +61,11 @@ export default function ServiceCard({ services }: { services: Service[] }) {
           plugins={[plugin.current]}
           className="min-w-full max-w-xs z-40"
         >
-          <CarouselContent className="-ml-0 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16  ">
+          <CarouselContent className="-ml-4 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16">
             {services.map((service, index) => (
               <CarouselItem
                 key={index}
-                className="pl-4 md:pl-12 lg:pl-8 basis-full md:basis-[50%] lg:basis-[32%] "
+                className="pl-4 md:pl-12 lg:pl-8 basis-full sm:basis-1/2 md:basis-[35%] lg:basis-[35%]"
               >
                 <Card
                   className={`bg- glassmorphism-card overflow-hidden h-full w-full flex flex-col bg-white transition transform duration-300 hover:scale-105 rounded-2xl ${
@@ -74,7 +75,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                   <div className="relative w-full pt-[50%]">
                     <Image
                       src={service.image || "/placeholder.jpg"}
-                      alt={service.name}
+                      alt={service.name[locale] || service.name["en"]}
                       fill={true}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       style={{ objectFit: "cover" }}
@@ -88,19 +89,22 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                       </div>
                     )}
 
-                    {service.name !== "CORPORATE FLEET PACKAGE" && (
-                      <div className="absolute bottom-2 right-2 bg-[#e5eafd] text-black opacity-90 p-2 whitespace-nowrap rounded-lg text-center">
-                        <h4 className="text-base font-bold ">
-                          {t("price_range", {
-                            min: service.pricing?.["AUTO"]?.basePrice,
-                            max: service.pricing?.["AUTO"]?.maxPrice,
-                          })}
-                        </h4>
-                        <p className="text-sm font-medium whitespace-nowrap">
-                          {t("duration", { time: service.duration?.["AUTO"] })}
-                        </p>
-                      </div>
-                    )}
+                    {service.name[locale] !== "CORPORATE FLEET PACKAGE" &&
+                      service.name[locale] !== "የድርጅት ጥቅል" && (
+                        <div className="absolute bottom-2 right-2 bg-[#e5eafd] text-black opacity-90 p-2 whitespace-nowrap rounded-lg text-center">
+                          <h4 className="text-base font-bold ">
+                            {t("price_range", {
+                              min: service.pricing?.["AUTO"]?.basePrice,
+                              max: service.pricing?.["AUTO"]?.maxPrice,
+                            })}
+                          </h4>
+                          <p className="text-sm font-medium whitespace-nowrap">
+                            {t("duration", {
+                              time: service.duration?.["AUTO"],
+                            })}
+                          </p>
+                        </div>
+                      )}
                   </div>
 
                   <div className="p-5 md:p-6 space-y-5 flex flex-col justify-between h-full">
@@ -114,7 +118,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                               : "text-gray-900"
                           }`}
                         >
-                          {service.name}
+                          {service.name[locale]}
                         </Link>
                       </div>
                     </div>
@@ -125,54 +129,23 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                           : "text-secondary-foreground"
                       }`}
                     >
-                      {service?.description}
+                      {service?.description[locale]}
                     </p>
-                    <ul className="space-y-4">
-                      {service?.features?.slice(0, 3).map((feature, index) => (
-                        <li
-                          className={`text-sm flex items-start ${
-                            service.tag == "Popular" ? "text-white" : ""
-                          }`}
-                          key={index}
-                        >
-                          <div
-                            className={`bg-black rounded-full p-1 ${
-                              service.tag == "Popular" ? "bg-white" : "bg-black"
-                            }`}
-                          >
-                            <svg
-                              className={`flex-shrink-0 h-4 w-4 ${
-                                service.tag == "Popular"
-                                  ? "text-indigo-900"
-                                  : "text-white"
-                              }`}
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true"
+                    {service.features && service.features[locale] && (
+                      <ul className="space-y-4">
+                        {service.features[locale]
+                          .slice(0, 3)
+                          .map((feature, index) => (
+                            <li
+                              key={index}
+                              className="text-sm text-muted-foreground flex items-center gap-2"
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                          </div>
-
-                          <span className="ml-3 text-sm">{feature} </span>
-                        </li>
-                      ))}
-                      {/* {service?.features && service?.features?.length > 3 && (
-                        <Link
-                          href={`/services/${service._id}`}
-                          className="text-base text-primary hover:underline px-8 block"
-                        >
-                          ... view {service?.features?.length - 3} more
-                        </Link>
-                      )} */}
-                    </ul>
+                              <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                              {feature}
+                            </li>
+                          ))}
+                      </ul>
+                    )}
 
                     <div className="w-full h-full flex flex-col gap-1">
                       <Button
@@ -183,7 +156,8 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                           href={`/services/${service._id}`}
                           className="w-full"
                         >
-                          {service.name === "CORPORATE FLEET PACKAGE"
+                          {service.name[locale] === "CORPORATE FLEET PACKAGE" ||
+                          service.name[locale] === "የድርጅት ጥቅል"
                             ? t("get_quote")
                             : t("view_details")}
                         </Link>

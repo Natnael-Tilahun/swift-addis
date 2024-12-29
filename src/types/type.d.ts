@@ -1,20 +1,25 @@
-interface Service {
+export interface Service {
   _id: string;
-  name: string;
-  image?: string;
-  description?: string;
-  basePrice?: number | null; // Making it nullable for the Corporate Fleet Package
-  maxPrice?: number;
+  image: string;
+  name: {
+    en: string;
+    am: string;
+    [key: string]: string;
+  };
+  description: {
+    en: string;
+    am: string;
+    [key: string]: string;
+  };
+  features?: {
+    en: string[];
+    am: string[];
+    [key: string]: string[];
+  };
+  tag?: string;
   duration: {
     [key: string]: number;
   };
-  duration?: string;
-  features?: string[];
-  addOns?: AddOn[];
-  customizableOptions?: {
-    [key: string]: string;
-  };
-  tag?: string;
   pricing: {
     [key: string]: {
       basePrice: number;

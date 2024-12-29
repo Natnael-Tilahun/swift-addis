@@ -12,7 +12,7 @@ import { useAddons } from "@/hooks/useAddons";
 import { useBookingStore } from "@/store/useBookingStore";
 import { useCallback } from "react";
 import type { Service, AddOn } from "@/types/type";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export function BookingSummary({
   children,
@@ -22,6 +22,7 @@ export function BookingSummary({
   className?: string;
 }) {
   const t = useTranslations("booking_summary");
+  const locale = useLocale();
   const { data: services } = useServices();
   const { data: addOns } = useAddons();
 
@@ -157,7 +158,9 @@ export function BookingSummary({
                       className="flex flex-col md:flex-row justify-between md:items-start md:gap-4 border-b pb-2 mb-2"
                     >
                       <div>
-                        <p className="font-medium text-base">{service.name}</p>
+                        <p className="font-medium text-base">
+                          {service.name[locale]}
+                        </p>
                         <p className="text-sm text-muted-foreground">
                           {vehicleType}
                         </p>
@@ -166,7 +169,7 @@ export function BookingSummary({
                         <p className="font-medium text-base whitespace-nowrap">
                           {t("price.range", {
                             min: service.pricing[vehicleType]?.basePrice,
-                            max: service.pricing[vehicleType]?.maxPrice
+                            max: service.pricing[vehicleType]?.maxPrice,
                           })}
                         </p>
                         <p className="text-sm text-muted-foreground">
@@ -196,7 +199,7 @@ export function BookingSummary({
                           <p className="font-medium">
                             {t("price.range", {
                               min: addon.additionalPrice?.minBasePrice || 0,
-                              max: addon.additionalPrice?.maxPrice || 0
+                              max: addon.additionalPrice?.maxPrice || 0,
                             })}
                           </p>
                           <p className="text-sm text-muted-foreground">
@@ -211,10 +214,14 @@ export function BookingSummary({
               {/* Appointment Details */}
               {selectedDate && (
                 <div className=" pt-4">
-                  <h3 className="font-medium mb-2">{t("sections.appointment")}</h3>
+                  <h3 className="font-medium mb-2">
+                    {t("sections.appointment")}
+                  </h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">{t("time.date")}:</span>
+                      <span className="text-muted-foreground">
+                        {t("time.date")}:
+                      </span>
                       <span className="font-medium">
                         {selectedDate.toLocaleDateString("en-US", {
                           weekday: "short",
@@ -226,7 +233,9 @@ export function BookingSummary({
                     </div>
                     {appointmentTime && (
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">{t("time.time")}:</span>
+                        <span className="text-muted-foreground">
+                          {t("time.time")}:
+                        </span>
                         <span className="font-medium">{appointmentTime}</span>
                       </div>
                     )}
@@ -237,13 +246,17 @@ export function BookingSummary({
               {/* Totals */}
               <div className="border-t pt-4 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t("totals.duration")}:</span>
+                  <span className="text-muted-foreground">
+                    {t("totals.duration")}:
+                  </span>
                   <span className="font-medium">
                     {t("totals.duration_value", { duration: totalDuration })}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t("totals.price_range")}:</span>
+                  <span className="text-muted-foreground">
+                    {t("totals.price_range")}:
+                  </span>
                   <span className="font-medium">
                     {t("totals.price_value", { min: minTotal, max: maxTotal })}
                   </span>

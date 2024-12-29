@@ -8,7 +8,7 @@ import { useBookingStore } from "@/store/useBookingStore";
 import { Separator } from "@/components/ui/separator";
 import type { Service, AddOn } from "@/types/type";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function ServiceDetails({
   service,
@@ -18,6 +18,7 @@ export default function ServiceDetails({
   addOns: AddOn[];
 }) {
   const t = useTranslations("service_details");
+  const locale = useLocale();
   const router = useRouter();
   const {
     selectedServicesWithTypes,
@@ -62,117 +63,131 @@ export default function ServiceDetails({
           <div className="relative w-full aspect-video rounded-xl overflow-hidden">
             <Image
               src={service.image || "/placeholder.jpg"}
-              alt={service.name}
+              alt={service.name[locale]}
               fill
               className="object-cover"
             />
           </div>
           <div className="space-y-4">
             <div className="space-y-2">
-              <h1 className="text-xl font-semibold">{service.name}</h1>
+              <h1 className="text-xl font-semibold">{service.name[locale]}</h1>
               <p className="text-sm text-muted-foreground mt-1">
-                {service.description}
+                {service.description[locale]}
               </p>
             </div>
-            {service?.features && service?.features?.length > 0 && (
+            {service?.features && service?.features[locale]?.length > 0 && (
               <div key={service._id} className="space-y-2">
                 <h2 className="font-medium">{t("sections.features")}</h2>
                 <ul className="grid grid-cols-2 gap-2">
-                  {service.features.map((feature: string, index: number) => (
-                    <li
-                      key={index}
-                      className="text-sm text-muted-foreground flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                      {feature}
-                    </li>
-                  ))}
+                  {service.features[locale]?.map(
+                    (feature: string, index: number) => (
+                      <li
+                        key={index}
+                        className="text-sm text-muted-foreground flex items-center gap-2"
+                      >
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                        {feature}
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
             )}
 
-            {service.name !== "CORPORATE FLEET PACKAGE" && (
-              <>
-                <Separator />
-                {addOns && addOns?.length > 0 && (
-                  <div className="space-y-4">
-                    <div className="space-y-1">
-                      <h2 className="text-xl font-semibold">{t("sections.addons.title")}</h2>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {t("sections.addons.description")}
-                      </p>
-                    </div>
-
+            {service.name[locale] !== "CORPORATE FLEET PACKAGE" &&
+              service.name[locale] !== "የድርጅት ጥቅል" && (
+                <>
+                  <Separator />
+                  {addOns && addOns?.length > 0 && (
                     <div className="space-y-4">
-                      {addOns.map(
-                        ({
-                          optionName,
-                          description,
-                          features,
-                          duration,
-                          additionalPrice,
-                          _id,
-                        }: AddOn) => (
-                          <div key={_id} className={`p-4 border rounded-lg`}>
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h3 className="font-medium">{optionName}</h3>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  {description}
-                                </p>
-                                {features && (
-                                  <ul className="mt-2 space-y-1">
-                                    {features.map((feature, index) => (
-                                      <li
-                                        key={index}
-                                        className="text-sm text-muted-foreground flex items-center gap-2"
-                                      >
-                                        <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                                        {feature}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                )}
+                      <div className="space-y-1">
+                        <h2 className="text-xl font-semibold">
+                          {t("sections.addons.title")}
+                        </h2>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {t("sections.addons.description")}
+                        </p>
+                      </div>
+
+                      <div className="space-y-4">
+                        {addOns.map(
+                          ({
+                            optionName,
+                            description,
+                            features,
+                            duration,
+                            additionalPrice,
+                            _id,
+                          }: AddOn) => (
+                            <div key={_id} className={`p-4 border rounded-lg`}>
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <h3 className="font-medium">{optionName}</h3>
+                                  <p className="text-sm text-muted-foreground mt-1">
+                                    {description}
+                                  </p>
+                                  {features && (
+                                    <ul className="mt-2 space-y-1">
+                                      {features.map((feature, index) => (
+                                        <li
+                                          key={index}
+                                          className="text-sm text-muted-foreground flex items-center gap-2"
+                                        >
+                                          <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                                          {feature}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="mt-2 text-sm text-muted-foreground">
+                                {t("sections.addons.duration", { duration })}
+                              </div>
+                              <div className="mt-2 text-sm text-muted-foreground">
+                                {t("sections.addons.price", {
+                                  min: additionalPrice?.minBasePrice ?? 0,
+                                  max: additionalPrice?.maxPrice ?? 0,
+                                })}
                               </div>
                             </div>
-                            <div className="mt-2 text-sm text-muted-foreground">
-                              {t("sections.addons.duration", { duration })}
-                            </div>
-                            <div className="mt-2 text-sm text-muted-foreground">
-                              {t("sections.addons.price", { 
-                                min: additionalPrice?.minBasePrice ?? 0,
-                                max: additionalPrice?.maxPrice ?? 0 
-                              })}
-                            </div>
-                          </div>
-                        )
-                      )}
+                          )
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </>
-            )}
+                  )}
+                </>
+              )}
           </div>
         </div>
 
         {/* Right column - Vehicle selection or Contact Info */}
         <Card className="flex md:col-span-2 col-span-1 flex-col gap-4 p-6 h-fit">
-          {service.name === "CORPORATE FLEET PACKAGE" ? (
+          {service.name[locale] === "CORPORATE FLEET PACKAGE" ||
+          service.name[locale] === "የድርጅት ጥቅል" ? (
             <div className="space-y-6">
               <h1 className="text-2xl font-semibold">{t("corporate.title")}</h1>
               <hr />
               <div className="space-y-4">
-                <p className="text-muted-foreground">{t("corporate.description")}</p>
+                <p className="text-muted-foreground">
+                  {t("corporate.description")}
+                </p>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <PhoneIcon className="w-5 h-5 text-primary" />
-                    <a href={`tel:${t("corporate.contact.phone")}`} className="hover:text-primary">
+                    <a
+                      href={`tel:${t("corporate.contact.phone")}`}
+                      className="hover:text-primary"
+                    >
                       {t("corporate.contact.phone")}
                     </a>
                   </div>
                   <div className="flex items-center gap-2">
                     <MailIcon className="w-5 h-5 text-primary" />
-                    <a href={`mailto:${t("corporate.contact.email")}`} className="hover:text-primary">
+                    <a
+                      href={`mailto:${t("corporate.contact.email")}`}
+                      className="hover:text-primary"
+                    >
                       {t("corporate.contact.email")}
                     </a>
                   </div>
@@ -184,11 +199,15 @@ export default function ServiceDetails({
             </div>
           ) : (
             <>
-              <h1 className="text-2xl font-semibold">{t("vehicle_selection.title")}</h1>
+              <h1 className="text-2xl font-semibold">
+                {t("vehicle_selection.title")}
+              </h1>
               <hr />
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <h1 className="text-lg font-medium">{t("vehicle_selection.pricing.title")}</h1>
+                  <h1 className="text-lg font-medium">
+                    {t("vehicle_selection.pricing.title")}
+                  </h1>
                   <div className="grid grid-cols-1 gap-4">
                     {Object.entries(service.pricing).map(
                       ([vehicleType, prices]) => (
@@ -205,19 +224,23 @@ export default function ServiceDetails({
                           <p className="font-medium text-lg">{vehicleType}</p>
                           <div className="space-y-1 text-muted-foreground">
                             <p className="flex justify-between">
-                              <span>{t("vehicle_selection.pricing.price_range")}</span>
+                              <span>
+                                {t("vehicle_selection.pricing.price_range")}
+                              </span>
                               <span className="text-primary font-medium">
                                 {t("vehicle_selection.pricing.price_value", {
                                   min: prices.basePrice,
-                                  max: prices.maxPrice
+                                  max: prices.maxPrice,
                                 })}
                               </span>
                             </p>
                             <p className="flex justify-between">
-                              <span>{t("vehicle_selection.pricing.duration")}</span>
+                              <span>
+                                {t("vehicle_selection.pricing.duration")}
+                              </span>
                               <span className="text-primary font-medium">
                                 {t("vehicle_selection.pricing.duration_value", {
-                                  duration: service.duration[vehicleType]
+                                  duration: service.duration[vehicleType],
                                 })}
                               </span>
                             </p>
