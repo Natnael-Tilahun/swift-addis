@@ -29,7 +29,7 @@ function Footer({
       onClick={toggleMenu}
       id="footer"
     >
-      <div className="grid md:grid-cols-3 grid-cols-2 lg:grid-cols-5 md:gap-20 gap-10 w-full">
+      <div className="grid md:grid-cols-3 grid-cols-2  xl:grid-cols-5 md:gap-20 gap-10 w-full">
         <div className="flex flex-col col-span-2 md:col-span-1 gap-6">
           <Link href="/" className="flex flex-row items-center space-x-2">
             <Image

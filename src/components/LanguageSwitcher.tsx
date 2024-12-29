@@ -1,12 +1,17 @@
 import { useLocale, useTranslations } from "next-intl";
 import LanguageSwitcherSelect from "@/components/LanguageSwitcherSelect";
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({
+  className,
+}: {
+  className?: string;
+}) {
   const t = useTranslations("LanguageSwitcher");
   const locale = useLocale();
 
   return (
     <LanguageSwitcherSelect
+      className={className}
       defaultValue={locale}
       items={[
         {

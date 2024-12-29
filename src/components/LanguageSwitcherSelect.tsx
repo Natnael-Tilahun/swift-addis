@@ -15,20 +15,26 @@ type Props = {
   defaultValue: string;
   items: Array<{ value: string; label: string }>;
   label: string;
+  className?: string;
 };
 
-function LanguageSwitcherSelect({ defaultValue, items, label }: Props) {
+function LanguageSwitcherSelect({
+  defaultValue,
+  items,
+  label,
+  className,
+}: Props) {
   const [isPending, startTransition] = useTransition();
 
   function onChange(value: string) {
-    const locale = value as typeof locales[number];
+    const locale = value as (typeof locales)[number];
     startTransition(() => {
       setUserLocale(locale);
     });
   }
 
   return (
-    <div>
+    <div className={`${className}`}>
       {/* <Select defaultValue={defaultValue} onValueChange={onChange}>
         <SelectTrigger
           aria-label={label}
@@ -67,7 +73,7 @@ function LanguageSwitcherSelect({ defaultValue, items, label }: Props) {
         <SelectTrigger
           aria-label={label}
           disabled={isPending}
-          className="w-[150px] "
+          className="w-[60px] md:w-[100px] lg:w-[150px] "
         >
           <SelectValue placeholder="Theme" />
         </SelectTrigger>

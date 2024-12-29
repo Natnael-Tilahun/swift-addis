@@ -47,7 +47,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
 
   return (
     <div
-      className="lg:container w-full md:px-14 lg:px-0 h-fit min-h-[50vh] p-5 py-16 lg:py-14 xl:py-20 flex flex-col gap-8 mx-auto bg-[#EDF2FF]/30 relative -mt-20"
+      className="md:container xl:min-w-full md:px-14 lg:px-16 h-fit min-h-[50vh] p-5 py-16 lg:py-14 xl:py-20 flex flex-col gap-8 mx-auto bg-[#EDF2FF]/30 relative -mt-20"
       id="services"
     >
       <div className="flex flex-col gap-1">
@@ -61,11 +61,11 @@ export default function ServiceCard({ services }: { services: Service[] }) {
           plugins={[plugin.current]}
           className="min-w-full max-w-xs z-40"
         >
-          <CarouselContent className="-ml-4 md:-ml-12 lg:-ml-20 py-4 md:py-12 md:px-6 lg:px-16">
+          <CarouselContent className="-ml-4 md:-ml-12 lg:-ml-20 xl:-ml-24 py-4 md:py-12 md:px-6 lg:px-16 xl:px-20">
             {services.map((service, index) => (
               <CarouselItem
                 key={index}
-                className="pl-4 md:pl-12 lg:pl-8 basis-full sm:basis-1/2 md:basis-[35%] lg:basis-[35%]"
+                className="pl-4 md:pl-12 lg:pl-8 basis-full sm:basis-1/2 md:basis-[50%] xl:basis-[30%]"
               >
                 <Card
                   className={`bg- glassmorphism-card overflow-hidden h-full w-full flex flex-col bg-white transition transform duration-300 hover:scale-105 rounded-2xl ${

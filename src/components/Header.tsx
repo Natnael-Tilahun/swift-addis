@@ -45,34 +45,38 @@ function Header({
           </h1>
         </div>
       </Link>
-      <div className="block lg:hidden">
-        <button
-          className="flex items-center px-3 py-2 border rounded  border-black "
-          onClick={toggleMenu}
-        >
-          {collapseNav ? (
-            <svg
-              className="fill-current h-3 w-3 font-bold"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>{t("menu")}</title>
-              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-            </svg>
-          ) : (
-            <svg
-              className="fill-current h-3 w-3 font-bold"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-            >
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-            </svg>
-          )}
-        </button>
+      <div className=" flex items-center gap-4 w-fit lg:hidden">
+        <LanguageSwitcher className="w-fit" />
+        <div className="block lg:hidden">
+          <button
+            className="flex items-center px-3 py-2 border rounded  border-black "
+            onClick={toggleMenu}
+          >
+            {collapseNav ? (
+              <svg
+                className="fill-current h-3 w-3 font-bold"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>{t("menu")}</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+              </svg>
+            ) : (
+              <svg
+                className="fill-current h-3 w-3 font-bold"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
+
       <div
         className={`w-full block lg:flex lg:items-center lg:w-auto duration-500 ease-in-out transition-all bg-[#E6EEFF] rounded-2xl md:rounded-none lg:bg-transparent shadow-lg lg:shadow-none fixed lg:static top-16 left-0 ${
           collapseNav ? "hidden" : "block"
@@ -145,7 +149,7 @@ function Header({
           >
             Book Now
           </Link> */}
-          <LanguageSwitcher />
+          <LanguageSwitcher className="hidden lg:block" />
           <Button
             onClick={toggleMenu}
             className="md:w-fit w-full font-bold px-5 text-lg lg:mt-0  border"

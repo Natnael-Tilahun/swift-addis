@@ -22,7 +22,7 @@ const testimonialIds = [
 
 export default function Testimonials() {
   const t = useTranslations("testimonials");
-  
+
   const plugin = useRef(
     Autoplay({
       delay: 2000,
@@ -35,7 +35,7 @@ export default function Testimonials() {
 
   return (
     <div
-      className="w-full h-fit py-12 flex flex-col gap-8 bg-[#FAFAFA] relative"
+      className="w-full md:container xl:min-w-full h-fit py-12 flex flex-col gap-8 bg-[#FAFAFA] relative"
       id="testimonials"
     >
       <h1 className="text-4xl mb-2 md:mb-12 font-bold text-center">
@@ -53,7 +53,7 @@ export default function Testimonials() {
             {testimonialIds.map((item, index) => (
               <CarouselItem
                 key={index}
-                className={`md:pl-10 pl-4 basis-full md:basis-2/5 ${
+                className={`md:pl-6 xl:pl-10 pl-4 basis-full md:basis-2/5 ${
                   index === 0 ? "pl-0" : ""
                 }`}
               >
