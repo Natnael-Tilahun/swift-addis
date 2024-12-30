@@ -1,8 +1,8 @@
 // import Hero from "@/components/Hero";
 import Contact from "@/components/Contact";
-import Testimonials from "@/components/Testimonials";
+// import Testimonials from "@/components/Testimonials";
 import Services from "@/components/Services";
-import Gallery from "@/components/Gallery";
+// import Gallery from "@/components/Gallery";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
