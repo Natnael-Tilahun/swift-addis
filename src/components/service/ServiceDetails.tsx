@@ -78,7 +78,7 @@ export default function ServiceDetails({
             {service?.features && service?.features[locale]?.length > 0 && (
               <div key={service._id} className="space-y-2">
                 <h2 className="font-medium">{t("sections.features")}</h2>
-                <ul className="grid grid-cols-2 gap-2">
+                <ul className="grid md:grid-cols-2 gap-2">
                   {service.features[locale]?.map(
                     (feature: string, index: number) => (
                       <li

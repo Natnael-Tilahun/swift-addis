@@ -10,14 +10,14 @@ export default function About() {
 
   return (
     <div className="w-full container mx-auto px-6 py-12">
-      <div className="max-w-3xl mx-auto text-center mb-12">
+      <div className="max-w-3xl mx-auto text-center ">
         <h1 className="text-4xl font-bold mb-4">{t("title")}</h1>
         <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
       </div>
 
       <div className="relative h-[400px] w-full mb-12 rounded-2xl overflow-hidden">
         <Image
-          src="/logo1.png"
+          src="/Com.png"
           alt={t("team_image_alt")}
           fill={true}
           className="object-contain rounded-2xl bg-center"
@@ -54,30 +54,14 @@ export default function About() {
 
       <div className="w-full h-full relative space-y-4 flex flex-col tracking-wider leading-7">
         <h2 className="text-3xl font-bold text-center">{t("story.title")}</h2>
-        <p>
-          {t.rich("story.paragraphs.intro", {
-            company: () => (
-              <span className="font-bold text-primary">
-                {t("story.company_name")}
-              </span>
-            ),
-          })}
-        </p>
-        <p>
-          {t.rich("story.paragraphs.service", {
-            company: () => (
-              <span className="font-bold text-primary">
-                {t("story.company_name")}
-              </span>
-            ),
-          })}
-        </p>
+        <p>{t.rich("story.paragraphs.intro")}</p>
+        <p>{t.rich("story.paragraphs.service")}</p>
         <p>{t("story.paragraphs.services")}</p>
         <p>
           {t.rich("story.paragraphs.motto", {
-            motto: () => (
+            motto: (children) => (
               <span className="font-bold text-primary bg-primary/10 p-2 rounded-xl">
-                {t("story.motto_text")}
+                {children}
               </span>
             ),
           })}

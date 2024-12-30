@@ -43,6 +43,14 @@ type GeolocationError = {
   message: string;
 };
 
+type ApiError = {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+};
+
 export default function Step3() {
   const t = useTranslations("booking_step3");
   const { toast } = useToast();
@@ -344,12 +352,13 @@ export default function Step3() {
         resetBooking();
         setStep(4);
       },
-      onError: (error) => {
-        console.error("Booking creation failed:", error);
+      onError: (error: unknown) => {
+        const apiError = error as ApiError;
         toast({
-          title: "Error",
+          title: t("booking.error.title"),
           variant: "destructive",
-          description: error.message || "Something went wrong",
+          description:
+            apiError?.response?.data?.message || t("booking.error.generic"),
         });
       },
     });

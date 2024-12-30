@@ -29,9 +29,12 @@ export const getAvailableSlots = async (date: string) => {
 };
 
 export const createBooking = async (bookingData: Booking) => {
-  const { data } = await api.post('/bookings', bookingData);
-  console.log("new booking: ", data)
-  return data;
+  try {
+    const { data } = await api.post('/bookings', bookingData);
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // export const getServiceById = async (id: string) => {
