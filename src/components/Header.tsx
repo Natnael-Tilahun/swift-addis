@@ -99,7 +99,7 @@ function Header({
           >
             {t("services")}
           </Link>
-          <Link
+          {/* <Link
             href="/#gallery"
             scroll={true}
             onClick={toggleMenu}
@@ -114,7 +114,7 @@ function Header({
             className="block mt-4 lg:inline-block lg:mt-0 hover:text-primary mr-6  border-primary pr-2 transition-all duration-200 hover:border-r-4"
           >
             {t("testimonials")}
-          </Link>
+          </Link> */}
           <Link
             href="/#contact"
             scroll={true}
