@@ -71,7 +71,9 @@ export default function Step3() {
       message: t("form.validation.phone_min"),
     }),
     email: z.string().email().optional(),
-    address: z.string({ message: t("form.validation.address_required") }),
+    address: z
+      .string()
+      .min(2, { message: t("form.validation.address_required") }),
     appointmentNote: z.string().optional(),
     longitude: z.number().optional(),
     latitude: z.number().optional(),
@@ -101,14 +103,14 @@ export default function Step3() {
     resetBooking,
   } = useBookingStore();
   const [formData, setFormData] = useState<{
-    address: string;
+    address: string | null;
     location: {
       lat: number | null;
       lng: number | null;
       address?: string;
     };
   }>({
-    address: location?.address || "",
+    address: location?.address ?? null,
     location: {
       lat: location?.coordinates?.latitude || null,
       lng: location?.coordinates?.longitude || null,
@@ -121,9 +123,9 @@ export default function Step3() {
       firstName: clientDetails?.firstName,
       lastName: clientDetails?.lastName,
       phone: clientDetails?.phone,
-      email: clientDetails?.email || undefined,
-      address: location?.address,
-      appointmentNote: appointmentNote || "",
+      email: clientDetails?.email ?? "",
+      address: location?.address || undefined,
+      appointmentNote: appointmentNote ?? "",
       longitude: location?.coordinates?.longitude || undefined,
       latitude: location?.coordinates?.latitude || undefined,
       images: images,
@@ -304,7 +306,7 @@ export default function Step3() {
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phone,
-        email: values.email || undefined,
+        email: values.email ?? undefined,
       },
       vehicleDetails: {
         carType: (selectedServicesWithTypes[0]?.vehicleType ||
@@ -454,6 +456,8 @@ export default function Step3() {
                         <Input
                           placeholder={t("form.placeholders.email")}
                           {...field}
+                          value={field.value ?? ""}
+                          onChange={(e) => field.onChange(e.target.value || "")}
                         />
                       </FormControl>
                       <FormMessage />
@@ -487,7 +491,7 @@ export default function Step3() {
                           <Input
                             placeholder={t("form.placeholders.address")}
                             {...field}
-                            value={formData?.address}
+                            value={formData?.address || ""}
                             onChange={(e) => {
                               field.onChange(e);
                               setFormData((prev) => ({
@@ -495,6 +499,7 @@ export default function Step3() {
                                 address: e.target.value,
                               }));
                             }}
+                            required
                           />
                         </FormControl>
                         {/* Map and Coordinates Section */}

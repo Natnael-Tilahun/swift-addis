@@ -135,65 +135,72 @@ export default function Step1() {
             </CardContent>
           </Card>
 
-          {selectedService && (
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("addons.title")}</CardTitle>
-                <CardDescription>{t("addons.description")}</CardDescription>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                {addOnsLoading ? (
-                  <div className="grid col-span-full grid-cols-2 gap-4 h-full">
-                    <Skeleton className="h-20 w-full"></Skeleton>
-                    <Skeleton className="h-20 w-full"></Skeleton>
-                  </div>
-                ) : addOns && addOns.length > 0 ? (
-                  addOns.map((addon: AddOn) => (
-                    <div
-                      key={addon._id}
-                      onClick={() => toggleAddOn(addon._id)}
-                      className={`p-4 border rounded-lg cursor-pointer space-y-4 transition-all duration-200 ${
-                        selectedAddOns.includes(addon._id)
-                          ? "border-primary bg-primary/5"
-                          : "hover:border-primary/50 hover:bg-gray-50"
-                      }`}
-                    >
-                      <div className="flex flex-col gap-2 ">
-                        <div className="flex w-full justify-between gap-1">
-                          <h3 className="font-medium">
-                            {addon.optionName[locale]}
-                          </h3>
-                          <Badge
-                            className="text-xs whitespace-nowrap"
-                            variant={
-                              selectedAddOns.includes(addon._id)
-                                ? "default"
-                                : "outline"
-                            }
-                          >
-                            {t("addons.price_range", {
-                              min: addon.additionalPrice?.minBasePrice ?? 0,
-                              max: addon.additionalPrice?.maxPrice ?? 0,
-                            })}
-                          </Badge>
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {addon.description[locale]}
-                        </p>
-                      </div>
-                      <div className="mt-2 text-sm text-muted-foreground">
-                        {t("addons.duration", { duration: addon.duration })}
-                      </div>
+          {selectedService &&
+            selectedService.name["en"] !== "SWIFT VIP PRESTIGE PACKAGE" &&
+            selectedService.name["am"] !== "ስዊፍት VIP ክብር ጥቅል" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("addons.title")}</CardTitle>
+                  <CardDescription>{t("addons.description")}</CardDescription>
+                </CardHeader>
+                <CardContent className="grid md:grid-cols-2 gap-4">
+                  {addOnsLoading ? (
+                    <div className="grid col-span-full grid-cols-2 gap-4 h-full">
+                      <Skeleton className="h-20 w-full"></Skeleton>
+                      <Skeleton className="h-20 w-full"></Skeleton>
                     </div>
-                  ))
-                ) : (
-                  <div className="col-span-full text-center py-4 text-muted-foreground">
-                    {t("addons.no_addons")}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
+                  ) : addOns && addOns.length > 0 ? (
+                    addOns.map((addon: AddOn) => (
+                      <div
+                        key={addon._id}
+                        onClick={() => toggleAddOn(addon._id)}
+                        className={`p-4 border rounded-lg cursor-pointer space-y-4 transition-all duration-200 ${
+                          selectedAddOns.includes(addon._id)
+                            ? "border-primary bg-primary/5"
+                            : "hover:border-primary/50 hover:bg-gray-50"
+                        }`}
+                      >
+                        <div className="flex flex-col gap-2 ">
+                          <div className="flex w-full justify-between gap-1">
+                            <h3 className="font-medium">
+                              {addon.optionName[locale]}
+                            </h3>
+                            <Badge
+                              className="text-xs whitespace-nowrap"
+                              variant={
+                                selectedAddOns.includes(addon._id)
+                                  ? "default"
+                                  : "outline"
+                              }
+                            >
+                              {t("addons.price_range", {
+                                min: addon.additionalPrice?.minBasePrice ?? 0,
+                                currency: t("addons.currency"),
+                                max: addon.additionalPrice?.maxPrice
+                                  ? `${addon.additionalPrice.maxPrice} ${t(
+                                      "addons.currency"
+                                    )}`
+                                  : t("addons.no_max_price"),
+                              })}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {addon.description[locale]}
+                          </p>
+                        </div>
+                        <div className="mt-2 text-sm text-muted-foreground">
+                          {t("addons.duration", { duration: addon.duration })}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center py-4 text-muted-foreground">
+                      {t("addons.no_addons")}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
         </div>
 
         <BookingSummary className="col-span-1">

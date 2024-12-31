@@ -188,7 +188,7 @@
       "company_name": "Swift Addis Mobile Car Detailing",
       "paragraphs": {
         "intro": "Welcome to Swift Addis Mobile Car Detailing, Addis Abeba's premier mobile car wash and detailing service. Founded in 2024 by Yohannes Tadesse and Natnael Asfaw, we are driven by a passion for excellence and a commitment to delivering unmatched detailing services. With a shared vision for innovation, Yohannes and Natnael have set out to revolutionize car detailing in Ethiopia by combining top-tier service with European-standard detailing products. Our advanced, industry-leading products ensure your vehicle receives the same level of care and precision you'd expect from world-class detailing standards, right here in Addis Abeba.",
-        "service": "At Swift Addis Mobile Car Detailing, we believe your car deserves meticulous attention, and you deserve a hassle-free experience. That's why we take the stress out of car care by bringing our state-of-the-art detailing expertise directly to your home or office. As a fully mobile service, we save you the time, fuel, and energy it takes to drive to a traditional car wash or detailing center. No more long lines,traffic or wasted hours—our as our team comes to you,ensuring your vehicle gets the care it needs while you can fully enjoy your time at home without worrying that you have to provide water,electric city or any kind of equipments as we bring our own water and silent generator to power our own equipments.",
+        "service": "At Swift Addis Mobile Car Detailing, we believe your car deserves meticulous attention, and you deserve a hassle-free experience. That's why we take the stress out of car care by bringing our state-of-the-art detailing expertise directly to your home or office. As a fully mobile service, we save you the time, fuel, and energy it takes to drive to a traditional car wash or detailing center. No more long lines,traffic or wasted hours— as our team comes to you,ensuring your vehicle gets the care it needs while you can fully enjoy your time at home without worrying that you have to provide water,electric city or any kind of equipments as we bring our own water and silent generator to power our own equipments.",
         "services": "Our wide range of services includes everything from basic exterior washes to full interior and exterior detailing, ceramic coating, paint correction, and fleet services. Whether you're looking for a quick clean or a luxury-level transformation, we have customizable packages tailored to meet your needs. Our eco-friendly practices, including the use of biodegradable products, reflect our commitment to protecting the environment while ensuring your vehicle looks and feels brand new.",
         "motto": "At Swift Addis, we stand by our motto: Detailing Excellence Delivered Swiftly. Trust us to enhance the beauty and longevity of your car, one detail at a time."
       },
@@ -271,11 +271,13 @@
       "no_service": "No service selected. Please select a service from the services page."
     },
     "addons": {
-      "title": "Available Add-ons",
+      "title": "Add-Ons & Custom Services",
       "description": "If this add ons are not already included in your package but you want additional work done on your vehicle please choose the services below",
-      "price_range": "{min} - {max} Birr",
+      "price_range": "{min} {currency} - {max}",
+      "currency": "Birr",
       "duration": "Duration: {duration} min",
-      "no_addons": "No add-ons available for this service"
+      "no_addons": "No add-ons available for this service",
+      "no_max_price": "It depends"
     },
     "continue_button": "Continue to Book"
   },
@@ -366,7 +368,7 @@
     "no_services": "No services selected yet",
     "sections": {
       "services": "Services",
-      "addons": "Add-ons",
+      "addons": "Add-Ons & Custom Services",
       "appointment": "Appointment Details"
     },
     "time": {
@@ -413,10 +415,12 @@
     "sections": {
       "features": "Features",
       "addons": {
-        "title": "Available Add-ons",
-        "description": "Enhance your service with these add-ons",
+        "title": "Add-Ons & Custom Services",
+        "description": "If this add ons are not already included in your package but you want additional work done on your vehicle please choose the services below :",
         "duration": "Duration: {duration} min",
-        "price": "Price: {min} - {max} Birr"
+        "currency": "Birr",
+        "price": "Price: {min} {currency} - {max}",
+        "no_max_price": "Final price depends on the condition of the car"
       }
     },
     "corporate": {
@@ -424,7 +428,7 @@
       "description": "For corporate fleet packages, we offer customized solutions based on your specific needs. Please contact us to discuss your requirements and get a personalized quote.",
       "contact": {
         "phone": "+251 911 234 567",
-        "email": "info@example.com"
+        "email": "Info@swiftaddisdetailing.com"
       },
       "button": "Get Quote"
     },

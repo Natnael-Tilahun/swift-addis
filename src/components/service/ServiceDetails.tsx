@@ -94,8 +94,10 @@ export default function ServiceDetails({
               </div>
             )}
 
-            {service.name[locale] !== "CORPORATE FLEET PACKAGE" &&
-              service.name[locale] !== "የድርጅት ጥቅል" && (
+            {service.name["en"] !== "CORPORATE FLEET PACKAGE" &&
+              service.name["am"] !== "የድርጅት ጥቅል" &&
+              service.name["en"] !== "SWIFT VIP PRESTIGE PACKAGE" &&
+              service.name["am"] !== "ስዊፍት VIP ክብር ጥቅል" && (
                 <>
                   <Separator />
                   {addOns && addOns?.length > 0 && (
@@ -151,7 +153,12 @@ export default function ServiceDetails({
                               <div className="mt-2 text-sm text-muted-foreground">
                                 {t("sections.addons.price", {
                                   min: additionalPrice?.minBasePrice ?? 0,
-                                  max: additionalPrice?.maxPrice ?? 0,
+                                  currency: t("sections.addons.currency"),
+                                  max: additionalPrice?.maxPrice
+                                    ? `${additionalPrice.maxPrice} ${t(
+                                        "sections.addons.currency"
+                                      )}`
+                                    : t("sections.addons.no_max_price"),
                                 })}
                               </div>
                             </div>

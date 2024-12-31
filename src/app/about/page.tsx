@@ -15,9 +15,9 @@ export default function About() {
         <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
       </div>
 
-      <div className="relative h-[400px] w-full mb-12 rounded-2xl overflow-hidden">
+      <div className="relative h-[550px] w-full mb-6 rounded-2xl overflow-hidden">
         <Image
-          src="/Com.png"
+          src="/resizedlogo.png"
           alt={t("team_image_alt")}
           fill={true}
           className="object-contain rounded-2xl bg-center"
