@@ -8,7 +8,8 @@
     "view_packages": "ፓኬጆችን ይመልከቱ",
     "next": "ቀጣይ",
     "previous": "ቀዳሚ",
-    "submit": "አስገባ"
+    "submit": "አስገባ",
+    "pricing_note": "ማሳሰቢያ፡ የመኪና እጥበት የመጨረሻ ዋጋው በመኪናው አይነት እና ሁኔታ የሚወሰን ነው።"
   },
   "header": {
     "home": "ዋና ገጽ",
@@ -70,7 +71,7 @@
     "no_services": "ምንም አገልግሎቶች አልተገኙም",
     "view_details": "ዝርዝሮችን ይመልከቱ",
     "get_quote": "ስለአገልግሎቱ ዋጋ ተጨማሪ መረጃ ያግኙ",
-    "price_range": "{min} - {max} ብር",
+    "price_range": "ከ{min} ብር ጀምሮ",
     "duration": "{time} ደቂቃ",
     "view_more_features": "... {count} ተጨማሪ ይመልከቱ",
     "slide_label": "ወደ {number}ኛው ስላይድ ሂድ"
@@ -388,10 +389,10 @@
       "duration": "ጠቅላላ የሚፈጀው ጊዜ",
       "duration_value": "{duration} ደቂቃ",
       "price_range": "ጠቅላላ የዋጋ ክልል",
-      "price_value": "{min} - {max} ብር"
+      "price_value": "{price} ብር"
     },
     "price": {
-      "range": "{min} - {max} ብር"
+      "range": "{min} ብር"
     }
   },
   "image_upload": {
@@ -443,11 +444,11 @@
     "vehicle_selection": {
       "title": "የተሽከርካሪ አይነት ይምረጡ",
       "pricing": {
-        "title": "ዋጋ እና ጊዜ",
+        "title": "ጊዜ",
         "price_range": "የዋጋ ክልል:",
         "duration": "ጊዜ:",
         "duration_value": "{duration} ደቂቃ",
-        "price_value": "{min} - {max} ብር"
+        "price_value": "ከ {min} ብር ጀምሮ"
       }
     }
   }

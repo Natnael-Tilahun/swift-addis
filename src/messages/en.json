@@ -8,7 +8,8 @@
     "view_packages": "View Packages",
     "next": "Next",
     "previous": "Previous",
-    "submit": "Submit"
+    "submit": "Submit",
+    "pricing_note": "Note: The final price of a car wash depends on the type and condition of the car."
   },
   "header": {
     "home": "Home",
@@ -70,7 +71,7 @@
     "no_services": "No services found",
     "view_details": "View Details",
     "get_quote": "Get Quote",
-    "price_range": "{min} - {max} Birr",
+    "price_range": "Starting from {min} Birr",
     "duration": "{time} min",
     "view_more_features": "... view {count} more",
     "slide_label": "Go to slide {number}"
@@ -380,10 +381,10 @@
       "duration": "Total Duration",
       "duration_value": "{duration} min",
       "price_range": "Total Price Range",
-      "price_value": "{min} - {max} Birr"
+      "price_value": "{price} Birr"
     },
     "price": {
-      "range": "{min} - {max} Birr"
+      "range": "{min} Birr"
     }
   },
   "image_upload": {
@@ -435,11 +436,11 @@
     "vehicle_selection": {
       "title": "Select Vehicle Type",
       "pricing": {
-        "title": "Price & Duration",
+        "title": "Duration",
         "price_range": "Price Range:",
         "duration": "Duration:",
         "duration_value": "{duration} minutes",
-        "price_value": "{min} - {max} Birr"
+        "price_value": "Starting from {min} Birr"
       }
     }
   }

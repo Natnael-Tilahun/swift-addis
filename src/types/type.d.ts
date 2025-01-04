@@ -21,10 +21,8 @@ export interface Service {
     [key: string]: number;
   };
   pricing: {
-    [key: string]: {
-      basePrice: number;
-      maxPrice: number;
-    };
+    basePrice?: number;
+    maxPrice?: number;
   };
 }
 
@@ -42,8 +40,8 @@ export interface AddOn {
   };
   duration: number;
   additionalPrice?: {
-    minBasePrice: number;
-    maxPrice: number;
+    minBasePrice?: number;
+    maxPrice?: number;
   };
   features?: {
     en: string[];

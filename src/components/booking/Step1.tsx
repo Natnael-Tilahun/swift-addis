@@ -39,20 +39,22 @@ export default function Step1() {
   useEffect(() => {
     if (!services || !addOns) return;
 
-    // Calculate services total
+    // Calculate services total - now using the simplified pricing structure
     const servicesTotal = selectedServicesWithTypes.reduce(
       (total, selected) => {
         const service = services.find(
           (s: Service) => s._id === selected.serviceId
         );
         if (!service) return total;
-        const price = service.pricing[selected.vehicleType]?.basePrice || 0;
+        // Use the new basePrice structure
+        const price = service.pricing.basePrice || 0;
+        // Add vehicle-specific markup if needed
         return total + price;
       },
       0
     );
 
-    // Calculate add-ons total
+    // Calculate add-ons total (this remains the same)
     const addOnsTotal = selectedAddOns.reduce((total, addOnId) => {
       const addOn = addOns.find((a: AddOn) => a._id === addOnId);
       return total + (addOn?.additionalPrice.minBasePrice || 0);
@@ -117,9 +119,7 @@ export default function Step1() {
                           </div>
                           <Badge variant="default">
                             {t("selected_service.price", {
-                              price:
-                                selectedService.pricing[selected.vehicleType]
-                                  .basePrice,
+                              price: selectedService.pricing.basePrice,
                             })}
                           </Badge>
                         </div>

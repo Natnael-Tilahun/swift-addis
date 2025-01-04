@@ -13,6 +13,7 @@ import { useBookingStore } from "@/store/useBookingStore";
 import { useCallback } from "react";
 import type { Service, AddOn } from "@/types/type";
 import { useTranslations, useLocale } from "next-intl";
+import { InfoIcon } from "lucide-react";
 
 export function BookingSummary({
   children,
@@ -22,6 +23,8 @@ export function BookingSummary({
   className?: string;
 }) {
   const t = useTranslations("booking_summary");
+  const tCommon = useTranslations("common");
+
   const locale = useLocale();
   const { data: services } = useServices();
   const { data: addOns } = useAddons();
@@ -58,76 +61,33 @@ export function BookingSummary({
     return servicesDuration + addonsDuration;
   }, [services, addOns, selectedServicesWithTypes, selectedAddOns]);
 
-  // Calculate total price range
-  const calculateTotalPriceRange = useCallback(() => {
-    if (!services || !addOns) return { minTotal: 0, maxTotal: 0 };
+  // Calculate total price
+  const calculateTotalPrice = useCallback(() => {
+    if (!services || !addOns) return 0;
 
-    // Calculate services total range
-    const servicesTotals = selectedServicesWithTypes.reduce(
+    // Calculate services total
+    const servicesTotal = selectedServicesWithTypes.reduce(
       (total, selected) => {
         const service = services.find(
           (s: Service) => s._id === selected.serviceId
         );
-        if (!service?.pricing?.[selected.vehicleType]) return total;
-        return {
-          minTotal:
-            total.minTotal + service.pricing[selected.vehicleType].basePrice,
-          maxTotal:
-            total.maxTotal + service.pricing[selected.vehicleType].maxPrice,
-        };
+        if (!service?.pricing) return total;
+        return total + service.pricing.basePrice;
       },
-      { minTotal: 0, maxTotal: 0 }
+      0
     );
 
-    // Calculate add-ons total range
-    const addonsTotals = selectedAddOns.reduce(
-      (total, addonId) => {
-        const addon = addOns.find((a: AddOn) => a._id === addonId);
-        if (!addon?.additionalPrice) return total;
-        return {
-          minTotal: total.minTotal + addon.additionalPrice.minBasePrice,
-          maxTotal: total.maxTotal + addon.additionalPrice.maxPrice,
-        };
-      },
-      { minTotal: 0, maxTotal: 0 }
-    );
+    // Calculate add-ons total
+    const addOnsTotal = selectedAddOns.reduce((total, addonId) => {
+      const addon = addOns.find((a: AddOn) => a._id === addonId);
+      if (!addon?.additionalPrice) return total;
+      return total + addon.additionalPrice.minBasePrice;
+    }, 0);
 
-    return {
-      minTotal: servicesTotals.minTotal + addonsTotals.minTotal,
-      maxTotal: servicesTotals.maxTotal + addonsTotals.maxTotal,
-    };
+    return servicesTotal + addOnsTotal;
   }, [services, addOns, selectedServicesWithTypes, selectedAddOns]);
 
-  // Memoize the debug logging callback
-  // const debugLog = useCallback(() => {
-  //   console.log("Current calculations:", {
-  //     duration: calculateTotalDuration(),
-  //     price: calculateTotalPrice(),
-  //     selectedServices: selectedServicesWithTypes.map((selected) => {
-  //       const service = services?.find(
-  //         (s: Service) => s._id === selected.serviceId
-  //       );
-  //       return {
-  //         name: service?.name,
-  //         duration: service?.duration[selected.vehicleType],
-  //         price: service?.pricing[selected.vehicleType]?.basePrice,
-  //       };
-  //     }),
-  //   });
-  // }, [
-  //   services,
-  //   selectedServicesWithTypes,
-  //   calculateTotalDuration,
-  //   calculateTotalPrice,
-  // ]);
-
-  // Use the memoized debug callback in useEffect
-  // useEffect(() => {
-  //   debugLog();
-  // }, [debugLog]);
-
   const totalDuration = calculateTotalDuration();
-  const { minTotal, maxTotal } = calculateTotalPriceRange();
 
   const selectedDate = appointmentDate ? new Date(appointmentDate) : null;
 
@@ -168,8 +128,7 @@ export function BookingSummary({
                       <div className="text-right">
                         <p className="font-medium text-base whitespace-nowrap">
                           {t("price.range", {
-                            min: service.pricing[vehicleType]?.basePrice,
-                            max: service.pricing[vehicleType]?.maxPrice,
+                            min: service.pricing.basePrice,
                           })}
                         </p>
                         <p className="text-sm text-muted-foreground">
@@ -260,11 +219,15 @@ export function BookingSummary({
                     {t("totals.price_range")}:
                   </span>
                   <span className="font-medium">
-                    {t("totals.price_value", { min: minTotal, max: maxTotal })}
+                    {t("totals.price_value", { price: calculateTotalPrice() })}
                   </span>
                 </div>
               </div>
               {children}
+            </div>
+            <div className="text-sm font-medium bg-primary/10 p-4 border rounded-lg flex items-center gap-2">
+              <InfoIcon className="w-8 h-8 text-primary" />
+              {tCommon("pricing_note")}
             </div>
           </>
         )}

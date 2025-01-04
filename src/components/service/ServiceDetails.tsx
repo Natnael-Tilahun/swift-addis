@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
-import { ArrowLeftIcon, PhoneIcon, MailIcon } from "lucide-react";
+import { ArrowLeftIcon, PhoneIcon, MailIcon, InfoIcon } from "lucide-react";
 import { useBookingStore } from "@/store/useBookingStore";
 import { Separator } from "@/components/ui/separator";
 import type { Service, AddOn } from "@/types/type";
@@ -18,6 +18,7 @@ export default function ServiceDetails({
   addOns: AddOn[];
 }) {
   const t = useTranslations("service_details");
+  const tCommon = useTranslations("common");
   const locale = useLocale();
   const router = useRouter();
   const {
@@ -97,7 +98,9 @@ export default function ServiceDetails({
             {service.name["en"] !== "CORPORATE FLEET PACKAGE" &&
               service.name["am"] !== "የድርጅት ጥቅል" &&
               service.name["en"] !== "SWIFT VIP PRESTIGE PACKAGE" &&
-              service.name["am"] !== "ስዊፍት VIP ክብር ጥቅል" && (
+              service.name["am"] !== "ስዊፍት VIP ክብር ጥቅል" &&
+              service.name["en"] !== "SWIFT MONTHLY PACKAGE" &&
+              service.name["am"] !== "ስዊፍት ወርሃዊ ጥቅል" && (
                 <>
                   <Separator />
                   {addOns && addOns?.length > 0 && (
@@ -175,7 +178,11 @@ export default function ServiceDetails({
         {/* Right column - Vehicle selection or Contact Info */}
         <Card className="flex md:col-span-2 col-span-1 flex-col gap-4 p-6 h-fit">
           {service.name[locale] === "CORPORATE FLEET PACKAGE" ||
-          service.name[locale] === "የድርጅት ጥቅል" ? (
+          service.name[locale] === "የድርጅት ጥቅል" ||
+          service.name[locale] === "SWIFT VIP PRESTIGE PACKAGE" ||
+          service.name[locale] === "ስዊፍት VIP ክብር ጥቅል" ||
+          service.name[locale] === "SWIFT MONTHLY PACKAGE" ||
+          service.name[locale] === "ስዊፍት ወርሃዊ ጥቅል" ? (
             <div className="space-y-6">
               <h1 className="text-2xl font-semibold">{t("corporate.title")}</h1>
               <hr />
@@ -216,12 +223,22 @@ export default function ServiceDetails({
               <hr />
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-3">
-                  <h1 className="text-lg font-medium">
-                    {t("vehicle_selection.pricing.title")}
+                  {service.pricing && (
+                    <p className="text-base text-muted-foreground">
+                      {t("vehicle_selection.pricing.price_range")}{" "}
+                      <span className="font-bold">
+                        {t("vehicle_selection.pricing.price_value", {
+                          min: service.pricing.basePrice,
+                        })}
+                      </span>
+                    </p>
+                  )}
+                  <h1 className="text-base font-medium text-muted-foreground">
+                    {t("vehicle_selection.pricing.title")}:
                   </h1>
                   <div className="grid grid-cols-1 gap-4">
-                    {Object.entries(service.pricing).map(
-                      ([vehicleType, prices]) => (
+                    {service?.duration &&
+                      Object.entries(service.duration).map(([vehicleType]) => (
                         <div
                           key={vehicleType}
                           onClick={() => handleServiceSelection(vehicleType)}
@@ -236,17 +253,6 @@ export default function ServiceDetails({
                           <div className="space-y-1 text-muted-foreground">
                             <p className="flex justify-between">
                               <span>
-                                {t("vehicle_selection.pricing.price_range")}
-                              </span>
-                              <span className="text-primary font-medium">
-                                {t("vehicle_selection.pricing.price_value", {
-                                  min: prices.basePrice,
-                                  max: prices.maxPrice,
-                                })}
-                              </span>
-                            </p>
-                            <p className="flex justify-between">
-                              <span>
                                 {t("vehicle_selection.pricing.duration")}
                               </span>
                               <span className="text-primary font-medium">
@@ -257,8 +263,11 @@ export default function ServiceDetails({
                             </p>
                           </div>
                         </div>
-                      )
-                    )}
+                      ))}
+                    <div className="text-sm font-medium bg-primary/10 p-4 border rounded-lg flex items-center gap-2">
+                      <InfoIcon className="w-8 h-8 text-primary" />
+                      {tCommon("pricing_note")}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -28,7 +28,15 @@ export default function Step2() {
   } = useBookingStore();
 
   // Convert stored date string to Date object if needed
-  const selectedDate = appointmentDate ? new Date(appointmentDate) : new Date();
+  const today = new Date();
+  let selectedDate;
+  if (appointmentDate) {
+    selectedDate = new Date(appointmentDate);
+  } else {
+    setAppointmentDate(today.toISOString());
+    selectedDate = today;
+  }
+
   const {
     data: availableTimes,
     isLoading,
@@ -83,7 +91,7 @@ export default function Step2() {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
-                })
+                }),
               })}
             </h1>
             <div className="grid grid-cols-3 gap-4 w-full border rounded-md p-4">

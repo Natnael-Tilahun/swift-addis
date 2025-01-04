@@ -92,10 +92,10 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                     {service.name[locale] !== "CORPORATE FLEET PACKAGE" &&
                       service.name[locale] !== "የድርጅት ጥቅል" && (
                         <div className="absolute bottom-2 right-2 bg-[#e5eafd] text-black opacity-90 p-2 whitespace-nowrap rounded-lg text-center">
-                          <h4 className="text-base font-bold ">
+                          <h4 className="text-sm font-bold ">
                             {t("price_range", {
-                              min: service.pricing?.["AUTO"]?.basePrice,
-                              max: service.pricing?.["AUTO"]?.maxPrice,
+                              min: service.pricing?.basePrice,
+                              max: service.pricing?.maxPrice,
                             })}
                           </h4>
                           <p className="text-sm font-medium whitespace-nowrap">
