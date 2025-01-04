@@ -115,19 +115,29 @@ function Contact() {
           </div>
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold">{t("info.telephone.label")}</h2>
-              <p>{t("info.telephone.value")}</p>
+              <h2 className="text-md font-semibold">
+                {t("info.telephone.label")}
+              </h2>
+              <p>0987963123</p>
+              <p>0987268123</p>
+              <p>0995090852</p>
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold">{t("info.support_hours.label")}</h2>
+              <h2 className="text-md font-semibold">
+                {t("info.support_hours.label")}
+              </h2>
               <p>{t("info.support_hours.value")}</p>
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold">{t("info.sales_hours.label")}</h2>
+              <h2 className="text-md font-semibold">
+                {t("info.sales_hours.label")}
+              </h2>
               <p>{t("info.sales_hours.value")}</p>
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-md font-semibold">{t("info.support_contact.label")}</h2>
+              <h2 className="text-md font-semibold">
+                {t("info.support_contact.label")}
+              </h2>
               <p>{t("info.support_contact.value")}</p>
             </div>
           </div>
@@ -148,7 +158,10 @@ function Contact() {
                 <FormItem>
                   <FormLabel>{t("form.full_name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t("form.full_name_placeholder")} {...field} />
+                    <Input
+                      placeholder={t("form.full_name_placeholder")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -161,7 +174,10 @@ function Contact() {
                 <FormItem>
                   <FormLabel>{t("form.email")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t("form.email_placeholder")} {...field} />
+                    <Input
+                      placeholder={t("form.email_placeholder")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -174,7 +190,10 @@ function Contact() {
                 <FormItem>
                   <FormLabel>{t("form.phone")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t("form.phone_placeholder")} {...field} />
+                    <Input
+                      placeholder={t("form.phone_placeholder")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -79,7 +79,7 @@ export const useBookingStore = create<BookingState>()(
         firstName: '',
         lastName: '',
         phone: '',
-        email: undefined,
+        email: "",
       },
       vehicleDetails: {
         carType: '',

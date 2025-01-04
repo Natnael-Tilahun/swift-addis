@@ -90,7 +90,9 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                     )}
 
                     {service.name[locale] !== "CORPORATE FLEET PACKAGE" &&
-                      service.name[locale] !== "የድርጅት ጥቅል" && (
+                      service.name[locale] !== "የድርጅት ጥቅል" &&
+                      service.name[locale] !== "SWIFT MONTHLY PACKAGE" &&
+                      service.name[locale] !== "ስዊፍት ወርሃዊ ጥቅል" && (
                         <div className="absolute bottom-2 right-2 bg-[#e5eafd] text-black opacity-90 p-2 whitespace-nowrap rounded-lg text-center">
                           <h4 className="text-sm font-bold ">
                             {t("price_range", {

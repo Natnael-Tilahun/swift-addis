@@ -197,7 +197,25 @@ export default function ServiceDetails({
                       href={`tel:${t("corporate.contact.phone")}`}
                       className="hover:text-primary"
                     >
-                      {t("corporate.contact.phone")}
+                      0987963123
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <PhoneIcon className="w-5 h-5 text-primary" />
+                    <a
+                      href={`tel:${t("corporate.contact.phone")}`}
+                      className="hover:text-primary"
+                    >
+                      0987268123
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <PhoneIcon className="w-5 h-5 text-primary" />
+                    <a
+                      href={`tel:${t("corporate.contact.phone")}`}
+                      className="hover:text-primary"
+                    >
+                      0995090852
                     </a>
                   </div>
                   <div className="flex items-center gap-2">

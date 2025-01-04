@@ -112,11 +112,17 @@ function Footer({
           </h1>
           <p className="flex items-center gap-3 mt-6">
             <Phone className="text-primary w-5 h-5" />
-            <span className="text-sm leading-6 text-gray-300">
-              {t("contact_info.phone")}
-            </span>
+            <span className="text-sm leading-6 text-gray-300">0987963123</span>
           </p>
-          <p className="flex items-center gap-3">
+          <p className="flex items-center gap-3 mt-2">
+            <Phone className="text-primary w-5 h-5" />
+            <span className="text-sm leading-6 text-gray-300">0987268123</span>
+          </p>
+          <p className="flex items-center gap-3 mt-2">
+            <Phone className="text-primary w-5 h-5" />
+            <span className="text-sm leading-6 text-gray-300">0995090852</span>
+          </p>
+          <p className="flex items-center gap-3 mt-2">
             <Mail className="text-primary w-5 h-5" />
             <span className="text-sm leading-6 text-gray-300">
               {t("contact_info.email")}

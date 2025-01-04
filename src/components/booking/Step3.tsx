@@ -70,7 +70,11 @@ export default function Step3() {
     phone: z.string({ message: t("form.validation.phone_required") }).min(10, {
       message: t("form.validation.phone_min"),
     }),
-    email: z.string().email().optional(),
+    email: z
+      .string()
+      .email({ message: t("form.validation.email_invalid") })
+      .optional()
+      .or(z.literal("")),
     address: z
       .string()
       .min(2, { message: t("form.validation.address_required") }),
@@ -306,7 +310,7 @@ export default function Step3() {
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phone,
-        email: values.email ?? undefined,
+        email: values.email,
       },
       vehicleDetails: {
         carType: (selectedServicesWithTypes[0]?.vehicleType ||
@@ -456,6 +460,7 @@ export default function Step3() {
                         <Input
                           placeholder={t("form.placeholders.email")}
                           {...field}
+                          type="text"
                           value={field.value ?? ""}
                           onChange={(e) => field.onChange(e.target.value || "")}
                         />
