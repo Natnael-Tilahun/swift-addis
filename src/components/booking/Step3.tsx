@@ -310,7 +310,7 @@ export default function Step3() {
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phone,
-        email: values.email,
+        ...(values.email ? { email: values.email } : {}),
       },
       vehicleDetails: {
         carType: (selectedServicesWithTypes[0]?.vehicleType ||
