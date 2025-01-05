@@ -88,7 +88,7 @@ export const blogPosts = [
   
         Investing in ceramic coating is a smart choice for anyone looking to protect their vehicle's finish and maintain its value over time.
       `,
-      coverImage: '/ceramiccoating2.jpeg',
+      coverImage: '/ceramicoating2.avif',
       author: {
         name: 'Swift Addis',
         image: '/logo1.png',
