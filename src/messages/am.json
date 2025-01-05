@@ -428,7 +428,7 @@
         "title": "በአነስተኛ ዋጋ ጭማሪ በውስጡ የሚያካትተው አገልግሎት፡",
         "description": "እነዚህ ተጨማሪ አገልግሎቶች በመረጡት ጥቅል ውስጥ ከሌሉ ነገር ግን መኪናቸው ላይ ተጨማሪ ሥራ ለሚፈልጉ ደንበኞች የቀረቡ ናቸው፡-",
         "duration": "ጊዜ: {duration} ደቂቃ",
-        "price": "ዋጋ: {min} {currency} - {max}",
+        "price": "{min} {currency} - {max}",
         "no_max_price": "የመጨረሻ ዋጋው እንደ መኪናው ሁኔታ የሚወሰን",
         "currency": "ብር",
         "fixed_price": "{price} ብር"

@@ -100,7 +100,11 @@ export default function ServiceDetails({
               service.name["en"] !== "SWIFT VIP PRESTIGE PACKAGE" &&
               service.name["am"] !== "ስዊፍት VIP ክብር ጥቅል" &&
               service.name["en"] !== "SWIFT MONTHLY PACKAGE" &&
-              service.name["am"] !== "ስዊፍት ወርሃዊ ጥቅል" && (
+              service.name["am"] !== "ስዊፍት ወርሃዊ ጥቅል" &&
+              service.name["en"] !==
+                "SWIFT ADVANCED DETAILING PACKAGE (FULL INTERIOR & EXTERIOR)" &&
+              service.name["am"] !==
+                "ስዊፍት ሙሉ የመኪና አጥበት ከፖሊሽንግ እና 1 አመት ከሚቆይ ዋክስ ጋር  (ሙሉ የውስጥ እና ውጫዊ)" && (
                 <>
                   <Separator />
                   {addOns && addOns?.length > 0 && (
@@ -157,6 +161,14 @@ export default function ServiceDetails({
                                 {optionName[locale] ===
                                   "Car polishing and waxing" ||
                                 optionName[locale] === "ፖሊሺንግ አና ዋክስ" ||
+                                optionName[locale] === "Paint Correction" ||
+                                optionName[locale] === "የቀለም እርማት" ||
+                                optionName[locale] ===
+                                  "Advanced Glass coating and polishing" ||
+                                optionName[locale] ===
+                                  "የመስታወት ፖሊሽንግ እና ዋክስ ስራ" ||
+                                optionName[locale] === "Ceramic Coating" ||
+                                optionName[locale] === "የሴራሚክ ሽፋን" ||
                                 optionName[locale] === "Paint Correction" ||
                                 optionName[locale] === "የቀለም እርማት"
                                   ? t("sections.addons.price", {

@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
-// import emailjs from "@emailjs/browser";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import emailjs from "@emailjs/browser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,12 +29,7 @@ const contactFormSchema = z.object({
     .max(30, {
       message: "Full name must not be longer than 30 characters.",
     }),
-  email: z
-    .string({
-      required_error: "Please select an email to display.",
-    })
-    .email()
-    .optional(),
+  email: z.string().email().or(z.literal("")),
   phone: z.string().max(13).min(10),
   message: z.string().max(200).min(5),
 });
@@ -44,11 +38,12 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 function Contact() {
   const t = useTranslations("contact");
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const NODE_ENV = process.env.NODE_ENV;
-  // const YOUR_SERVICE_ID = "service_ooam44u";
-  // const YOUR_TEMPLATE_ID = "template_g0arq1v";
-  // const YOUR_PUBLIC_KEY = "__i-jycM1GtKOAT84";
+  const YOUR_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+  const YOUR_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+  const YOUR_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
   const defaultValues: Partial<ContactFormValues> = {
     fullname: "",
@@ -57,49 +52,46 @@ function Contact() {
     message: "",
   };
 
-  // 1. Define your form.
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues,
   });
 
-  function onSubmit(values: ContactFormValues) {
-    console.log(values);
+  async function onSubmit(values: ContactFormValues) {
+    setIsLoading(true);
+    try {
+      const templateParams = {
+        to_name: "Swift Addis",
+        from_name: values.fullname,
+        from_email: values.email,
+        phone_number: values.phone,
+        message: values.message,
+      };
+
+      await emailjs.send(
+        YOUR_SERVICE_ID,
+        YOUR_TEMPLATE_ID,
+        templateParams,
+        YOUR_PUBLIC_KEY
+      );
+
+      toast({
+        title: "Message sent successfully!",
+        description: "We'll get back to you as soon as possible.",
+      });
+
+      form.reset();
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  //   reset,
-  // } = useForm();
-
-  // const onSubmit = (data) => {
-  //   sendEmail();
-  //   reset();
-  //   toast.success(
-  //     "Thank you for reaching out to us. We will contact you very soon."
-  //   );
-  // };
-
-  // const sendEmail = () => {
-  //   emailjs
-  //     .sendForm(
-  //       YOUR_SERVICE_ID,
-  //       YOUR_TEMPLATE_ID,
-  //       form.current,
-  //       YOUR_PUBLIC_KEY
-  //     )
-  //     .then(
-  //       (result) => {
-  //         console.log(result.text);
-  //         console.log("message sent!");
-  //       },
-  //       (error) => {
-  //         console.log(error.text);
-  //       }
-  //     );
-  // };
 
   return (
     <section
@@ -128,12 +120,12 @@ function Contact() {
               </h2>
               <p>{t("info.support_hours.value")}</p>
             </div>
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <h2 className="text-md font-semibold">
                 {t("info.sales_hours.label")}
               </h2>
               <p>{t("info.sales_hours.value")}</p>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-2">
               <h2 className="text-md font-semibold">
                 {t("info.support_contact.label")}
@@ -216,8 +208,8 @@ function Contact() {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
-              {t("form.send")}
+            <Button className="w-full" type="submit" disabled={isLoading}>
+              {isLoading ? "Sending..." : t("form.send")}
             </Button>
           </form>
         </Form>

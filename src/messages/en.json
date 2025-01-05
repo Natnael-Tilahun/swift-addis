@@ -109,7 +109,7 @@
         "value": "Mon - Sat (12:00 - 12:00), Sun - (07:00 - 12:00)"
       },
       "sales_hours": {
-        "label": "Phone hours sell",
+        "label": "Phone call hours",
         "value": "Mon - Sat (12:00 - 12:00), Sun - (07:00 - 12:00)"
       },
       "support_contact": {
@@ -421,7 +421,7 @@
         "description": "If this add ons are not already included in your package but you want additional work done on your vehicle please choose the services below :",
         "duration": "Duration: {duration} min",
         "currency": "Birr",
-        "price": "Price: {min} {currency} - {max}",
+        "price": " {min} {currency} - {max}",
         "no_max_price": "Final price depends on the condition of the car",
         "fixed_price": "{price} Birr"
       }
