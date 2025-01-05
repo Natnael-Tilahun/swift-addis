@@ -278,7 +278,8 @@
       "currency": "Birr",
       "duration": "Duration: {duration} min",
       "no_addons": "No add-ons available for this service",
-      "no_max_price": "It depends"
+      "no_max_price": "It depends",
+      "fixed_price": "{price} Birr"
     },
     "continue_button": "Continue to Book"
   },
@@ -421,7 +422,8 @@
         "duration": "Duration: {duration} min",
         "currency": "Birr",
         "price": "Price: {min} {currency} - {max}",
-        "no_max_price": "Final price depends on the condition of the car"
+        "no_max_price": "Final price depends on the condition of the car",
+        "fixed_price": "{price} Birr"
       }
     },
     "corporate": {

@@ -154,15 +154,23 @@ export default function ServiceDetails({
                                 {t("sections.addons.duration", { duration })}
                               </div>
                               <div className="mt-2 text-sm text-muted-foreground">
-                                {t("sections.addons.price", {
-                                  min: additionalPrice?.minBasePrice ?? 0,
-                                  currency: t("sections.addons.currency"),
-                                  max: additionalPrice?.maxPrice
-                                    ? `${additionalPrice.maxPrice} ${t(
-                                        "sections.addons.currency"
-                                      )}`
-                                    : t("sections.addons.no_max_price"),
-                                })}
+                                {optionName[locale] ===
+                                  "Car polishing and waxing" ||
+                                optionName[locale] === "ፖሊሺንግ አና ዋክስ" ||
+                                optionName[locale] === "Paint Correction" ||
+                                optionName[locale] === "የቀለም እርማት"
+                                  ? t("sections.addons.price", {
+                                      min: additionalPrice?.minBasePrice ?? 0,
+                                      currency: t("sections.addons.currency"),
+                                      max: additionalPrice?.maxPrice
+                                        ? `${additionalPrice.maxPrice} ${t(
+                                            "sections.addons.currency"
+                                          )}`
+                                        : t("sections.addons.no_max_price"),
+                                    })
+                                  : t("sections.addons.fixed_price", {
+                                      price: additionalPrice?.minBasePrice,
+                                    })}
                               </div>
                             </div>
                           )

@@ -173,15 +173,24 @@ export default function Step1() {
                                   : "outline"
                               }
                             >
-                              {t("addons.price_range", {
-                                min: addon.additionalPrice?.minBasePrice ?? 0,
-                                currency: t("addons.currency"),
-                                max: addon.additionalPrice?.maxPrice
-                                  ? `${addon.additionalPrice.maxPrice} ${t(
-                                      "addons.currency"
-                                    )}`
-                                  : t("addons.no_max_price"),
-                              })}
+                              {addon.optionName[locale] ===
+                                "Car polishing and waxing" ||
+                              addon.optionName[locale] === "ፖሊሺንግ አና ዋክስ" ||
+                              addon.optionName[locale] === "Paint Correction" ||
+                              addon.optionName[locale] === "የቀለም እርማት"
+                                ? t("addons.price_range", {
+                                    min:
+                                      addon.additionalPrice?.minBasePrice ?? 0,
+                                    currency: t("addons.currency"),
+                                    max: addon.additionalPrice?.maxPrice
+                                      ? `${addon.additionalPrice.maxPrice} ${t(
+                                          "addons.currency"
+                                        )}`
+                                      : t("addons.no_max_price"),
+                                  })
+                                : t("addons.fixed_price", {
+                                    price: addon.additionalPrice?.minBasePrice,
+                                  })}
                             </Badge>
                           </div>
                           <p className="text-xs text-muted-foreground mt-1">

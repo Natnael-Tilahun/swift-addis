@@ -281,8 +281,9 @@
     },
     "addons": {
       "title": "በአነስተኛ ዋጋ ጭማሪ በውስጡ የሚያካትተው አገልግሎት፡",
-      "description": "እነዚህ ተጨማሪ አገልግሎቶች በመረጡት ጥቅል ውስጥ ከሌሉ ነገር ግን መኪናቸው ላይ ተጨማሪ ሥራ ለሚፈልጉ ደንበኞች የቀረቡ ናቸው፡- ",
+      "description": "እነዚህ ተጨማሪ አገልግሎቶች በመረጡት ጥቅል ውስጥ የሌሉ ነገር ግን መኪናቸው ላይ ተጨማሪ ሥራ ለሚፈልጉ ደንበኞች የቀረቡ ናቸው፡-  ",
       "price_range": "{min} {currency} - {max}",
+      "fixed_price": "{price} ብር",
       "currency": "ብር",
       "no_max_price": "እንደ መኪናው የሚወሰን",
       "duration": "ጊዜ: {duration} ደቂቃ",
@@ -429,7 +430,8 @@
         "duration": "ጊዜ: {duration} ደቂቃ",
         "price": "ዋጋ: {min} {currency} - {max}",
         "no_max_price": "የመጨረሻ ዋጋው እንደ መኪናው ሁኔታ የሚወሰን",
-        "currency": "ብር"
+        "currency": "ብር",
+        "fixed_price": "{price} ብር"
       }
     },
     "corporate": {
