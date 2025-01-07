@@ -15,9 +15,7 @@ export default function Blogs() {
     <div className="container mx-auto px-6 py-12">
       <div className="max-w-3xl mx-auto text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">{t("title")}</h1>
-        <p className="text-xl text-muted-foreground">
-          {t("subtitle")}
-        </p>
+        <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -29,6 +27,7 @@ export default function Blogs() {
                 alt={t("image_alt", { title: post.title })}
                 fill
                 className="object-cover"
+                priority={true}
               />
             </div>
             <div className="p-6">
@@ -52,8 +51,8 @@ export default function Blogs() {
                   </span>
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  {t("published_at", { 
-                    date: format(new Date(post.publishedAt), "MMM d, yyyy")
+                  {t("published_at", {
+                    date: format(new Date(post.publishedAt), "MMM d, yyyy"),
                   })}
                 </span>
               </div>

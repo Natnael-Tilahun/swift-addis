@@ -21,6 +21,7 @@ export default function About() {
           alt={t("team_image_alt")}
           fill={true}
           className="object-contain rounded-2xl bg-center"
+          priority={true}
         />
       </div>
 

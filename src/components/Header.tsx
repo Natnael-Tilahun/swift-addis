@@ -38,6 +38,7 @@ function Header({
               fill={true}
               alt="A logo of a swift addis"
               className=" bg-contain rounded-full"
+              priority={true}
             />
           </div>
           <h1 className="font-extrabold text-lg md:text-2xl tracking-tight text-primary uppercase">

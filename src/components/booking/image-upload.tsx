@@ -96,6 +96,7 @@ export function ImageUpload({ control, existingImages }: ImageUploadProps) {
                       fill
                       className="object-cover rounded-lg"
                       unoptimized
+                      priority={true}
                     />
                     <Button
                       type="button"
@@ -122,9 +123,7 @@ export function ImageUpload({ control, existingImages }: ImageUploadProps) {
                 <label className="w-full cursor-pointer">
                   <div className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg hover:bg-gray-50">
                     <Upload className="w-8 h-8 mb-2 text-gray-500" />
-                    <p className="text-sm text-gray-500">
-                      {t("upload.title")}
-                    </p>
+                    <p className="text-sm text-gray-500">{t("upload.title")}</p>
                   </div>
                   <Input
                     type="file"

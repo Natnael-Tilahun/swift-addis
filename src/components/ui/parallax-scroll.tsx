@@ -57,6 +57,7 @@ export const ParallaxScroll = ({
                 height="400"
                 width="400"
                 alt="thumbnail"
+                priority={true}
               />
             </motion.div>
           ))}
@@ -70,6 +71,7 @@ export const ParallaxScroll = ({
                 height="400"
                 width="400"
                 alt="thumbnail"
+                priority={true}
               />
             </motion.div>
           ))}
@@ -83,6 +85,7 @@ export const ParallaxScroll = ({
                 height="400"
                 width="400"
                 alt="thumbnail"
+                priority={true}
               />
             </motion.div>
           ))}
@@ -96,6 +99,7 @@ export const ParallaxScroll = ({
                 height="400"
                 width="400"
                 alt="thumbnail"
+                priority={true}
               />
             </motion.div>
           ))}

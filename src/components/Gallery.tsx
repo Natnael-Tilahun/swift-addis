@@ -54,6 +54,7 @@ export default function Gallery() {
                 src={image.src}
                 alt={t(`alt.${image.altKey}`)}
                 fill
+                priority={true}
                 className="object-cover transition-transform hover:scale-105"
               />
             </AspectRatio>

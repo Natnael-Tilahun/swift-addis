@@ -25,7 +25,7 @@ export function BlogHeader({ post }: BlogHeaderProps) {
           }
           fill
           className="object-cover"
-          priority
+          priority={true}
         />
       </div>
     </header>

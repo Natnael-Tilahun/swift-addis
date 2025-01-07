@@ -79,6 +79,7 @@ export default function Testimonials() {
                         width={50}
                         height={50}
                         className="rounded-full"
+                        priority={true}
                       />
                       <div className="flex flex-col gap-1">
                         <p className="font-medium text-base">

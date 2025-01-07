@@ -77,6 +77,7 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                       src={service.image || "/placeholder.jpg"}
                       alt={service.name[locale] || service.name["en"]}
                       fill={true}
+                      priority={true}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       style={{ objectFit: "cover" }}
                       className="absolute top-0 left-0 w-full h-full transition-transform duration-300 hover:scale-105"

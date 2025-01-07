@@ -36,6 +36,7 @@ function Footer({
               src="/logo1.png"
               width={60}
               height={60}
+              priority={true}
               alt={t("about")}
               className="w-20 h-20 bg-contain object-contain rounded-full"
             />
