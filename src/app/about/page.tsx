@@ -4,14 +4,20 @@ import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Shield, Users, Award } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Head from "next/head";
 
 export default function About() {
   const t = useTranslations("about");
 
   return (
-    <div className="w-full container mx-auto px-6 py-12">
-      <div className="max-w-3xl mx-auto text-center ">
-        <h1 className="text-4xl font-bold mb-4">{t("title")}</h1>
+    <>
+      <Head>
+        <title>{"About Us"} | Swift Addis</title>
+        <meta name="description" content={"About Swift Addis"} />
+      </Head>
+      <div className="w-full container mx-auto px-6 py-12">
+        <div className="max-w-3xl mx-auto text-center ">
+          <h1 className="text-4xl font-bold mb-4">{t("title")}</h1>
         <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
       </div>
 
@@ -74,5 +80,6 @@ export default function About() {
         </div>
       </div>
     </div>
+    </>
   );
 }
