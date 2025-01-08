@@ -38,10 +38,13 @@ export enum CarType {
   SUV = "SUV",
 }
 
-type GeolocationError = {
-  code: number;
-  message: string;
-};
+// type GeolocationPositionError = {
+//   code: number;
+//   message: string;
+//   PERMISSION_DENIED: number;
+//   POSITION_UNAVAILABLE: number;
+//   TIMEOUT: number;
+// };
 
 type ApiError = {
   response?: {
@@ -145,13 +148,7 @@ export default function Step3() {
   });
 
   // Get current location
-  const getCurrentLocationWithGoogle = async () => {
-    const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-    if (!GOOGLE_MAPS_API_KEY) {
-      throw new Error(t("location.errors.api_key"));
-    }
-
+  const getCurrentLocation = async () => {
     try {
       setIsLocating(true);
 
@@ -165,13 +162,15 @@ export default function Step3() {
         }
       );
 
-      const { latitude, longitude, accuracy } = position.coords;
-      setLocationAccuracy(accuracy);
+      const { latitude, longitude } = position.coords;
+      setLocationAccuracy(position.coords.accuracy);
 
-      if (accuracy > 300) {
+      if (position.coords.accuracy > 300) {
         toast({
           title: t("location.errors.low_accuracy"),
-          description: t("location.accuracy", { meters: Math.round(accuracy) }),
+          description: t("location.accuracy", {
+            meters: Math.round(position.coords.accuracy),
+          }),
           action: (
             <ToastAction
               altText={t("buttons.try_again")}
@@ -185,100 +184,69 @@ export default function Step3() {
 
       // Use Google's Geocoding API
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?` +
-          `latlng=${latitude},${longitude}&` +
-          `key=${GOOGLE_MAPS_API_KEY}&` +
-          `result_type=street_address|route|premise|subpremise|point_of_interest&` +
-          `language=en`
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
       );
-
       const data = await response.json();
 
-      if (!data.results || data.results.length === 0) {
-        throw new Error(t("location.errors.no_address"));
+      if (data.results && data.results[0]) {
+        const address = data.results[0].formatted_address;
+
+        setFormData({
+          address: address,
+          location: {
+            lat: latitude,
+            lng: longitude,
+            address: address,
+          },
+        });
+
+        form.setValue("address", address);
+        form.setValue("latitude", latitude);
+        form.setValue("longitude", longitude);
       }
-
-      // Get the most detailed result available
-      const result = data.results[0];
-
-      // Store the precise coordinates from the Geocoding result
-      const preciseLocation = {
-        lat: result.geometry.location.lat,
-        lng: result.geometry.location.lng,
-        address: result.formatted_address,
-      };
-
-      // Update form data with precise location
-      setFormData((prev) => ({
-        ...prev,
-        location: preciseLocation,
-        address: preciseLocation.address,
-      }));
-
-      // Update form values
-      form.setValue("address", preciseLocation.address);
-      form.setValue("longitude", preciseLocation.lng);
-      form.setValue("latitude", preciseLocation.lat);
-
-      setLocation({
-        address: preciseLocation.address,
-        coordinates: {
-          latitude: preciseLocation.lat,
-          longitude: preciseLocation.lng,
-        },
-      });
-
-      // Show accuracy information in the success toast
+    } catch (error) {
+      console.error("Error getting location:", error);
       toast({
-        title: t("location.found"),
-        description: t("location.accuracy", { meters: Math.round(accuracy) }),
-      });
-    } catch (error: unknown) {
-      let errorMessage = t("location.errors.generic");
-
-      // Type guard to check if error is GeolocationError
-      const geolocationError = error as GeolocationError;
-
-      if (geolocationError.code === 1) {
-        errorMessage = t("location.errors.permission_denied");
-      } else if (geolocationError.code === 2) {
-        errorMessage = t("location.errors.unavailable");
-      } else if (geolocationError.code === 3) {
-        errorMessage = t("location.errors.timeout");
-      }
-
-      toast({
+        title: t("location.errors.failed"),
+        description:
+          error instanceof Error ? error.message : "Unknown error occurred",
         variant: "destructive",
-        title: t("booking.error.title"),
-        description: errorMessage,
       });
     } finally {
       setIsLocating(false);
     }
   };
 
-  const getCurrentLocationWithOSM = async () => {
-    // Implementation for OpenStreetMap
-    // This is a placeholder implementation
-    // Replace with actual OpenStreetMap implementation
-    return {
-      lat: 0,
-      lng: 0,
-      address: "Fallback address",
-    };
-  };
-
-  const getCurrentLocation = async () => {
+  const handleLocationSelect = async (lat: number, lng: number) => {
     try {
-      // Try Google Maps first
-      const googleResult = await getCurrentLocationWithGoogle();
-      return googleResult;
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+      );
+      const data = await response.json();
+
+      if (data.results && data.results[0]) {
+        const address = data.results[0].formatted_address;
+
+        setFormData({
+          address: address,
+          location: {
+            lat: lat,
+            lng: lng,
+            address: address,
+          },
+        });
+
+        form.setValue("address", address);
+        form.setValue("latitude", lat);
+        form.setValue("longitude", lng);
+      }
     } catch (error) {
-      console.error("Error getting location:", error);
-      // Fallback to OpenStreetMap if Google fails
-      console.warn("Falling back to OpenStreetMap");
-      const osmResult = await getCurrentLocationWithOSM();
-      return osmResult;
+      console.error("Error getting address:", error);
+      toast({
+        title: "Error",
+        description: "Could not get address for selected location",
+        variant: "destructive",
+      });
     }
   };
 
@@ -511,7 +479,7 @@ export default function Step3() {
                         {formData?.location?.lat !== null &&
                           formData?.location?.lng !== null && (
                             <div className="mt-2">
-                              <div className="h-[200px] w-full rounded-md overflow-hidden border">
+                              <div className="h-[300px] w-full rounded-md overflow-hidden border">
                                 <Map
                                   center={[
                                     formData.location.lat || 0,
@@ -523,21 +491,20 @@ export default function Step3() {
                                     formData.location.lat || 0,
                                     formData.location.lng || 0,
                                   ]}
+                                  onLocationSelect={handleLocationSelect}
+                                  interactive={true}
                                 />
                               </div>
                               <p className="text-sm text-muted-foreground mt-1">
-                                {t("coordinates.latitude")}:{" "}
-                                {formData?.location?.lat?.toFixed(6)},
-                                {t("coordinates.longitude")}:{" "}
-                                {formData?.location?.lng?.toFixed(6)}
-                                {locationAccuracy && (
-                                  <span className="ml-2">
-                                    {t("location.accuracy", {
-                                      meters: Math.round(locationAccuracy),
-                                    })}
-                                  </span>
-                                )}
+                                {t("location.click_to_select")}
                               </p>
+                              {locationAccuracy && (
+                                <p className="text-sm text-muted-foreground">
+                                  {t("location.accuracy", {
+                                    meters: Math.round(locationAccuracy),
+                                  })}
+                                </p>
+                              )}
                             </div>
                           )}
                         <FormMessage />

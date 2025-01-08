@@ -97,7 +97,8 @@
       "phone_placeholder": "Your Phone Number",
       "message": "Message",
       "message_placeholder": "Your Message",
-      "send": "Send Message"
+      "send": "Send Message",
+      "email_invalid": "Please enter a valid email address"
     },
     "info": {
       "telephone": {
@@ -306,7 +307,8 @@
         "last_name_min": "Last Name must be at least 2 characters.",
         "phone_required": "Phone is required",
         "phone_min": "Phone must be at least 10 characters.",
-        "address_required": "Address is required"
+        "address_required": "Address is required",
+        "email_invalid": "Please enter a valid email address"
       },
       "labels": {
         "first_name": "First Name",
@@ -328,7 +330,8 @@
     "location": {
       "get_location": "Use current location",
       "getting_location": "Getting location...",
-      "accuracy": "Accuracy: ±{meters}m",
+      "click_to_select": "Click on the map to select your location",
+      "accuracy": "Location accuracy: ~{meters} m",
       "found": "Location found",
       "errors": {
         "api_key": "Google Maps API key is not configured",

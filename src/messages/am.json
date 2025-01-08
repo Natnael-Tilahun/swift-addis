@@ -97,7 +97,8 @@
       "phone_placeholder": "ስልክ ቁጥርዎን ያስገቡ",
       "message": "መልእክት",
       "message_placeholder": "መልእክትዎን ያስገቡ",
-      "send": "መልእክት ላክ"
+      "send": "መልእክት ላክ",
+      "email_invalid": "እባክዎ ትክክል ኢሜይል ይምረጡ ወይም ያስገቡ"
     },
     "info": {
       "telephone": {
@@ -314,7 +315,8 @@
         "last_name_min": "የአባት ስም ቢያንስ 2 ፊደሎች መሆን አለበት።",
         "phone_required": "ስልክ ቁጥር ያስፈልጋል",
         "phone_min": "ስልክ ቁጥር ቢያንስ 10 ቁጥሮች መሆን አለበት።",
-        "address_required": "አድራሻ ያስፈልጋል"
+        "address_required": "አድራሻ ያስፈልጋል",
+        "email_invalid": "እባክዎ ትክክል ኢሜይል ይምረጡ ወይም ያስገቡ"
       },
       "labels": {
         "first_name": "የመጀመሪያ ስም",
@@ -336,7 +338,8 @@
     "location": {
       "get_location": "አሁን ያሉበትን ቦታ/አድራሻ ይጠቀሙ",
       "getting_location": "ቦታን/አድራሻን በማግኘት ላይ...",
-      "accuracy": "ትክክለኛነት: ±{meters}ሜ",
+      "click_to_select": "በካባቢዎን ለመምረጥ ካርታው ላይ ጠቅ ያድርጉ",
+      "accuracy": "የአካባቢ ትክክለኛነት: ~{meters} ሜ",
       "found": "ቦታው/አድራሻው ተገኝቷል",
       "errors": {
         "api_key": "የGoogle Maps API ቁልፍ አልተዋቀረም",
