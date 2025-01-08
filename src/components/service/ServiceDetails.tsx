@@ -81,7 +81,7 @@ export default function ServiceDetails({
                 <h1 className="text-xl font-semibold">
                   {service.name[locale]}
                 </h1>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-base text-muted-foreground mt-1">
                   {service.description[locale]}
                 </p>
               </div>

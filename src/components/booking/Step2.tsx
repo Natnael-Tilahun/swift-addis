@@ -52,6 +52,35 @@ export default function Step2() {
     setAppointmentTime(time);
   };
 
+  // Function to check if a time slot should be disabled
+  const isTimeDisabled = (time: string) => {
+    // Only apply this check for today's date
+    if (
+      format(selectedDate, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd")
+    ) {
+      // Parse time like "7:00 AM" or "8:30 PM"
+      const [timeStr, period] = time.split(" ");
+      const [hours, minutes] = timeStr.split(":");
+      // Convert to 24-hour format
+      let hour = parseInt(hours);
+      if (period === "PM" && hour !== 12) {
+        hour += 12;
+      } else if (period === "AM" && hour === 12) {
+        hour = 0;
+      }
+      // Create date object for the time slot
+      const slotTime = new Date(selectedDate);
+      slotTime.setHours(hour, parseInt(minutes), 0, 0);
+
+      const now = new Date();
+      // Add a buffer of 1 hour to allow preparation time
+      now.setHours(now.getHours());
+
+      return slotTime < now;
+    }
+    return false;
+  };
+
   return (
     <div>
       <Card>
@@ -102,16 +131,20 @@ export default function Step2() {
                   ))}
                 </div>
               ) : (
-                availableTimes?.map((time: string) => (
-                  <Button
-                    key={time}
-                    variant={appointmentTime === time ? "default" : "outline"}
-                    className="w-full"
-                    onClick={() => handleTimeSelect(time)}
-                  >
-                    {time}
-                  </Button>
-                ))
+                availableTimes?.map((time: string) => {
+                  const disabled = isTimeDisabled(time);
+                  return (
+                    <Button
+                      key={time}
+                      variant={appointmentTime === time ? "default" : "outline"}
+                      className="w-full"
+                      onClick={() => handleTimeSelect(time)}
+                      disabled={disabled}
+                    >
+                      {time}
+                    </Button>
+                  );
+                })
               )}
             </div>
           </div>
