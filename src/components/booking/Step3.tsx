@@ -16,7 +16,7 @@ import { useState } from "react";
 import { MapPin } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useToast } from "@/hooks/use-toast";
-import { ImageUpload } from "./image-upload";
+// import { ImageUpload } from "./image-upload";
 import { format } from "date-fns";
 import { ToastAction } from "@/components/ui/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -513,7 +513,7 @@ export default function Step3() {
                   )}
                 />
 
-                <ImageUpload control={form.control} existingImages={images} />
+                {/* <ImageUpload control={form.control} existingImages={images} /> */}
 
                 <FormField
                   control={form.control}
