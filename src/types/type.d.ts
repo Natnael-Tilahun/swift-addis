@@ -24,6 +24,8 @@ export interface Service {
     basePrice?: number;
     maxPrice?: number;
   };
+  createdAt?: string | Date | number;
+  updatedAt: string | Date | number;
 }
 
 export interface AddOn {
@@ -48,6 +50,8 @@ export interface AddOn {
     am: string[];
     [key: string]: string[];
   };
+  createdAt?: string | Date | number;
+  updatedAt?: string | Date | number;
 }
 
 
@@ -102,8 +106,8 @@ interface Booking {
   assignedTo?: string;
   appointmentNote?: string;
   totalPrice?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: string | Date | number;
+  updatedAt?: string | Date | number;
 }
 
 export interface BlogPost {
@@ -116,6 +120,7 @@ export interface BlogPost {
     name?: string;
     image?: string;
   };
-  publishedAt?: string;
+  publishedAt: string | Date | number;
+  updatedAt?: string | Date | number;
 }
 export type { Service, AddOn, Booking, BookingStatus, CarType };

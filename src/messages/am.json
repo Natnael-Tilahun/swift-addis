@@ -338,7 +338,7 @@
     "location": {
       "get_location": "አሁን ያሉበትን ቦታ/አድራሻ ይጠቀሙ",
       "getting_location": "ቦታን/አድራሻን በማግኘት ላይ...",
-      "click_to_select": "በካባቢዎን ለመምረጥ ካርታው ላይ ጠቅ ያድርጉ",
+      "click_to_select": "አካባቢዎን ለማየት ወይም ሌላ ቦታ ለመምረጥ ካርታዉን በሁለት ጣቶች ያንቀሳቅሱ",
       "accuracy": "የአካባቢ ትክክለኛነት: ~{meters} ሜ",
       "found": "ቦታው/አድራሻው ተገኝቷል",
       "errors": {
@@ -368,7 +368,7 @@
     },
     "buttons": {
       "try_again": "እንደገና ይሞክሩ",
-      "submit": "ቦታ ያዝዙ"
+      "submit": "ቦታ ያዝ"
     },
     "coordinates": {
       "latitude": "የላቲቲውድ መስመር",
