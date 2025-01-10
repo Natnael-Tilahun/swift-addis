@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin
+
+# Host
+Host: https://swiftaddisdetailing.com/
+
+# Sitemaps
+Sitemap: https://swiftaddisdetailing.com/sitemap.xml

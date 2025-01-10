@@ -12,7 +12,7 @@ import { useBookingStore } from "@/store/useBookingStore";
 import { useEffect } from "react";
 import { ArrowLeftIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Head from "next/head";
+
 function BookingContent() {
   const t = useTranslations("booking");
   const searchParams = useSearchParams();
@@ -125,16 +125,10 @@ export default function Booking() {
   const t = useTranslations("booking");
 
   return (
-    <>
-      <Head>
-        <title>{"Booking"} | Swift Addis</title>
-        <meta name="description" content={"Booking"} />
-      </Head>
-      <div className="w-full h-full p-5 pb-16 lg:p-14 lg:pb-24 xl:pt-0 xl:pb-36 xl:px-36 space-y-8">
-        <Suspense fallback={<div>{t("loading")}</div>}>
-          <BookingContent />
-        </Suspense>
-      </div>
-    </>
+    <div className="w-full h-full p-5 pb-16 lg:p-14 lg:pb-24 xl:pt-0 xl:pb-36 xl:px-36 space-y-8">
+      <Suspense fallback={<div>{t("loading")}</div>}>
+        <BookingContent />
+      </Suspense>
+    </div>
   );
 }

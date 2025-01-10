@@ -24,7 +24,6 @@ export interface Service {
     basePrice?: number;
     maxPrice?: number;
   };
-  updatedAt: string | Date | number;
 }
 
 export interface AddOn {
@@ -117,6 +116,6 @@ export interface BlogPost {
     name?: string;
     image?: string;
   };
-  publishedAt: string | Date | number;
+  publishedAt?: string;
 }
 export type { Service, AddOn, Booking, BookingStatus, CarType };
