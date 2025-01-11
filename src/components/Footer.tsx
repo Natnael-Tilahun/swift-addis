@@ -131,11 +131,21 @@ function Footer({
           </p>
         </div>
       </div>
-      <div className="text-gray-500 pt-5 border-t-[1px] border-gray-600 flex flex-wrap gap-5 justify-between">
-        <div>{t("copyright")}</div>
-        <div className="flex text-white">
+      <div className="text-gray-500 pt-5 border-t-[1px] border-gray-600 flex flex-wrap gap-4 justify-between ">
+        <div className="order-3 md:order-1">{t("copyright")}</div>
+        <div className="order-2 flex gap-1">
+          <p>{t("developed_by")}</p>
+          <Link
+            href="https://natnaeltilahun.vercel.app"
+            target="_blank"
+            className="text-primary"
+          >
+            Natnael Tilahun
+          </Link>
+        </div>
+        <div className="flex flex-col md:flex-row text-white gap-1 order-1 md:order-3">
           <p className="pr-3">{t("social.follow_us")}</p>
-          <div className="flex md:gap-4">
+          <div className="flex gap-2 md:gap-4">
             <Link
               href="https://www.facebook.com/share/PSpAuta2fB8oASv3/?mibextid=LQQJ4d"
               target="_blank"
