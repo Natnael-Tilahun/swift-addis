@@ -17,11 +17,11 @@ export default function About() {
       </Head>
       <div className="w-full container mx-auto px-6 py-12">
         <div className="max-w-3xl mx-auto text-center ">
-          <h1 className="text-4xl font-bold mb-4">{t("title")}</h1>
+          <h1 className="md:text-4xl text-3xl font-bold mb-4">{t("title")}</h1>
           <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
         </div>
 
-        <div className="relative h-[550px] w-full mb-6 rounded-2xl overflow-hidden">
+        <div className="relative md:h-[550px] h-[250px] w-full my-6 md:mt-0 rounded-2xl overflow-hidden shadow-sm">
           <Image
             src="/resizedlogo.png"
             alt={t("team_image_alt")}

@@ -13,7 +13,7 @@ export function BlogHeader({ post }: BlogHeaderProps) {
 
   return (
     <header className="mb-12">
-      <h1 className="text-4xl font-bold mb-2">{post.title}</h1>
+      <h1 className="md:text-4xl text-3xl font-bold mb-2">{post.title}</h1>
       <p className="text-xl text-muted-foreground mb-10">{post.excerpt}</p>
       <div className="relative h-[400px] rounded-lg overflow-hidden">
         <Image
