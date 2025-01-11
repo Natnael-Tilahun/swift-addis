@@ -160,7 +160,9 @@ export default function ServiceCard({ services }: { services: Service[] }) {
                           className="w-full"
                         >
                           {service.name[locale] === "CORPORATE FLEET PACKAGE" ||
-                          service.name[locale] === "የድርጅት ጥቅል"
+                          service.name[locale] === "የድርጅት ጥቅል" ||
+                          service.name[locale] === "SWIFT MONTHLY PACKAGE" ||
+                          service.name[locale] === "ስዊፍት ወርሃዊ ጥቅል"
                             ? t("get_quote")
                             : t("view_details")}
                         </Link>

@@ -309,13 +309,9 @@ export default function Step3() {
 
     setAppointmentNote(data.appointmentNote || "");
 
-    console.log("Data being set to store:", data);
-
     mutate(data, {
       onSuccess: (response) => {
         // Access the created booking data here
-        console.log("Created booking:", response);
-
         // Show success toast
         toast({
           title: t("booking.success.title"),

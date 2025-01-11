@@ -45,24 +45,25 @@ export default function Blogs() {
                   </Link>
                 </h3>
                 <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Avatar className="h-10 w-10 border">
-                      <AvatarImage
-                        src={post.author.image}
-                        alt={post.author.name}
-                      />
-                      <AvatarFallback>{post.author.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <span className="text-sm text-muted-foreground">
-                      {post.author.name}
-                    </span>
+                <div className="flex items-center space-x-4">
+                  <Avatar className="h-12 w-12 border">
+                    <AvatarImage
+                      src={post.author?.image}
+                      alt={t("author.author_image_alt", {
+                        name: post.author?.name,
+                      })}
+                    />
+                    <AvatarFallback>
+                      {post.author?.name?.[0] || t("author.fallback_avatar")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-semibold">{post.author?.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("author.published_prefix")}{" "}
+                      {format(new Date(post.publishedAt), "MMMM d, yyyy")}
+                    </p>
                   </div>
-                  <span className="text-sm text-muted-foreground">
-                    {t("published_at", {
-                      date: format(new Date(post.publishedAt), "MMM d, yyyy"),
-                    })}
-                  </span>
                 </div>
               </div>
             </Card>

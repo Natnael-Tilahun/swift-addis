@@ -51,7 +51,6 @@ export function ImageUpload({ control, existingImages }: ImageUploadProps) {
   // Load existing images on component mount
   useEffect(() => {
     if (existingImages?.length) {
-      console.log("existingImages", existingImages);
       setPreviews(existingImages.map((img) => img.url));
     }
   }, [existingImages]);

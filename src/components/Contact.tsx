@@ -102,7 +102,9 @@ function Contact() {
         <div className="flex flex-col bg-gradient-to-br from-primary to-[#052FA3] p-8 gap-4 text-white rounded-xl justify-between z-40 relative">
           {/* <div className='w-1/2 h-full bg-dot_reds'></div> */}
           <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">{t("lets_talk")}</h1>
+            <h1 className="md:text-3xl text-2xl whitespace-nowrap font-bold">
+              {t("lets_talk")}
+            </h1>
             <p className="text-justify">{t("intro_text")}</p>
           </div>
           <div className="flex flex-col gap-6">
@@ -118,7 +120,7 @@ function Contact() {
               <h2 className="text-md font-semibold">
                 {t("info.support_hours.label")}
               </h2>
-              <p>{t("info.support_hours.value")}</p>
+              <p className="whitespace-wrap">{t("info.support_hours.value")}</p>
             </div>
             {/* <div className="flex flex-col gap-2">
               <h2 className="text-md font-semibold">
