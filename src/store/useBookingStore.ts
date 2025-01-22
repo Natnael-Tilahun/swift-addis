@@ -48,6 +48,7 @@ interface BookingState {
   serviceStartingTime: string | null;
   appointmentNote: string;
   totalPrice?: number;
+  totalDuration?: number;
   lockedVehicleType: string | null;
 
   // Actions
@@ -69,6 +70,7 @@ interface BookingState {
   removeServiceWithType: (serviceId: string) => void;
   setLockedVehicleType: (type: string | null) => void;
   setSelectedAddOns: (addOns: string[]) => void;
+  setTotalDuration: (time: number) => void;
 }
 
 export const useBookingStore = create<BookingState>()(
@@ -103,6 +105,7 @@ export const useBookingStore = create<BookingState>()(
       serviceStartingTime: null,
       appointmentNote: '',
       totalPrice: 0,
+      totalDuration: 0,
       lockedVehicleType: null,
 
       setStep: (step) => set({ step }),
@@ -132,6 +135,15 @@ export const useBookingStore = create<BookingState>()(
       setAppointmentNote: (note) => set({ appointmentNote: note }),
       
       setTotalPrice: (price) => set({ totalPrice: price }),
+
+      setTotalDuration: (time) => {
+        set((state) => {
+          if (state.totalDuration !== time) {
+            return { totalDuration: time };
+          }
+          return state;
+        });
+      },
       
       resetBooking: () => set({
         step: 1,
@@ -163,6 +175,7 @@ export const useBookingStore = create<BookingState>()(
         serviceStartingTime: null,
         appointmentNote: '',
         totalPrice: 0,
+        totalDuration: 0
       }),
       setSelectedServicesWithTypes: (services) => set({ 
         selectedServicesWithTypes: services,

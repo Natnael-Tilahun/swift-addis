@@ -295,7 +295,9 @@
     "loading": {
       "times": "Loading available times..."
     },
-    "continue_button": "Continue"
+    "continue_button": "Continue",
+    "overlapping_reason": "Sorry, we have a booked service in this time slot {startTime} - {endTime}. Please choose another time to avoid time overlapping.",
+  "beyond_working_hours": "Service would extend beyond 6:00 PM"
   },
   "booking_step3": {
     "form": {

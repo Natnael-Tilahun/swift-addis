@@ -34,6 +34,7 @@ export function BookingSummary({
     selectedAddOns,
     appointmentDate,
     appointmentTime,
+    setTotalDuration,
   } = useBookingStore();
 
   // Calculate total duration
@@ -57,7 +58,7 @@ export function BookingSummary({
       const addon = addOns.find((a: AddOn) => a._id === addonId);
       return total + (addon?.duration || 0);
     }, 0);
-
+    setTotalDuration(servicesDuration + addonsDuration);
     return servicesDuration + addonsDuration;
   }, [services, addOns, selectedServicesWithTypes, selectedAddOns]);
 

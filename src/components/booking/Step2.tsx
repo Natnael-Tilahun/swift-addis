@@ -16,6 +16,13 @@ import { BookingSummary } from "@/components/booking/BookingSummary";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
+import { useState, useMemo, useEffect } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Step2() {
   const t = useTranslations("booking_step2");
@@ -26,6 +33,7 @@ export default function Step2() {
     setAppointmentDate,
     setAppointmentTime,
   } = useBookingStore();
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
 
   // Convert stored date string to Date object if needed
   const today = new Date();
@@ -37,19 +45,20 @@ export default function Step2() {
     selectedDate = today;
   }
 
-  const {
-    data: availableTimes,
-    isLoading,
-    isFetching,
-  } = useAvailableSlots(format(selectedDate, "yyyy-MM-dd"));
+  const { data, isLoading, isFetching } = useAvailableSlots(
+    format(selectedDate, "yyyy-MM-dd")
+  );
+
+  useEffect(() => {
+    if (data) {
+      setAvailableTimes(data);
+      setAvailableTimes((prev) => [...prev, "5:00 PM", "5:30 PM", "6:00 PM"]);
+    }
+  }, [data]);
 
   const handleDateSelect = (date: Date | undefined) => {
     setAppointmentDate(date?.toISOString() || null);
     setAppointmentTime(null); // Reset time when date changes
-  };
-
-  const handleTimeSelect = (time: string) => {
-    setAppointmentTime(time);
   };
 
   // Function to check if a time slot should be disabled
@@ -80,6 +89,125 @@ export default function Step2() {
     }
     return false;
   };
+
+  // Convert time string to minutes since midnight
+  const timeToMinutes = (timeStr: string) => {
+    const [time, period] = timeStr.split(" ");
+    const [hours, minutes] = time.split(":").map(Number);
+    let totalMinutes = hours * 60 + minutes;
+
+    if (period === "PM" && hours !== 12) {
+      totalMinutes += 12 * 60;
+    } else if (period === "AM" && hours === 12) {
+      totalMinutes = minutes;
+    }
+
+    return totalMinutes;
+  };
+
+  const minutesToTime = (minutes: number) => {
+    let hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const period = hours >= 12 ? "PM" : "AM";
+
+    if (hours > 12) hours -= 12;
+    if (hours === 0) hours = 12;
+
+    return `${hours}:${mins.toString().padStart(2, "0")} ${period}`;
+  };
+
+  // Create a type for the time slot with availability
+  type TimeSlotWithAvailability = {
+    time: string;
+    isAvailable: boolean;
+    reason?: string; // Optional reason why it's not available
+  };
+
+  const getAvailableTimeSlots = (
+    times: string[]
+  ): TimeSlotWithAvailability[] => {
+    const serviceDuration = useBookingStore.getState().totalDuration || 0;
+    const transportDuration = 60;
+    const totalDuration = serviceDuration + transportDuration;
+    const endOfDay = timeToMinutes("6:00 PM");
+
+    // Convert available times to minutes
+    const availableTimesInMinutes = times.map((time) => timeToMinutes(time));
+    availableTimesInMinutes.sort((a, b) => a - b);
+
+    // Find unavailable periods
+    const unavailablePeriods: [number, number][] = [];
+    for (let i = 0; i < availableTimesInMinutes.length - 1; i++) {
+      const current = availableTimesInMinutes[i];
+      const next = availableTimesInMinutes[i + 1];
+      if (next - current > 30) {
+        unavailablePeriods.push([current + 30, next]);
+      }
+    }
+    // Check each time slot
+    return times.map((timeSlot) => {
+      const startMinutes = timeToMinutes(timeSlot);
+      const serviceEndMinutes = startMinutes + serviceDuration;
+      const transportEndMinutes = startMinutes + totalDuration;
+
+      // Check if service extends beyond working hours
+      if (serviceEndMinutes > endOfDay) {
+        return {
+          time: timeSlot,
+          isAvailable: false,
+          reason: t("beyond_working_hours"),
+        };
+      }
+
+      // Generate required slots
+      const requiredSlots = [];
+      for (let time = startMinutes; time < transportEndMinutes; time += 30) {
+        requiredSlots.push(time);
+      }
+      // Check for overlaps with unavailable periods
+      for (const [periodStart, periodEnd] of unavailablePeriods) {
+        const hasOverlap = requiredSlots.some(
+          (time) => time >= periodStart && time < periodEnd
+        );
+        if (hasOverlap) {
+          return {
+            time: timeSlot,
+            isAvailable: false,
+            reason: t("overlapping_reason", {
+              startTime: minutesToTime(periodStart),
+              endTime: minutesToTime(periodEnd),
+            }),
+          };
+        }
+      }
+
+      // Check if all required slots are available
+      // const missingSlots = requiredSlots.filter(
+      //   (time) => !availableTimesInMinutes.includes(time)
+      // );
+
+      // if (missingSlots.length > 0) {
+      //   return {
+      //     time: timeSlot,
+      //     isAvailable: false,
+      //     reason: `Missing required slots: ${missingSlots
+      //       .map((time) => minutesToTime(time))
+      //       .join(", ")}`,
+      //   };
+      // }
+
+      return {
+        time: timeSlot,
+        isAvailable: true,
+      };
+    });
+  };
+
+  // Use in your component
+  const timeSlots = useMemo(() => {
+    if (!availableTimes) return [];
+    return getAvailableTimeSlots(availableTimes);
+  }, [availableTimes]);
 
   return (
     <div>
@@ -131,18 +259,42 @@ export default function Step2() {
                   ))}
                 </div>
               ) : (
-                availableTimes?.map((time: string) => {
+                timeSlots.map(({ time, isAvailable, reason }) => {
                   const disabled = isTimeDisabled(time);
                   return (
-                    <Button
-                      key={time}
-                      variant={appointmentTime === time ? "default" : "outline"}
-                      className="w-full"
-                      onClick={() => handleTimeSelect(time)}
-                      disabled={disabled}
-                    >
-                      {time}
-                    </Button>
+                    <TooltipProvider key={time}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="w-full">
+                            <Button
+                              onClick={() =>
+                                isAvailable && setAppointmentTime(time)
+                              }
+                              key={time}
+                              variant={
+                                appointmentTime === time ? "default" : "outline"
+                              }
+                              disabled={!isAvailable || disabled}
+                              className={`p-4 w-full ${
+                                isAvailable
+                                  ? "border border-gray-300"
+                                  : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                              }`}
+                            >
+                              {time}
+                            </Button>
+                          </div>
+                        </TooltipTrigger>
+                        {!isAvailable && reason && (
+                          <TooltipContent
+                            // side="top"
+                            className="bg-gray-800 text-white px-4 py-2 rounded shadow-lg text-sm z-50"
+                          >
+                            <p>{reason}</p>
+                          </TooltipContent>
+                        )}
+                      </Tooltip>
+                    </TooltipProvider>
                   );
                 })
               )}

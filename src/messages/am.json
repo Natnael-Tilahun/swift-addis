@@ -303,7 +303,9 @@
     "loading": {
       "times": "ክፍት የሆኑ ሰዓታትን በመጫን ላይ..."
     },
-    "continue_button": "ቀጥል"
+    "continue_button": "ቀጥል",
+    "overlapping_reason": "በ {startTime} - {endTime} ጊዜ ዉስጥ ሌላ ትዕዛዝ አለን። ይሄ ሠዐት ከሌላ ትዕዛዝ ጋር ስለሚጋጭ እባክዎ ሌላ ሠዐት ይምረጡ።",
+    "beyond_working_hours": "የአገልግሎት ሠዐቱ ከ 6:00 PM የስራ ማጠናቀቂያ ሠዐት ያልፍብዎታል።"
   },
   "booking_step3": {
     "form": {
