@@ -14,7 +14,7 @@ import { useAvailableSlots } from "@/hooks/useAvailableSlots";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookingSummary } from "@/components/booking/BookingSummary";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
+import { format, getDay } from "date-fns";
 import { useTranslations } from "next-intl";
 
 export default function Step2() {
@@ -77,6 +77,27 @@ export default function Step2() {
       now.setHours(now.getHours());
 
       return slotTime < now;
+    }
+    if (getDay(selectedDate) === 0) {
+      const sundayClosedSlots = [
+        "6:00 AM",
+        "6:30 AM",
+        "7:00 AM",
+        "7:30 AM",
+        "8:00 AM",
+        "8:30 AM",
+        "9:00 AM",
+        "9:30 AM",
+        "10:00 AM",
+        "10:30 AM",
+        "11:00 AM",
+        "11:30 AM",
+        "12:00 PM",
+        "12:30 PM",
+        "1:00 PM",
+        "1:30 PM",
+      ];
+      return sundayClosedSlots.includes(time);
     }
     return false;
   };
