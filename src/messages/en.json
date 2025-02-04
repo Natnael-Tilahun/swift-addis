@@ -125,6 +125,7 @@
     }
   },
   "footer": {
+    "developed_by": "Developed by",
     "about": "About Swift Addis",
     "quick_links": "Quick Links",
     "social_media": "Follow Us",
